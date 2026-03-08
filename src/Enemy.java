@@ -1,7 +1,7 @@
 public class Enemy {
-    private String name;
-    private int health;
-    private int shield;
+    public String name;
+    public int health;
+    public int shield;
 
     public Enemy(String name, int health, int shield) {
         this.name = name;
@@ -13,20 +13,19 @@ public class Enemy {
         this.health -= damage;
     }
 
-
     public void attack(Hero hero, int damage) {
         hero.takeDamage(damage);
     }
 
-    public int getShield() {
-        return shield;
+    public void getShield(int shieldValue) {
+        this.shield = shieldValue;
     }
     
-    public String isAlive() {
-        if (health <= 0) {
-            return name + "is still Standing";
+    public int isAlive() {
+        if (health > 0) {
+            return 0;
         } else {
-            return name + "was Slain";
+            return 1;
         }
     }
 }

@@ -1,19 +1,33 @@
 public class DamageCard {
-    private String name;
-    private int energyCost;
+    public String name;
+    public int energyCost;
+    public int damage;
 
-    public DamageCard(String name, int energyCost) {
+    public DamageCard(String name, int energyCost, int damage) {
         this.name = name;
         this.energyCost = energyCost;
+        this.damage = damage;
     }
 
     public String getName() {
         return name;
     }
 
-    public void activateDamageCard(Enemy enemy, Hero hero, int damage, int energyCost) {
-        enemy.takeDamage(damage);
+    public void heroDamageCard(Enemy enemy, Hero hero) {
+        if (enemy.shield > 0) {
+            enemy.takeDamage(enemy.shield - damage);
+        } else {
+            enemy.takeDamage(damage);
+        }
         hero.drainsEnergy(energyCost);
+    }
+
+    public void enemyDamageCard(Enemy enemy, Hero hero) {
+        if (hero.shield > 0) {
+            hero.takeDamage(hero.shield - damage);
+        } else {
+            hero.takeDamage(damage);
+        }
     }
     
 }

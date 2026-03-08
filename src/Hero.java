@@ -1,8 +1,8 @@
 public class Hero {
-    private String name;
-    private int health;
-    private int energy;
-    private int shield;
+    public String name;
+    public int health;
+    public int energy;
+    public int shield;
 
     public Hero(String name, int health, int energy, int shield) {
         this.name = name;
@@ -23,11 +23,11 @@ public class Hero {
         this.shield = shieldValue;
     }
 
-    public String isAlive() {
+    public int isAlive() {
         if (health > 0) {
-            return name + "is still Standing";
+            return 0;
         } else {
-            return name + "was Slain";
+            return 1;
         }
     }
     
