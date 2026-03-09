@@ -51,7 +51,7 @@ public class App {
                 if (move == 1) {
                     System.out.printf("%s drawed the Sword!\n", hero.name);
                     if (hero.energy < sword.energyCost) {
-                        System.out.printf("%s doesn't have enough energy.\n");
+                        System.out.printf("%s doesn't have enough energy.\n", hero.name);
                         move = 3;
                     } else {
                         sword.heroDamageCard(enemy, hero);
@@ -65,7 +65,7 @@ public class App {
                 } else if (move == 2) {
                     System.out.printf("%s activated the Shield\n", hero.name);
                     if (hero.energy < sword.energyCost) {
-                        System.out.printf("%s doesn't have enough energy.\n");
+                        System.out.printf("%s doesn't have enough energy.\n", hero.name);
                         move = 3;
                     } else {
                         shield.activateShieldCard(hero);
