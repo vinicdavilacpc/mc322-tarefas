@@ -9,24 +9,33 @@ public class Enemy {
         this.shield = shield;
     }
 
-    public void takeDamage(int damage) {
-        this.health -= damage;
+    public String getName() {
+        return name;
     }
 
-
-    public void attack(Hero hero, int damage) {
-        hero.takeDamage(damage);
+    public int getHealth() {
+        return health;
     }
 
     public int getShield() {
         return shield;
     }
-    
-    public String isAlive() {
-        if (health <= 0) {
-            return name + "is still Standing";
+
+    public void takeDamage(int damage) {
+        if (this.shield >= damage) {
+            this.shield -= damage;
         } else {
-            return name + "was Slain";
+            int remainingDamage = damage - this.shield;
+            this.shield = 0;
+            this.health -= remainingDamage;
         }
+    }
+
+    public void attack(Hero hero, int damage) {
+        hero.takeDamage(damage);
+    }
+    
+    public boolean isAlive() {
+        return this.health > 0;
     }
 }
