@@ -42,7 +42,7 @@ public class App {
                 } else if (move == 2) {
                     shield.defense(hero);
 
-                // Se o jogador escolher a opção 3 (Encerrar turno)
+                // Se o jogador escolher a opção 3 (Encerra o turno)
                 } else if (move == 3) {
                     System.out.println("\n>>> Ending turn...");
                     break;
