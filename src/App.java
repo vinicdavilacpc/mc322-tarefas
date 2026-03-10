@@ -4,8 +4,8 @@ public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Hero hero = new Hero("Warrior", 20, 15, 0);
-        Enemy enemy = new Enemy("Goblin", 15, 0);
+        Hero hero = new Hero("Warrior", 20, 5, 0);
+        Enemy enemy = new Enemy("Goblin", 15, 5);
 
         DamageCard sword = new DamageCard("Sword", 4, 6);
         ShieldCard shield = new ShieldCard("Shield", 3, 5);
@@ -39,7 +39,6 @@ public class App {
                     if (hero.getEnergy() >= sword.getEnergyCost()) {
                         System.out.printf("\n>>> %s drawed the Sword!\n", hero.getName());
                         sword.use(enemy, hero);
-                        System.out.printf("Enemy injured! %s's health is now %d.\n\n", enemy.getName(), enemy.getHealth());
                     } else {
                         System.out.println("\n>>> Not enough energy!\n");
                     }
@@ -67,6 +66,7 @@ public class App {
                 }
             }
 
+            // Turno do inimigo
             if (enemy.isAlive()) {
                 System.out.println("\n===========================================");
                 System.out.printf("It's the enemy's turn! %s is choosing their move.\n", enemy.getName());
