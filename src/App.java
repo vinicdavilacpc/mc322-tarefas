@@ -36,22 +36,11 @@ public class App {
 
                 // Se o jogador escolher a opção 1 (Usa a carta de dano)
                 if (move == 1) {
-                    if (hero.getEnergy() >= sword.getEnergyCost()) {
-                        System.out.printf("\n>>> %s drawed the Sword!\n", hero.getName());
-                        sword.use(enemy, hero);
-                    } else {
-                        System.out.println("\n>>> Not enough energy!\n");
-                    }
+                    sword.attack(hero, enemy);
                 
                 // Se o jogador escolher a opção 2 (Usa a carta de escudo)
                 } else if (move == 2) {
-                    if (hero.getEnergy() >= shield.getEnergyCost()) {
-                        System.out.printf("\n>>> %s activated the Shield!\n", hero.getName());
-                        shield.use(hero);
-                        System.out.printf("%s gained defense! Shield is now %d.\n\n", hero.getName(), hero.getShield());
-                    } else {
-                        System.out.println("\n>>> Not enough energy!\n");
-                    }
+                    shield.defense(hero);
 
                 // Se o jogador escolher a opção 3 (Encerrar turno)
                 } else if (move == 3) {

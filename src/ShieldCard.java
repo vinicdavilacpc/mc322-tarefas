@@ -25,4 +25,14 @@ public class ShieldCard {
         hero.gainShield(defense);
         hero.drainEnergy(energyCost);
     }
+
+    public void defense(Hero hero) {
+        if (hero.getEnergy() >= this.getEnergyCost()) {
+            System.out.printf("\n>>> %s activated the Shield!\n", hero.getName());
+            this.use(hero);
+            System.out.printf("%s gained defense! Shield is now %d.\n\n", hero.getName(), hero.getShield());
+        } else {
+            System.out.println("\n>>> Not enough energy!\n");
+        }
+    }
 }
