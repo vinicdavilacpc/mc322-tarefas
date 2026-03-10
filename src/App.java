@@ -12,8 +12,6 @@ public class App {
 
         int fullEnergy = hero.getEnergy();
 
-        System.out.println("=== O Início da Jornada ===");
-
         while (hero.isAlive() && enemy.isAlive()) {
             
             hero.restoreEnergy(fullEnergy);
@@ -36,6 +34,7 @@ public class App {
                 
                 move = scanner.nextInt();
 
+                // Se o jogador escolher a opção 1 (Usa a carta de dano)
                 if (move == 1) {
                     if (hero.getEnergy() >= sword.getEnergyCost()) {
                         System.out.printf("\n>>> %s drawed the Sword!\n", hero.getName());
@@ -44,6 +43,8 @@ public class App {
                     } else {
                         System.out.println("\n>>> Not enough energy!\n");
                     }
+                
+                // Se o jogador escolher a opção 2 (Usa a carta de escudo)
                 } else if (move == 2) {
                     if (hero.getEnergy() >= shield.getEnergyCost()) {
                         System.out.printf("\n>>> %s activated the Shield!\n", hero.getName());
@@ -52,6 +53,8 @@ public class App {
                     } else {
                         System.out.println("\n>>> Not enough energy!\n");
                     }
+
+                // Se o jogador escolher a opção 3 (Encerrar turno)
                 } else if (move == 3) {
                     System.out.println("\n>>> Ending turn...");
                     break;
@@ -67,7 +70,7 @@ public class App {
             if (enemy.isAlive()) {
                 System.out.println("\n===========================================");
                 System.out.printf("It's the enemy's turn! %s is choosing their move.\n", enemy.getName());
-                int enemyAttackDamage = 5; // Dano fixo do inimigo para este laboratório
+                int enemyAttackDamage = 5;
                 System.out.printf("%s attacks for %d damage!\n", enemy.getName(), enemyAttackDamage);
                 enemy.attack(hero, enemyAttackDamage);
                 System.out.printf("%s's health is now %d.\n", hero.getName(), hero.getHealth());
