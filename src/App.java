@@ -2,13 +2,25 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
+        int turn = 1;
         Scanner scanner = new Scanner(System.in);
 
-        Hero hero = new Hero("Warrior", 20, 5, 0);
-        Enemy enemy = new Enemy("Goblin", 15, 5);
+        Hero hero = new Hero("Charmander", 20, 5, 0);
+        Enemy enemy = new Enemy("Pikachu", 20, 0);
 
-        DamageCard sword = new DamageCard("Sword", 4, 6);
-        ShieldCard shield = new ShieldCard("Shield", 3, 5);
+        // Cartas de dano para o Charmander
+        DamageCard flamethrower = new DamageCard("Flamethrower", 4, 8);
+        DamageCard scratch = new DamageCard("Scratch", 2, 4);
+
+        // Cartas de escudo para o Charmander
+        ShieldCard shellArmor = new ShieldCard("Shell Armor", 3, 5);
+        ShieldCard ironDefense = new ShieldCard("Iron Defense", 5, 10);
+
+        // Cartas para o Pikachu
+        DamageCard thunderbolt = new DamageCard("Thunderbolt", 0, 5);
+        ShieldCard barrier = new ShieldCard("Barrier", 0, 3);
+
+        System.out.printf("A wild %s has appeared!\n", enemy.getName());
 
         int fullEnergy = hero.getEnergy();
 
@@ -17,33 +29,38 @@ public class App {
             hero.restoreEnergy(fullEnergy);
             hero.resetShield();
             
-            int move = 0;
+            int move;
 
             System.out.println("\n-------------------------------------------");
-            System.out.printf("Hero: %s\n(Health: %d | Energy: %d | Shield: %d)\n", hero.getName(), hero.getHealth(), hero.getEnergy(), hero.getShield());
-            System.out.printf("VS.\nEnemy: %s\n(Health: %d | Shield: %d)\n", enemy.getName(), enemy.getHealth(), enemy.getShield());
+            System.out.printf("%s\n(Health: %d | Energy: %d | Shield: %d)\n", hero.getName(), hero.getHealth(), hero.getEnergy(), hero.getShield());
+            System.out.printf("VS.\n%s\n(Health: %d | Shield: %d)\n", enemy.getName(), enemy.getHealth(), enemy.getShield());
             System.out.println("-------------------------------------------\n");
 
             while (true) {
                 System.out.printf("%s, you're up! Choose your next move.\n", hero.getName());
                 System.out.printf("Energy remaining: %d/%d\n", hero.getEnergy(), fullEnergy);
-                System.out.printf("1: Take the Sword (Cost: %d, Damage: %d)\n", sword.getEnergyCost(), sword.getDamage());
-                System.out.printf("2: Use the Shield (Cost: %d, Defense: %d)\n", shield.getEnergyCost(), shield.getDefense());
-                System.out.printf("3: End round\n");
+                System.out.printf("1: Use %s (Cost: %d, Damage: %d)\n", scratch.getName(), scratch.getEnergyCost(), scratch.getDamage());
+                System.out.printf("2: Use %s (Cost: %d, Damage: %d)\n", flamethrower.getName(), flamethrower.getEnergyCost(), flamethrower.getDamage());
+                System.out.printf("3: Use %s (Cost: %d, Defense: %d)\n", shellArmor.getName(), shellArmor.getEnergyCost(), shellArmor.getDefense());
+                System.out.printf("4: Use %s (Cost: %d, Defense: %d)\n", ironDefense.getName(), ironDefense.getEnergyCost(), ironDefense.getDefense());
+                System.out.printf("5: End round\n");
                 System.out.print("Your choice: ");
                 
                 move = scanner.nextInt();
 
-                // Se o jogador escolher a opção 1 (Usa a carta de dano)
                 if (move == 1) {
-                    sword.attack(hero, enemy);
-                
-                // Se o jogador escolher a opção 2 (Usa a carta de escudo)
+                    scratch.attack(hero, enemy);
+                    
                 } else if (move == 2) {
-                    shield.defense(hero);
-
-                // Se o jogador escolher a opção 3 (Encerra o turno)
+                    flamethrower.attack(hero, enemy);
+                
                 } else if (move == 3) {
+                    shellArmor.defense(hero);
+
+                } else if (move == 4) {
+                    ironDefense.defense(hero);
+                    
+                } else if (move == 5) {
                     System.out.println("\n>>> Ending turn...");
                     break;
                 } else {
@@ -56,14 +73,9 @@ public class App {
             }
 
             // Turno do inimigo
+            enemy.resetShield();
             if (enemy.isAlive()) {
-                System.out.println("\n===========================================");
-                System.out.printf("It's the enemy's turn! %s is choosing their move.\n", enemy.getName());
-                int enemyAttackDamage = 5;
-                System.out.printf("%s attacks for %d damage!\n", enemy.getName(), enemyAttackDamage);
-                enemy.attack(hero, enemyAttackDamage);
-                System.out.printf("%s's health is now %d.\n", hero.getName(), hero.getHealth());
-                System.out.println("===========================================\n");
+                turn = enemy.enemyTurn(hero, thunderbolt, barrier, turn);
             }
         }
 

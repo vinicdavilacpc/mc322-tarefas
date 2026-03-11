@@ -28,12 +28,12 @@ public class DamageCard {
 
     public void attack(Hero hero, Enemy enemy) {
         if (hero.getEnergy() >= this.getEnergyCost()) {
-            System.out.printf("\n>>> %s drawed the %s!\n", hero.getName(), this.getName());
+            System.out.printf("\n>>> %s used %s!\n", hero.getName(), this.getName());
             this.use(enemy, hero);
             if (!enemy.isAlive()) {
-                System.out.printf("\nEnemy slain! %s health is now 0\n", enemy.getName());
+                System.out.printf("\nEnemy fainted! %s health is now 0\n", enemy.getName());
             } else {
-                System.out.printf("\nEnemy injured! %s health is now %d\n", enemy.getName(), enemy.getHealth());
+                System.out.printf("\nEnemy hit! %s health is now %d\n", enemy.getName(), enemy.getHealth());
             }
 
             } else {
