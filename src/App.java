@@ -37,7 +37,7 @@ public class App {
             System.out.println("-------------------------------------------\n");
 
             while (true) {
-                System.out.printf("%s, you're up! Choose your next move.\n", hero.getName());
+                System.out.printf("\n%s, you're up! Choose your next move.\n", hero.getName());
                 System.out.printf("Energy remaining: %d/%d\n", hero.getEnergy(), fullEnergy);
                 System.out.printf("1: Use %s (Cost: %d, Damage: %d)\n", scratch.getName(), scratch.getEnergyCost(), scratch.getDamage());
                 System.out.printf("2: Use %s (Cost: %d, Damage: %d)\n", flamethrower.getName(), flamethrower.getEnergyCost(), flamethrower.getDamage());
