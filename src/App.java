@@ -6,19 +6,19 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         Hero hero = new Hero("Charmander", 20, 5, 0);
-        Enemy enemy = new Enemy("Pikachu", 20, 0);
+        Enemy enemy = new Enemy("Pikachu", 20, 0, 5);
 
         // Cartas de dano para o Charmander
-        DamageCard flamethrower = new DamageCard("Flamethrower", 4, 8);
-        DamageCard scratch = new DamageCard("Scratch", 2, 4);
+        DamageCard flamethrower = new DamageCard("Flamethrower", "", 4, 8);
+        DamageCard scratch = new DamageCard("Scratch", "", 2, 4);
 
         // Cartas de escudo para o Charmander
-        ShieldCard shellArmor = new ShieldCard("Shell Armor", 3, 5);
-        ShieldCard ironDefense = new ShieldCard("Iron Defense", 5, 10);
+        ShieldCard shellArmor = new ShieldCard("Shell Armor", "",3, 5);
+        ShieldCard ironDefense = new ShieldCard("Iron Defense", "", 5, 10);
 
         // Cartas para o Pikachu
-        DamageCard thunderbolt = new DamageCard("Thunderbolt", 0, 5);
-        ShieldCard barrier = new ShieldCard("Barrier", 0, 3);
+        // DamageCard thunderbolt = new DamageCard("Thunderbolt", "", 0, 5);
+        // ShieldCard barrier = new ShieldCard("Barrier", "", 0, 3);
 
         System.out.printf("A wild %s has appeared!\n", enemy.getName());
 
@@ -39,10 +39,10 @@ public class App {
             while (true) {
                 System.out.printf("\n%s, you're up! Choose your next move.\n", hero.getName());
                 System.out.printf("Energy remaining: %d/%d\n", hero.getEnergy(), fullEnergy);
-                System.out.printf("1: Use %s (Cost: %d, Damage: %d)\n", scratch.getName(), scratch.getEnergyCost(), scratch.getDamage());
-                System.out.printf("2: Use %s (Cost: %d, Damage: %d)\n", flamethrower.getName(), flamethrower.getEnergyCost(), flamethrower.getDamage());
-                System.out.printf("3: Use %s (Cost: %d, Defense: %d)\n", shellArmor.getName(), shellArmor.getEnergyCost(), shellArmor.getDefense());
-                System.out.printf("4: Use %s (Cost: %d, Defense: %d)\n", ironDefense.getName(), ironDefense.getEnergyCost(), ironDefense.getDefense());
+                System.out.printf("1: Use %s (Cost: %d, Damage: %d) - %s\n", scratch.getName(), scratch.getEnergyCost(), scratch.getDamage(), scratch.getDescription());
+                System.out.printf("2: Use %s (Cost: %d, Damage: %d) - %s\n", flamethrower.getName(), flamethrower.getEnergyCost(), flamethrower.getDamage(), flamethrower.getDescription());
+                System.out.printf("3: Use %s (Cost: %d, Defense: %d) - %s\n", shellArmor.getName(), shellArmor.getEnergyCost(), shellArmor.getDefense(), shellArmor.getDescription());
+                System.out.printf("4: Use %s (Cost: %d, Defense: %d) - %s\n", ironDefense.getName(), ironDefense.getEnergyCost(), ironDefense.getDefense(), ironDefense.getDescription());
                 System.out.printf("5: End round\n");
                 System.out.print("Your choice: ");
                 
@@ -55,10 +55,10 @@ public class App {
                     flamethrower.attack(hero, enemy);
                 
                 } else if (move == 3) {
-                    shellArmor.defense(hero);
+                    shellArmor.defense(hero, hero);
 
                 } else if (move == 4) {
-                    ironDefense.defense(hero);
+                    ironDefense.defense(hero, hero);
                     
                 } else if (move == 5) {
                     System.out.println("\n>>> Ending turn...");
@@ -75,7 +75,7 @@ public class App {
             // Turno do inimigo
             enemy.resetShield();
             if (enemy.isAlive()) {
-                turn = enemy.enemyTurn(hero, thunderbolt, barrier, turn);
+                turn = enemy.enemyTurn(hero, 3, turn); // passar um valor fixo de defense??
             }
         }
 

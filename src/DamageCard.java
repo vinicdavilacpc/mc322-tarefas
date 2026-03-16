@@ -1,39 +1,28 @@
-public class DamageCard {
-    private String name;
-    private int energyCost;
+public class DamageCard extends Card {
     private int damage;
 
-    public DamageCard(String name, int energyCost, int damage) {
-        this.name = name;
-        this.energyCost = energyCost;
+    public DamageCard(String name, String description, int energyCost, int damage) {
         this.damage = damage;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getEnergyCost() {
-        return energyCost;
+        super(name, description, energyCost);
     }
 
     public int getDamage() {
         return damage;
     }
 
-    public void use(Enemy enemy, Hero hero) {
-        enemy.takeDamage(damage);
-        hero.drainEnergy(energyCost);
+    public void use(Hero hero, Entity target) {
+        target.takeDamage(damage);
+        hero.drainEnergy(this.getEnergyCost());
     }
 
-    public void attack(Hero hero, Enemy enemy) {
+    public void attack(Hero hero, Entity target) {
         if (hero.getEnergy() >= this.getEnergyCost()) {
             System.out.printf("\n>>> %s used %s!\n", hero.getName(), this.getName());
-            this.use(enemy, hero);
-            if (!enemy.isAlive()) {
-                System.out.printf("\nEnemy fainted! %s health is now 0\n", enemy.getName());
+            this.use(hero, target);
+            if (!target.isAlive()) {
+                System.out.printf("\nEnemy fainted! %s health is now 0\n", target.getName());
             } else {
-                System.out.printf("\nEnemy hit! %s health is now %d\n", enemy.getName(), enemy.getHealth());
+                System.out.printf("\nEnemy hit! %s health is now %d\n", target.getName(), target.getHealth());
             }
 
             } else {
