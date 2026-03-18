@@ -2,8 +2,8 @@ public class DamageCard extends Card {
     private int damage;
 
     public DamageCard(String name, String description, int energyCost, int damage) {
-        this.damage = damage;
         super(name, description, energyCost);
+        this.damage = damage;
     }
 
     public int getDamage() {

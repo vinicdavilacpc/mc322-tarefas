@@ -2,8 +2,8 @@ public class Enemy extends Entity {
     private int damage;
 
     public Enemy(String name, int health, int shield, int damage) {
-        this.damage = damage;
         super(name, health, shield);
+        this.damage = damage;
     }
 
     public int getDamage() {
