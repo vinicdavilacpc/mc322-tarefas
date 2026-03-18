@@ -1,14 +1,20 @@
 public class DamageCard extends Card {
     private int damage;
+    // private String type;
 
     public DamageCard(String name, String description, int energyCost, int damage) {
         super(name, description, energyCost);
         this.damage = damage;
+        // this.type = type;
     }
 
     public int getDamage() {
         return damage;
     }
+
+    // public String getType() {
+    //     return type;
+    // }
 
     public void use(Hero hero, Entity target) {
         target.takeDamage(damage);

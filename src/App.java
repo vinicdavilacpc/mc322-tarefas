@@ -1,24 +1,45 @@
 import java.util.Scanner;
+import java.util.Stack;
 
 public class App {
     public static void main(String[] args) {
         int turn = 1;
         Scanner scanner = new Scanner(System.in);
 
+        // Entidades (Jogador e Inimigo)
         Hero hero = new Hero("Charmander", 20, 5, 0);
         Enemy enemy = new Enemy("Pikachu", 20, 0, 5);
 
-        // Cartas de dano para o Charmander
-        DamageCard flamethrower = new DamageCard("Flamethrower", "", 4, 8);
-        DamageCard scratch = new DamageCard("Scratch", "", 2, 4);
+        // Cartas de dano
+        DamageCard flamethrower = new DamageCard("Flamethrower", "Deals 8 points of damage", 4, 8);
+        DamageCard scratch = new DamageCard("Scratch", "Deals 4 points of damage", 2, 4);
+        DamageCard thunderbolt = new DamageCard("Thunderbolt", "Deals 5 points of damage", 4, 5);
+        
+        // Cartas de escudo
+        ShieldCard barrier = new ShieldCard("Barrier", "Grants 3 points of shield", 2, 3);
+        ShieldCard shellArmor = new ShieldCard("Shell Armor", "Grants 5 points of shield",3, 5);
+        ShieldCard ironDefense = new ShieldCard("Iron Defense", "Grants 10 points of shield", 5, 10);
+        
+        // Pilhas de Cartas
+        Stack<Card> cards = new Stack<>();
+        cards.push(scratch);
+        cards.push(scratch);
+        cards.push(scratch);
+        cards.push(scratch);
+        cards.push(flamethrower);
+        cards.push(flamethrower);
+        cards.push(thunderbolt);
+        cards.push(thunderbolt);
+        cards.push(shellArmor);
+        cards.push(shellArmor);
+        cards.push(ironDefense);
+        cards.push(barrier);
+        cards.push(barrier);
+        cards.push(barrier);
 
-        // Cartas de escudo para o Charmander
-        ShieldCard shellArmor = new ShieldCard("Shell Armor", "",3, 5);
-        ShieldCard ironDefense = new ShieldCard("Iron Defense", "", 5, 10);
+        Stack<Card> discardCards = new Stack<>();
 
-        // Cartas para o Pikachu
-        // DamageCard thunderbolt = new DamageCard("Thunderbolt", "", 0, 5);
-        // ShieldCard barrier = new ShieldCard("Barrier", "", 0, 3);
+        CardStack deck = new CardStack(cards, discardCards);
 
         System.out.printf("A wild %s has appeared!\n", enemy.getName());
 
@@ -29,6 +50,11 @@ public class App {
             hero.restoreEnergy(fullEnergy);
             hero.resetShield();
             
+            int heroNumberOfCards = 5;
+            for (int i = 0; i < heroNumberOfCards; i++) {
+                deck.buy();
+            }
+
             int move;
 
             System.out.println("\n-------------------------------------------");
@@ -39,38 +65,48 @@ public class App {
             while (true) {
                 System.out.printf("\n%s, you're up! Choose your next move.\n", hero.getName());
                 System.out.printf("Energy remaining: %d/%d\n", hero.getEnergy(), fullEnergy);
-                System.out.printf("1: Use %s (Cost: %d, Damage: %d) - %s\n", scratch.getName(), scratch.getEnergyCost(), scratch.getDamage(), scratch.getDescription());
-                System.out.printf("2: Use %s (Cost: %d, Damage: %d) - %s\n", flamethrower.getName(), flamethrower.getEnergyCost(), flamethrower.getDamage(), flamethrower.getDescription());
-                System.out.printf("3: Use %s (Cost: %d, Defense: %d) - %s\n", shellArmor.getName(), shellArmor.getEnergyCost(), shellArmor.getDefense(), shellArmor.getDescription());
-                System.out.printf("4: Use %s (Cost: %d, Defense: %d) - %s\n", ironDefense.getName(), ironDefense.getEnergyCost(), ironDefense.getDefense(), ironDefense.getDescription());
-                System.out.printf("5: End round\n");
+
+                for (int i = 0; i < deck.getPlayerHand().size(); i++) {
+                    System.out.printf("%d: Use %s (Cost: %d) - %s\n", i+1, deck.getPlayerHand().get(i).getName(), deck.getPlayerHand().get(i).getEnergyCost(), deck.getPlayerHand().get(i).getDescription());
+                }
+                int endRoundOptionNumber = deck.getPlayerHand().size() + 1;
+                System.out.printf("%d. End Round\n", endRoundOptionNumber);
+
                 System.out.print("Your choice: ");
                 
                 move = scanner.nextInt();
+                // Implementar try-catch para evitar erros do tipo: jogador digitar "a"
 
-                if (move == 1) {
-                    scratch.attack(hero, enemy);
-                    
-                } else if (move == 2) {
-                    flamethrower.attack(hero, enemy);
+                if (move > 0 && move < endRoundOptionNumber) {
+                int index = move - 1;
                 
-                } else if (move == 3) {
-                    shellArmor.defense(hero, hero);
+                Card selectedCard = deck.getPlayerHand().get(index);
+                
+                    if (hero.getEnergy() >= selectedCard.getEnergyCost()) {
+                        deck.getPlayerHand().remove(index); 
+                        selectedCard.use(hero, enemy);
+                        deck.discard(selectedCard);
+                        
+                        System.out.printf("\n>>> %s used %s!\n", hero.getName(), selectedCard.getName());
+                        
+                    } else {
+                        System.out.println("\n>>> Not enough energy!\n");
+                    }
 
-                } else if (move == 4) {
-                    ironDefense.defense(hero, hero);
-                    
-                } else if (move == 5) {
-                    System.out.println("\n>>> Ending turn...");
-                    break;
+                } else if (move == endRoundOptionNumber) {
+                System.out.println("\n>>> Ending turn...");
+                break;
+
                 } else {
-                    System.out.println("\n>>> Invalid choice!\n");
+                System.out.println("\n>>> Invalid choice!\n");
                 }
 
                 if (!enemy.isAlive()) {
                     break;
                 }
             }
+
+            deck.discardHand();
 
             // Turno do inimigo
             enemy.resetShield();

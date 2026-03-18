@@ -32,6 +32,8 @@ public class CardStack {
         }
 
         this.playerHand.add(this.buyStack.pop());
+
+        // Implementar verificação de segurança para caso as duas pilhas fiquem vazias
     }
 
     public void discard(Card card) {
