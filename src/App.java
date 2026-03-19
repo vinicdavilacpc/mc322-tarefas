@@ -69,6 +69,7 @@ public class App {
                 for (int i = 0; i < deck.getPlayerHand().size(); i++) {
                     System.out.printf("%d: Use %s (Cost: %d) - %s\n", i+1, deck.getPlayerHand().get(i).getName(), deck.getPlayerHand().get(i).getEnergyCost(), deck.getPlayerHand().get(i).getDescription());
                 }
+
                 int endRoundOptionNumber = deck.getPlayerHand().size() + 1;
                 System.out.printf("%d. End Round\n", endRoundOptionNumber);
 
@@ -141,33 +142,36 @@ public class App {
         System.out.println("\n-------------------------------------------");
         System.out.printf("%s\nHP: %s | Energy: %d | Shield: %d\n", 
             hero.getName(), 
-            createHealthBar(hero.getHealth(), hero.getMaxHealth(), 20), 
+            createHealthBar(hero.getHealth(), hero.getMaxHealth(), 20),
             hero.getEnergy(), 
             hero.getShield());
         
         System.out.printf("VS.\n%s\nHP: %s | Shield: %d\n", 
             enemy.getName(), 
-            createHealthBar(enemy.getHealth(), enemy.getMaxHealth(), 20), 
+            createHealthBar(enemy.getHealth(), enemy.getMaxHealth(), 20),
             enemy.getShield());
         System.out.println("-------------------------------------------\n");
     }
 
     public static String createHealthBar(int currentHealth, int maxHealth, int barSize) {
-        if (maxHealth <= 0) return "[ Error ]";
+        if (maxHealth <= 0) {
+            return "[ Error ]";
+        }
+
         currentHealth = Math.max(0, Math.min(currentHealth, maxHealth));
 
         double percentage = (double) currentHealth / maxHealth;
         int healthBlocks = (int) Math.round(percentage * barSize);
 
-        StringBuilder barra = new StringBuilder("[");
+        StringBuilder bar = new StringBuilder("[");
         for (int i = 0; i < barSize; i++) {
             if (i < healthBlocks) {
-                barra.append("█");
+                bar.append("█");
             } else {
-                barra.append("░");
+                bar.append("░");
             }
         }
-        barra.append("] ").append(currentHealth).append("/").append(maxHealth);
-        return barra.toString();
+        bar.append("] ").append(currentHealth).append("/").append(maxHealth);
+        return bar.toString();
     }
 }
