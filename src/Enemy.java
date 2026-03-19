@@ -1,20 +1,26 @@
 public class Enemy extends Entity {
     private int damage;
+    private int defense; 
 
-    public Enemy(String name, int health, int shield, int damage) {
+    public Enemy(String name, int health, int shield, int damage, int defense) {
         super(name, health, shield);
         this.damage = damage;
+        this.defense = defense;
     }
 
     public int getDamage() {
         return damage;
     }
 
+    public int getDefense() {
+        return defense;
+    }
+
     public void attack(Hero hero, int damage) {
         hero.takeDamage(damage);
     }
 
-    public int enemyTurn(Hero hero, int defense, int turn) {
+    public int enemyTurn(Hero hero, int turn) {
         System.out.println("\n===========================================");
         System.out.printf("It's the opponent's turn! %s is choosing their move.\n", this.getName());
 
@@ -26,12 +32,20 @@ public class Enemy extends Entity {
             turn--;
         } else if (turn == 0) {
             System.out.printf("%s used the shield!\n", this.getName());
-            gainShield(defense);
-            System.out.printf("%s's shield is now %d.\n", this.getName(), defense);
+            gainShield(this.getDefense());
+            System.out.printf("%s's shield is now %d.\n", this.getName(), this.getDefense());
             System.out.println("===========================================\n");
             turn++;
         }
 
         return turn;
+    }
+
+    public void intent(int turn) {
+        if (turn == 1) {
+            System.out.printf("%s is powering up! (Damage: %s)\n", this.getName(), this.getDamage());
+        } else if (turn == 0) {
+            System.out.printf("%s is raising their defense! (Shield: %s)\n", this.getName(), this.getDefense());
+        }
     }
 }
