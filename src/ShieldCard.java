@@ -11,7 +11,7 @@ public class ShieldCard extends Card {
     }
 
     public void use(Hero hero, Entity target) {
-        target.gainShield(defense);
+        hero.gainShield(defense);
         hero.drainEnergy(this.getEnergyCost());
     }
 

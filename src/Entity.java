@@ -2,13 +2,13 @@ abstract public class Entity {
     private String name;
     private int health;
     private int shield;
-    // private String type;
+    private int maxHealth;
 
     public Entity(String name, int health, int shield) {
         this.name = name;
         this.health = health;
         this.shield = shield;
-        // this.type = type;
+        this.maxHealth = health;
     }
 
     public String getName() {
@@ -23,9 +23,9 @@ abstract public class Entity {
         return shield;
     }
 
-    // public String getType() {
-    //     return type;
-    // }
+    public int getMaxHealth() {
+        return maxHealth;
+    }
 
     public void takeDamage(int damage) {
         if (this.shield >= damage) {

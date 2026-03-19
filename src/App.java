@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         int turn = 1;
         Scanner scanner = new Scanner(System.in);
 
@@ -41,7 +41,7 @@ public class App {
 
         CardStack deck = new CardStack(cards, discardCards);
 
-        System.out.printf("A wild %s has appeared!\n", enemy.getName());
+        System.out.printf("\nA wild %s has appeared!\n", enemy.getName());
 
         int fullEnergy = hero.getEnergy();
 
@@ -57,14 +57,12 @@ public class App {
 
             int move;
 
-            System.out.println("\n-------------------------------------------");
-            System.out.printf("%s\n(Health: %d | Energy: %d | Shield: %d)\n", hero.getName(), hero.getHealth(), hero.getEnergy(), hero.getShield());
-            System.out.printf("VS.\n%s\n(Health: %d | Shield: %d)\n", enemy.getName(), enemy.getHealth(), enemy.getShield());
-            System.out.println("-------------------------------------------\n");
-
-            enemy.intent(turn);
+            clearScreen();
 
             while (true) {
+                showBattle(hero, enemy);
+                enemy.intent(turn);
+
                 System.out.printf("\n%s, you're up! Choose your next move.\n", hero.getName());
                 System.out.printf("Energy remaining: %d/%d\n", hero.getEnergy(), fullEnergy);
 
@@ -79,7 +77,6 @@ public class App {
                 move = scanner.nextInt();
 
                 System.out.flush();
-                // Implementar try-catch para evitar erros do tipo: jogador digitar "a"
 
                 if (move > 0 && move < endRoundOptionNumber) {
                 int index = move - 1;
@@ -108,6 +105,9 @@ public class App {
                 if (!enemy.isAlive()) {
                     break;
                 }
+
+                Thread.sleep(3000);
+                clearScreen();
             }
 
             deck.discardHand();
@@ -115,7 +115,10 @@ public class App {
             // Turno do inimigo
             enemy.resetShield();
             if (enemy.isAlive()) {
-                turn = enemy.enemyTurn(hero, turn); // passar um valor fixo de defense??
+                clearScreen();
+                turn = enemy.enemyTurn(hero, turn);
+
+                Thread.sleep(3000);
             }
         }
 
@@ -127,5 +130,44 @@ public class App {
         }
 
         scanner.close();
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static void showBattle(Hero hero, Enemy enemy) {
+        System.out.println("\n-------------------------------------------");
+        System.out.printf("%s\nHP: %s | Energy: %d | Shield: %d\n", 
+            hero.getName(), 
+            createHealthBar(hero.getHealth(), hero.getMaxHealth(), 20), 
+            hero.getEnergy(), 
+            hero.getShield());
+        
+        System.out.printf("VS.\n%s\nHP: %s | Shield: %d\n", 
+            enemy.getName(), 
+            createHealthBar(enemy.getHealth(), enemy.getMaxHealth(), 20), 
+            enemy.getShield());
+        System.out.println("-------------------------------------------\n");
+    }
+
+    public static String createHealthBar(int currentHealth, int maxHealth, int barSize) {
+        if (maxHealth <= 0) return "[ Error ]";
+        currentHealth = Math.max(0, Math.min(currentHealth, maxHealth));
+
+        double percentage = (double) currentHealth / maxHealth;
+        int healthBlocks = (int) Math.round(percentage * barSize);
+
+        StringBuilder barra = new StringBuilder("[");
+        for (int i = 0; i < barSize; i++) {
+            if (i < healthBlocks) {
+                barra.append("█");
+            } else {
+                barra.append("░");
+            }
+        }
+        barra.append("] ").append(currentHealth).append("/").append(maxHealth);
+        return barra.toString();
     }
 }

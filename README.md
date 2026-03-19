@@ -53,44 +53,55 @@ Isso iniciará o programa e o sistema de combate será executado no terminal.
 
 # Como Jogar
 
-Após compilar, o jogo se inicia mostrando uma tela com uma mensagem de aparição do adversário e as informações do jogador e do adversário:
+Após compilar, o jogo se inicia mostrando uma tela com uma mensagem de aparição do adversário e as informações do jogador e do adversário, como vida, energia e escudo (Obs.: o Inimigo não possui energia e seus ataques são premeditados a cada rodada):
 
 ```
 A wild Pikachu has appeared!
 
 -------------------------------------------
 Charmander
-(Health: 20 | Energy: 5 | Shield: 0)
+HP: [████████████████████] 20/20 | Energy: 5 | Shield: 0
 VS.
 Pikachu
-(Health: 20 | Shield: 0)
+HP: [████████████████████] 20/20 | Shield: 0
 -------------------------------------------
 ```
 
-Em seguida, o jogo começa com o turno do jogador e aparecerá um menu com as opções da rodada, além da energia restante do jogador e um input com a escolha a ser feita:
+A cada rodada, o inimigo premedita seus ataques para tornar o jogo mais dinâmico e guiar a escolha do jogador:
+
+```
+Pikachu is powering up! (Damage: 5)
+```
+ou
+
+```
+Pikachu is raising their defense! (Shield: 3)
+```
+
+Em seguida, o jogo começa com o turno do jogador e aparecerá um menu com as opções da rodada, as opções serão aleatórias, com 5 cartas puxadas da pilha de compra no início de cada rodada e descartadas para a pilha de descarte após seu uso, além da energia restante do jogador e um input com a escolha a ser feita:
 
 ```
 Charmander, you're up! Choose your next move.
 Energy remaining: 5/5
-1: Use Scratch (Cost: 2, Damage: 4)
-2: Use Flamethrower (Cost: 4, Damage: 8)
-3: Use Shell Armor (Cost: 3, Defense: 5)
-4: Use Iron Defense (Cost: 5, Defense: 10)
-5: End round
+1: Use Harden (Cost: 1) - Grants 2 points of shield
+2: Use Barrier (Cost: 2) - Grants 3 points of shield
+3: Use Iron Defense (Cost: 5) - Grants 10 points of shield
+4: Use Acid Armor (Cost: 4) - Grants 7 points of shield
+5: Use Shell Armor (Cost: 3) - Grants 5 points of shield
+6. End Round
 Your choice:
 ```
 
-As opções selecionadas mostrarão uma mensagem na tela que informa o que foi feito pelo jogador. A rodada termina apenas quando o jogador decidir encerrar a rodada, no caso acima, pela opção 5.
+As opções selecionadas mostrarão uma mensagem na tela que informa o que foi feito pelo jogador. A rodada termina apenas quando o jogador decidir encerrar a rodada, no caso acima, pela opção 6. (Obs.: Essa opção é sempre a última da lista, então se o jogador utilizar alguma carta, ela irá sumir da mão do jogador e ir para a pilha de descarte, fazendo com que a opção de encerrar turno vá para o índice 5 e assim por diante).
 
 Exemplo de ataque do jogador com scratch:
 
 ```
 >>> Charmander used Scratch!
 
-Enemy hit! Pikachu health is now 16
 ```
 
-Assim que a rodada do jogador termina, o inimigo fará seu movimento, podendo atacar ou se defender com uma carta de ataque ou carta de escudo, respectivamente e uma mensagem na tela mostrará se o inimigo atacou:
+Assim que a rodada do jogador termina, o inimigo fará seu movimento, podendo atacar ou se defender com valores de dano e defesa fixos, uma mensagem na tela mostrará se o inimigo atacou:
 
 ```
 ===========================================
@@ -104,7 +115,7 @@ Ou se defendeu:
 ```
 ===========================================
 It's the opponent's turn! Pikachu is choosing their move.
-Pikachu used Barrier!
+Pikachu used the Shield!
 Pikachu's shield is now 3.
 ===========================================
 ```
