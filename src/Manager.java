@@ -7,6 +7,7 @@ public class Manager {
     private Enemy enemy;
     private CardStack deck;
     private Scanner scanner;
+    private ArrayList<Subscriber> subscribers;
 
     public Manager() {
         this.scanner = new Scanner(System.in);
@@ -45,8 +46,26 @@ public class Manager {
         Stack<Card> discardCards = new Stack<>();
 
         this.deck = new CardStack(cards, discardCards);
+
+        this.subscribers = new ArrayList<>();
     }
 
+    // Métodos do subscriber
+    public void subscribe(Subscriber sub) {
+        subscribers.add(sub);
+    }
+
+    public void unsubscribe(Subscriber sub) {
+        subscribers.remove(sub);
+    }
+
+    public void launchesNotification(String event) {
+        for (Subscriber sub : subscribers) {
+            sub.receivesNotification(event, this);
+        }
+    }
+
+    // Não esquecer de fazer as chamadas do launchesNotification!!!
     public void startCombat() throws InterruptedException {
         int turn = 1;
         int fullEnergy = hero.getEnergy();
@@ -93,7 +112,7 @@ public class Manager {
                 
                     if (hero.getEnergy() >= selectedCard.getEnergyCost()) {
                         deck.getPlayerHand().remove(index); 
-                        selectedCard.use(hero, enemy);
+                        selectedCard.use(hero, enemy, this);
                         deck.discard(selectedCard);
                         
                         System.out.printf("\n>>> %s used %s!\n", hero.getName(), selectedCard.getName());

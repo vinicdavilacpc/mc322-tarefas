@@ -1,4 +1,4 @@
-abstract public class Effect {
+abstract public class Effect extends Subscriber {
     private String name;
     private Entity owner;
     private int amount;
@@ -19,5 +19,13 @@ abstract public class Effect {
 
     public int getAmount() {
         return amount;
+    }
+
+    public void addAmount() {
+        this.amount++;
+    }
+
+    public String getString() {
+        return "Active effect: " + this.name + " (" + this.amount + ")";
     }
 }

@@ -1,3 +1,3 @@
-public interface Subscriber {
-    void notifies(String event, Manager manager);
+public abstract class Subscriber {
+    public abstract void receivesNotification(String event, Manager manager);
 }
