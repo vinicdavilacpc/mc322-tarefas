@@ -171,6 +171,7 @@ public class App {
                 bar.append("░");
             }
         }
+        
         bar.append("] ").append(currentHealth).append("/").append(maxHealth);
         return bar.toString();
     }

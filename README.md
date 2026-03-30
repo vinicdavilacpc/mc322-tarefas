@@ -98,7 +98,6 @@ Exemplo de ataque do jogador com scratch:
 
 ```
 >>> Charmander used Scratch!
-
 ```
 
 Assim que a rodada do jogador termina, o inimigo fará seu movimento, podendo atacar ou se defender com valores de dano e defesa fixos, uma mensagem na tela mostrará se o inimigo atacou:
