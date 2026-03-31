@@ -73,9 +73,12 @@ A cada rodada, o inimigo premedita seus ataques para tornar o jogo mais dinâmic
 Pikachu is powering up! (Damage: 5)
 ```
 ou
-
 ```
 Pikachu is raising their defense! (Shield: 3)
+```
+ou
+```
+Pikachu is getting stronger (Damage increase: 2)
 ```
 
 Em seguida, o jogo começa com o turno do jogador e aparecerá um menu com as opções da rodada, as opções serão aleatórias, com 5 cartas puxadas da pilha de compra no início de cada rodada e descartadas para a pilha de descarte após seu uso, além da energia restante do jogador e um input com a escolha a ser feita:
@@ -110,12 +113,21 @@ Charmander's health is now 15.
 ===========================================
 ```
 
-Ou se defendeu:
+Se defendeu:
 ```
 ===========================================
 It's the opponent's turn! Pikachu is choosing their move.
 Pikachu used the Shield!
 Pikachu's shield is now 3.
+===========================================
+```
+
+Ou aumentou seu dano:
+```
+===========================================
+It's the opponent's turn! Pikachu is choosing their move.
+Pikachu raised their damage!
+Pikachu's attack is now 2.
 ===========================================
 ```
 
@@ -125,6 +137,7 @@ O jogo termina quando a vida do jogador ou do inimigo chegar a 0:
 End of the game!
 Pikachu triumphed over Charmander!
 ```
+(Derrota do jogador)
 
 ```
 Enemy fainted! Pikachu health is now 0
@@ -132,6 +145,55 @@ Enemy fainted! Pikachu health is now 0
 End of the game!
 Charmander rises victorious defeating Pikachu!
 ```
+(Vitória do jogador)
+
+# Cartas
+Cartas são o ponto chave de cada batalha, é com elas que o jogador faz as ações de cada rodada.
+
+Cartas podem ser de ataque:
+```
+3: Use Flamethrower (Cost: 5) - Deals 8 points of damage
+```
+(Dá 8 pontos de dano no alvo)
+
+De defesa:
+```
+1: Use Barrier (Cost: 2) - Grants 3 points of shield
+```
+(Dá 3 pontos de escudo para o usuário)
+
+Ou de efeitos:
+```
+4: Use Light Ball (Cost: 5) - Increases 2 points of damage
+```
+(Aumenta o dano do usuário em 2 pontos)
+
+# Efeitos
+Efeitos são aplicados pelos personagens a cada rodada de acordo com a descrição da carta de efeito utilizada.
+
+Os efeitos podem ser buffs (melhoram as habilidades de quem os usou. Ex.: Força) ou debuffs (prejudicam o alvo a que foi atingido. Ex.: Veneno)
+
+Exemplo de Buff que aumenta o dano em 2 pontos (Força):
+
+```
+3: Use Light Ball (Cost: 5) - Increases 2 points of damage
+```
+
+Exemplo de Debuff que dá dano por rodada (Veneno):
+
+```
+2: Use Poison Jab (Cost: 3) - Triggers poison and causes 3 points of damage
+```
+
+A lista de efeitos aplicados é anotada abaixo da vida de cada personagem:
+
+```
+Pikachu
+HP: [████████████████░░░░] 16/20 | Shield: 0
+Active effects: 
+Strength (2) Poison (3) 
+```
+Obs.: Ao lado de cada buff fica o quanto ele melhora o dano, Força é permanente até o fim da batalha. Ao lado de cada debuff fica o quanto de dano ele está dando, Veneno dá x pontos de dano e a cada rodada ele dá x - 1 pontos de dano, até que x - n seja igual a 0 (onde n é o número de rodadas).
 
 # Tecnologias Utilizadas
 
