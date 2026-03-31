@@ -21,8 +21,8 @@ abstract public class Effect extends Subscriber {
         return amount;
     }
 
-    public void addAmount() {
-        this.amount++;
+    public void addAmount(int extra) {
+        this.amount += extra;
     }
 
     public String getString() {

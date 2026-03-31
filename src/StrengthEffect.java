@@ -4,6 +4,8 @@ public class StrengthEffect extends Effect {
     }
 
     public void receivesNotification(String event, Manager manager) {
-        // vai ser notificada no fim do turno do heroi
+        if (event.equals("beginningOfRound")) {
+            System.out.printf("\n\n%s raised their attack and will deal %d more damage!\n", this.getOwner().getName(), this.getAmount());
+        }
     }
 }

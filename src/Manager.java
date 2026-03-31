@@ -14,7 +14,7 @@ public class Manager {
 
         // Entidades (Jogador e Inimigo)
         this.hero = new Hero("Charmander", 20, 5, 0);
-        this.enemy = new Enemy("Pikachu", 20, 0, 5, 3);
+        this.enemy = new Enemy("Pikachu", 20, 0, 5, 3, 2);
 
         // Cartas de dano
         DamageCard scratch = new DamageCard("Scratch", "Deals 3 points of damage", 1, 3);
@@ -30,6 +30,10 @@ public class Manager {
         ShieldCard acidArmor = new ShieldCard("Acid Armor", "Grants 7 points of shield", 4, 7);
         ShieldCard ironDefense = new ShieldCard("Iron Defense", "Grants 10 points of shield", 5, 10);
 
+        // Cartas de efeito
+        EffectCard poisonJab = new EffectCard("Poison Jab", "Triggers poison and causes 3 points of damage", 3, "Poison", 3);
+        EffectCard lightBall = new EffectCard("Light Ball", "Increases 2 points of damage", 5, "Strength", 2);
+
         // Pilhas de Cartas
         Stack<Card> cards = new Stack<>();
         cards.push(scratch);
@@ -42,6 +46,8 @@ public class Manager {
         cards.push(ironDefense);
         cards.push(barrier);
         cards.push(harden);
+        cards.push(poisonJab);
+        cards.push(lightBall);
 
         Stack<Card> discardCards = new Stack<>();
 
@@ -60,16 +66,16 @@ public class Manager {
     }
 
     public void launchesNotification(String event) {
-        for (Subscriber sub : subscribers) {
+        ArrayList<Subscriber> copy = new ArrayList<>(subscribers);
+        for (Subscriber sub : copy) {
             sub.receivesNotification(event, this);
         }
     }
 
-    // Não esquecer de fazer as chamadas do launchesNotification!!!
     public void startCombat() throws InterruptedException {
         int turn = 1;
         int fullEnergy = hero.getEnergy();
-        System.out.println("A wild Pikachu has appeared!\n");
+        System.out.printf("A wild %s has appeared!\n", enemy.getName());
 
         while (hero.isAlive() && enemy.isAlive()) {
             
@@ -84,6 +90,8 @@ public class Manager {
             int move;
 
             clearScreen();
+
+            launchesNotification("beginningOfRound");
 
             while (true) {
                 showBattle(hero, enemy);
@@ -143,10 +151,12 @@ public class Manager {
             enemy.resetShield();
             if (enemy.isAlive()) {
                 clearScreen();
-                turn = enemy.enemyTurn(hero, turn);
+                turn = enemy.enemyTurn(hero, turn, this);
 
                 Thread.sleep(3000);
             }
+
+            launchesNotification("endOfRound");
         }
 
         System.out.println("\nEnd of the game!");
@@ -171,11 +181,28 @@ public class Manager {
             createHealthBar(hero.getHealth(), hero.getMaxHealth(), 20),
             hero.getEnergy(), 
             hero.getShield());
+
+        if (!hero.getEffects().isEmpty()) {
+            System.out.println("Active effects: ");
+            for (Effect e : hero.getEffects()) {
+                System.out.printf("%s (%d) ", e.getName(), e.getAmount());
+            }
+            System.out.println();
+        }
         
         System.out.printf("VS.\n%s\nHP: %s | Shield: %d\n", 
             enemy.getName(), 
             createHealthBar(enemy.getHealth(), enemy.getMaxHealth(), 20),
             enemy.getShield());
+
+        if (!enemy.getEffects().isEmpty()) {
+            System.out.println("Active effects: ");
+            for (Effect e : enemy.getEffects()) {
+                System.out.printf("%s (%d) ", e.getName(), e.getAmount());
+            }
+            System.out.println();
+
+        }
         System.out.println("-------------------------------------------\n");
     }
 

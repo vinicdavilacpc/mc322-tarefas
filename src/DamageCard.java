@@ -11,7 +11,14 @@ public class DamageCard extends Card {
     }
 
     public void use(Hero hero, Entity target, Manager manager) {
-        target.takeDamage(damage);
+        int totalDamage = this.damage;
+
+        for (Effect effect : hero.getEffects()) {
+            if (effect.getName() == "Strength") {
+                totalDamage += effect.getAmount();
+            }
+        }
+        target.takeDamage(totalDamage);
         hero.drainEnergy(this.getEnergyCost());
     }
 

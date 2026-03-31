@@ -4,9 +4,18 @@ public class PoisonEffect extends Effect {
     }
 
     public void receivesNotification(String event, Manager manager) {
-        if (event == "endRound") {
-            // tirar dano do entity igual ao amount e diminuir 1 no amount
-            // se acabar remover o efeito tanto da lista de subs quanto do entity
+        if (event.equals("endOfRound")) {
+            System.out.printf("%s was poisoned and lost %d health points!\n", this.getOwner().getName(), getAmount());
+            this.getOwner().takeDamage(this.getAmount());
+            this.addAmount(-1);
+
+            if (this.getAmount() <= 0) {
+                this.getOwner().getEffects().remove(this);
+                manager.unsubscribe(this);
+                System.out.printf("%s is cured from the poison!", this.getOwner().getName());
+            } else {
+                System.out.printf("Poison was reduced to %d.\n", getAmount());
+            }
         }
     }
 }

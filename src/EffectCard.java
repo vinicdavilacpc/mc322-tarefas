@@ -1,12 +1,26 @@
 public class EffectCard extends Card {
-    public EffectCard(String name, String description, int energyCost) {
+    private String effectType;
+    private int effectAmount;
+
+    public EffectCard(String name, String description, int energyCost, String effectType, int effectAmount) {
         super(name, description, energyCost);
+        this.effectType = effectType;
+        this.effectAmount = effectAmount;
     }
 
     // arrumar para ficar igual aos outros cards (ter mais prints e checar energia)
     public void use(Hero hero, Entity target, Manager manager) {
-        // instanciar o effect
-        // apply effect
-        // inscrever o effect em subscribers!!
+        Effect appliedEffect = null;
+        if (effectType == "Poison") {
+            appliedEffect = new PoisonEffect("Poison", target, this.effectAmount);
+            target.applyEffect(appliedEffect);
+            manager.subscribe(appliedEffect);
+        } else if (effectType == "Strength") {
+            appliedEffect = new StrengthEffect("Strength", target, this.effectAmount);
+            hero.applyEffect(appliedEffect);
+            manager.subscribe(appliedEffect);
+        }
+
+        hero.drainEnergy(this.getEnergyCost());
     }
 }

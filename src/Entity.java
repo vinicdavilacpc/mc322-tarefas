@@ -61,7 +61,7 @@ abstract public class Entity {
         int repeats = 0;
         for (Effect effect : effects) {
             if (effect == newEffect) {
-                effect.addAmount();
+                effect.addAmount(newEffect.getAmount());
                 repeats = 1;
                 break;
             }
