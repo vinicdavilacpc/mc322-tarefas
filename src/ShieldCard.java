@@ -10,15 +10,15 @@ public class ShieldCard extends Card {
         return defense;
     }
 
-    public void use(Hero hero, Entity target) {
+    public void use(Hero hero, Entity target, Manager manager) {
         hero.gainShield(defense);
         hero.drainEnergy(this.getEnergyCost());
     }
 
-    public void defense(Hero hero, Entity target) {
+    public void defense(Hero hero, Entity target, Manager manager) {
         if (hero.getEnergy() >= this.getEnergyCost()) {
             System.out.printf("\n>>> %s used %s!\n", hero.getName(), this.getName());
-            this.use(hero, target);
+            this.use(hero, target, manager);
             System.out.printf("%s is protected! Defense is now %d.\n\n", hero.getName(), hero.getShield());
         } else {
             System.out.println("\n>>> Not enough energy!\n");

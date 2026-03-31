@@ -21,5 +21,5 @@ abstract public class Card {
         return energyCost;
     }
     
-    abstract public void use(Hero hero, Entity entity);
+    abstract public void use(Hero hero, Entity entity, Manager manager);
 }
