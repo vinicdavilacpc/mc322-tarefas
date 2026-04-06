@@ -1,6 +1,6 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
-import java.util.ArrayList;
 
 public class Manager {
     private Hero hero;

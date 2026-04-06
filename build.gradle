@@ -1,0 +1,15 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'App'
+}
+
+tasks.named('run') {
+    standardInput = System.in
+}
