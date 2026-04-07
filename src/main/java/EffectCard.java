@@ -1,3 +1,5 @@
+
+
 public class EffectCard extends Card {
     private String effectType;
     private int effectAmount;
@@ -8,7 +10,6 @@ public class EffectCard extends Card {
         this.effectAmount = effectAmount;
     }
 
-    // arrumar para ficar igual aos outros cards (ter mais prints e checar energia)
     public void use(Hero hero, Entity target, Manager manager) {
         Effect appliedEffect = null;
         if (effectType == "Poison") {
@@ -17,6 +18,11 @@ public class EffectCard extends Card {
             manager.subscribe(appliedEffect);
         } else if (effectType == "Strength") {
             appliedEffect = new StrengthEffect("Strength", target, this.effectAmount);
+            hero.applyEffect(appliedEffect);
+            manager.subscribe(appliedEffect);
+        } else if (effectType == "Dexterity") {
+            appliedEffect = new DexterityEffect("Dexterity", target, this.effectAmount);
+            hero.gainShield(effectAmount);
             hero.applyEffect(appliedEffect);
             manager.subscribe(appliedEffect);
         }

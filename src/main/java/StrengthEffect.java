@@ -1,3 +1,5 @@
+
+
 public class StrengthEffect extends Effect {
     public StrengthEffect(String name, Entity owner, int amount) {
         super(name, owner, amount);

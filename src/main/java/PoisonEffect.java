@@ -1,3 +1,5 @@
+
+
 public class PoisonEffect extends Effect {
     public PoisonEffect(String name, Entity owner, int amount) {
         super(name, owner, amount);

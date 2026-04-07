@@ -1,4 +1,7 @@
+
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -8,6 +11,10 @@ public class Manager {
     private CardStack deck;
     private Scanner scanner;
     private ArrayList<Subscriber> subscribers;
+
+    public static final String RESET = "\u001B[0m";
+    public static final String YELLOW_BOLD = "\u001B[1;33m";
+    public static final String RED_BOLD = "\u001B[1;31m";
 
     public Manager() {
         this.scanner = new Scanner(System.in);
@@ -22,6 +29,9 @@ public class Manager {
         DamageCard flareBlitz = new DamageCard("Flare Blitz", "Deals 6 points of damage", 4, 6);
         DamageCard thunderbolt = new DamageCard("Thunderbolt", "Deals 5 points of damage", 4, 5);
         DamageCard flamethrower = new DamageCard("Flamethrower", "Deals 8 points of damage", 5, 8);
+        // NEW!!!
+        DamageCard heatBlast = new DamageCard("Heat Blast", "Deals 4 points of damage", 3, 4);
+        DamageCard tailWhip = new DamageCard("Tail Whap", "Deals 3 points of damage", 2, 3);
         
         // Cartas de escudo
         ShieldCard harden = new ShieldCard("Harden", "Grants 2 points of shield", 1, 2);
@@ -29,10 +39,16 @@ public class Manager {
         ShieldCard shellArmor = new ShieldCard("Shell Armor", "Grants 5 points of shield",3, 5);
         ShieldCard acidArmor = new ShieldCard("Acid Armor", "Grants 7 points of shield", 4, 7);
         ShieldCard ironDefense = new ShieldCard("Iron Defense", "Grants 10 points of shield", 5, 10);
+        // NEW!!!
+        ShieldCard cosmicPower = new ShieldCard("Cosmic Power", "Grants 6 points of shield", 3, 6);
+        ShieldCard bulkUp = new ShieldCard("Bulk Up", "Grants 9 points of shield", 5, 9);
 
         // Cartas de efeito
         EffectCard poisonJab = new EffectCard("Poison Jab", "Triggers poison and causes 3 points of damage", 3, "Poison", 3);
         EffectCard lightBall = new EffectCard("Light Ball", "Increases 2 points of damage", 5, "Strength", 2);
+        // EffectCard de destreza (mesma coisa que efeito Strength, mas para as cartas de escudo)
+        EffectCard obstruct = new EffectCard("Obstruct", "Increases 2 points of shield", 5, "Dexterity", 2);
+
 
         // Pilhas de Cartas
         Stack<Card> cards = new Stack<>();
@@ -48,6 +64,13 @@ public class Manager {
         cards.push(harden);
         cards.push(poisonJab);
         cards.push(lightBall);
+        cards.push(heatBlast);
+        cards.push(tailWhip);
+        cards.push(cosmicPower);
+        cards.push(bulkUp);
+        cards.push(obstruct);
+
+        Collections.shuffle(cards);
 
         Stack<Card> discardCards = new Stack<>();
 
@@ -75,7 +98,7 @@ public class Manager {
     public void startCombat() throws InterruptedException {
         int turn = 1;
         int fullEnergy = hero.getEnergy();
-        System.out.printf("A wild %s has appeared!\n", enemy.getName());
+        System.out.printf(YELLOW_BOLD + "A wild %s has appeared!\n" + RESET, enemy.getName());
 
         while (hero.isAlive() && enemy.isAlive()) {
             
@@ -176,8 +199,8 @@ public class Manager {
 
     public static void showBattle(Hero hero, Enemy enemy) {
         System.out.println("\n-------------------------------------------");
-        System.out.printf("%s\nHP: %s | Energy: %d | Shield: %d\n", 
-            hero.getName(), 
+        System.out.printf(RED_BOLD + "%s\n" + RESET, hero.getName());
+        System.out.printf("HP: %s | Energy: %d | Shield: %d\n",  
             createHealthBar(hero.getHealth(), hero.getMaxHealth(), 20),
             hero.getEnergy(), 
             hero.getShield());
@@ -185,13 +208,14 @@ public class Manager {
         if (!hero.getEffects().isEmpty()) {
             System.out.println("Active effects: ");
             for (Effect e : hero.getEffects()) {
-                System.out.printf("%s (%d) ", e.getName(), e.getAmount());
+                System.out.printf(e.getString());
             }
             System.out.println();
         }
         
-        System.out.printf("VS.\n%s\nHP: %s | Shield: %d\n", 
-            enemy.getName(), 
+        System.out.printf("VS.\n");
+        System.out.printf(YELLOW_BOLD + "%s\n" + RESET, enemy.getName());
+        System.out.printf("HP: %s | Shield: %d\n",  
             createHealthBar(enemy.getHealth(), enemy.getMaxHealth(), 20),
             enemy.getShield());
 

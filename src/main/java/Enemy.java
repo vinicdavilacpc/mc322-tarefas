@@ -1,3 +1,5 @@
+
+
 public class Enemy extends Entity {
     private int damage;
     private int defense; 

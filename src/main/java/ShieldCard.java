@@ -1,3 +1,5 @@
+
+
 public class ShieldCard extends Card {
     private int defense;
 
@@ -11,7 +13,7 @@ public class ShieldCard extends Card {
     }
 
     public void use(Hero hero, Entity target, Manager manager) {
-        hero.gainShield(defense);
+        hero.gainShield(this.defense);
         hero.drainEnergy(this.getEnergyCost());
     }
 
