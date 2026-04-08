@@ -1,10 +1,8 @@
-
-
 public class Hero extends Entity {
     private int energy;
 
-    public Hero(String name, int health, int energy, int shield) {
-        super(name, health, shield);
+    public Hero(String name, int health, int energy, int shield, String color) {
+        super(name, health, shield, color);
         this.energy = energy;
     }
 

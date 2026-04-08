@@ -7,7 +7,7 @@ public class StrengthEffect extends Effect {
 
     public void receivesNotification(String event, Manager manager) {
         if (event.equals("beginningOfRound")) {
-            System.out.printf("\n\n%s raised their attack and will deal %d more damage!\n", this.getOwner().getName(), this.getAmount());
+            System.out.printf("\n\n>> %s raised their attack and will deal %d more damage!\n", this.getOwner().getColoredName(), this.getAmount());
         }
     }
 }

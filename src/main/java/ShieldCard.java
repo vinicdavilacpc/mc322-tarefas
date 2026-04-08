@@ -1,10 +1,8 @@
-
-
 public class ShieldCard extends Card {
     private int defense;
 
-    public ShieldCard(String name, String description, int energyCost, int defense) {
-        super(name, description, energyCost);
+    public ShieldCard(String name, String description, int energyCost, int defense, String color) {
+        super(name, description, energyCost, color);
         this.defense = defense;
     }
 

@@ -1,11 +1,9 @@
-
-
 public class EffectCard extends Card {
     private String effectType;
     private int effectAmount;
 
-    public EffectCard(String name, String description, int energyCost, String effectType, int effectAmount) {
-        super(name, description, energyCost);
+    public EffectCard(String name, String description, int energyCost, String effectType, int effectAmount, String color) {
+        super(name, description, energyCost, color);
         this.effectType = effectType;
         this.effectAmount = effectAmount;
     }
