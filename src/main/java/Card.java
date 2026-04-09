@@ -38,7 +38,7 @@ abstract public class Card {
      * (ex: causar dano, adicionar escudo ou aplicar um efeito de status).
      *
      * @param hero A entidade controlada pelo jogador que está jogando a carta.
-     * @param target O alvo primário da carta (pode ser o inimigo para ataques ou o próprio herói para defesas).
+     * @param entity O alvo primário da carta (pode ser o inimigo para ataques ou o próprio herói para defesas).
      * @param manager O gerenciador da partida, necessário para registrar novos efeitos (Subscribers).
      */
     abstract public void use(Hero hero, Entity entity, Manager manager);
