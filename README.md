@@ -2,7 +2,7 @@
 
 Este projeto foi desenvolvido como parte dos laboratórios da disciplina **MC322 - Programação Orientada a Objetos**.
 
-O objetivo é implementar um jogo inspirado em **Slay the Spire** mas com temática Pokémon, no qual o jogador utiliza um **baralho de cartas** para derrotar inimigos em batalhas por turno.
+O objetivo é implementar um jogo inspirado em **Slay the Spire** mas com temática **Pokémon**, no qual o jogador utiliza um **baralho de cartas** para derrotar inimigos em batalhas por turno.
 
 O projeto foi desenvolvido em **Java** e executado via terminal.
 
@@ -12,13 +12,13 @@ O projeto segue a estrutura padrão criada pelo VSCode para projetos Java:
 
 ```text
 .
-├─ src/
+├─ src/main/java
 │  ├─ App.java
-│  ├─ Heroi.java
-│  ├─ Inimigo.java
-│  ├─ Carta.java
-│  ├─ CartaDano.java
-│  ├─ CartaEscudo.java
+│  ├─ Hero.java
+│  ├─ Enemy.java
+│  ├─ Card.java
+│  ├─ DamageCard.java
+│  ├─ ShieldCard.java
 │  └─ ...
 ├─ lib/
 ├─ bin/
@@ -31,22 +31,13 @@ Onde:
 - **lib** — pasta reservada para dependências externas (não utilizada neste projeto)  
 - **bin** — arquivos `.class` gerados após a compilação  
 
-# Como Compilar o Projeto
+# Como Executar o Projeto (com Gradle)
 
-No diretório raiz do projeto, execute:
-
-```bash
-javac -d bin $(find src -name "*.java")
-```
-
-Esse comando compila todos os arquivos `.java` dentro da pasta `src` e coloca os arquivos compilados (`.class`) na pasta `bin`.
-
-# Como Executar o Projeto
-
-Após compilar, execute:
+Apenas execute no terminal:
 
 ```bash
-java -cp bin App
+./ gradlew build
+./ gradlew run
 ```
 
 Isso iniciará o programa e o sistema de combate será executado no terminal.
@@ -198,6 +189,7 @@ Obs.: Ao lado de cada buff fica o quanto ele melhora o dano, Força é permanent
 # Tecnologias Utilizadas
 
 - Java 25
+- Gradle
 - Visual Studio Code
 - Git e GitHub
 
