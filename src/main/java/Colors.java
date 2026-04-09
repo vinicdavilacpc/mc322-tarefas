@@ -1,3 +1,6 @@
+/**
+ * Classe que armazena as cores utilizadas no jogo para exibição no terminal.
+ */
 public class Colors {
     public static final String RESET = "\u001B[0m";
     public static final String ORANGE_BOLD = "\u001B[1;38;5;208m";

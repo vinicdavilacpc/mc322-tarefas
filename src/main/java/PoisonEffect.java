@@ -1,3 +1,6 @@
+/**
+ * Representa um efeito que causa dano no alvo progressivamente ao longo das rodadas, finalizando após o acúmulo zerar.
+ */
 public class PoisonEffect extends Effect {
     public PoisonEffect(String name, Entity owner, int amount) {
         super(name, owner, amount);

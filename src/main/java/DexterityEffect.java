@@ -1,3 +1,6 @@
+/**
+ * Representa um efeito que aumenta o escudo recebido ao usar uma carta defensiva.
+ */
 public class DexterityEffect extends Effect {
     public DexterityEffect(String name, Entity owner, int amount) {
         super(name, owner, amount);

@@ -1,3 +1,6 @@
+/**
+ * Representa uma carta com foco em efeitos.
+ */
 public class EffectCard extends Card {
     private String effectType;
     private int effectAmount;
