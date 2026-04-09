@@ -1,3 +1,7 @@
+/**
+ * Representa uma carta com foco ofensivo. 
+ * Ao ser usada, consome a energia do herói e aplica dano direto à saúde do alvo.
+ */
 public class DamageCard extends Card {
     private int damage;
 
@@ -20,20 +24,5 @@ public class DamageCard extends Card {
         }
         target.takeDamage(totalDamage);
         hero.drainEnergy(this.getEnergyCost());
-    }
-
-    public void attack(Hero hero, Entity target, Manager manager) {
-        if (hero.getEnergy() >= this.getEnergyCost()) {
-            System.out.printf("\n>>> %s used %s!\n", hero.getName(), this.getName());
-            this.use(hero, target, manager);
-            if (!target.isAlive()) {
-                System.out.printf("\nEnemy fainted! %s health is now 0\n", target.getName());
-            } else {
-                System.out.printf("\nEnemy hit! %s health is now %d\n", target.getName(), target.getHealth());
-            }
-
-            } else {
-                System.out.println("\n>>> Not enough energy!\n");
-            }
     }
 }

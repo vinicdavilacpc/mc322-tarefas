@@ -1,3 +1,7 @@
+/**
+ * Representa uma carta com foco defensivo. 
+ * Ao ser usada, consome a energia do herói e aplica escudo direto ao alvo (quem usou a carta).
+ */
 public class ShieldCard extends Card {
     private int defense;
 
@@ -13,15 +17,5 @@ public class ShieldCard extends Card {
     public void use(Hero hero, Entity target, Manager manager) {
         hero.gainShield(this.defense);
         hero.drainEnergy(this.getEnergyCost());
-    }
-
-    public void defense(Hero hero, Entity target, Manager manager) {
-        if (hero.getEnergy() >= this.getEnergyCost()) {
-            System.out.printf("\n>>> %s used %s!\n", hero.getName(), this.getName());
-            this.use(hero, target, manager);
-            System.out.printf("%s is protected! Defense is now %d.\n\n", hero.getName(), hero.getShield());
-        } else {
-            System.out.println("\n>>> Not enough energy!\n");
-        }
     }
 }

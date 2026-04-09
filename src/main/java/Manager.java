@@ -3,6 +3,11 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.Stack;
 
+/**
+ * Classe responsável por gerenciar o estado global da partida, inicializar as entidades,
+ * configurar o baralho e controlar o loop principal de turnos do combate.
+ * Atua também como o publicador (Publisher) no padrão Observer para eventos de jogo.
+ */
 public class Manager {
     private Hero hero;
     private Enemy enemy;
@@ -82,6 +87,12 @@ public class Manager {
         subscribers.remove(sub);
     }
 
+    /**
+     * Dispara uma notificação para todos os inscritos (Subscribers) de que um evento ocorreu.
+     * Usado para ativar efeitos passivos (como dano de veneno no final do round).
+     *
+     * @param event O nome do evento que ocorreu (ex: "beginningOfRound", "endOfRound").
+     */
     public void launchesNotification(String event) {
         ArrayList<Subscriber> copy = new ArrayList<>(subscribers);
         for (Subscriber sub : copy) {
@@ -89,6 +100,13 @@ public class Manager {
         }
     }
 
+    /**
+     * Inicia e controla o loop principal de combate entre o Herói e o Inimigo.
+     * Gerencia a restauração de energia, compra de cartas, ações do jogador e o turno do inimigo.
+     * O combate continua até que a saúde do herói ou do inimigo chegue a zero.
+     *
+     * @throws InterruptedException Caso a thread seja interrompida durante as pausas visuais (sleep).
+     */
     public void startCombat() throws InterruptedException {
         int turn = 1;
         int fullEnergy = hero.getEnergy();

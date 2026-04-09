@@ -1,10 +1,16 @@
 import java.util.ArrayList;
 
+/**
+ * Representa uma entidade genérica no jogo, servindo de classe base para o Herói e para os Inimigos.
+ * Gerencia os atributos vitais, escudos e os efeitos de status ativos.
+ */
 abstract public class Entity {
     private String name;
     private int health;
     private int shield;
     private int maxHealth;
+
+    /** Lista de efeitos de status (como Veneno, Força, Destreza) atualmente aplicados à entidade. */
     private ArrayList<Effect> effects;
     private String color;
 
@@ -41,6 +47,12 @@ abstract public class Entity {
         return this.color + this.name + Colors.RESET;
     }
 
+    /**
+     * Aplica dano à entidade, priorizando a redução do escudo antes de afetar a saúde.
+     * Se o dano for maior que o escudo atual, a diferença é subtraída da saúde.
+     *
+     * @param damage A quantidade de dano a ser recebida.
+     */
     public void takeDamage(int damage) {
         if (this.shield >= damage) {
             this.shield -= damage;
@@ -63,6 +75,13 @@ abstract public class Entity {
         return this.health > 0;
     }
 
+    /**
+     * Adiciona um novo efeito à entidade. 
+     * Se o efeito já estiver ativo na entidade, em vez de duplicá-lo, a quantidade (amount) 
+     * do efeito existente é incrementada.
+     *
+     * @param newEffect O novo efeito de status a ser aplicado.
+     */
     public void applyEffect(Effect newEffect) {
         int repeats = 0;
         for (Effect effect : effects) {
