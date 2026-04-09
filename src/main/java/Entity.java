@@ -6,13 +6,15 @@ abstract public class Entity {
     private int shield;
     private int maxHealth;
     private ArrayList<Effect> effects;
+    private String color;
 
-    public Entity(String name, int health, int shield) {
+    public Entity(String name, int health, int shield, String color) {
         this.name = name;
         this.health = health;
         this.shield = shield;
         this.maxHealth = health;
         this.effects = new ArrayList<>();
+        this.color = color;
     }
 
     public String getName() {
@@ -33,6 +35,10 @@ abstract public class Entity {
 
     public ArrayList<Effect> getEffects() {
         return effects;
+    }
+
+    public String getColoredName() {
+        return this.color + this.name + Colors.RESET;
     }
 
     public void takeDamage(int damage) {
