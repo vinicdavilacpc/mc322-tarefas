@@ -1,5 +1,3 @@
-
-
 abstract public class Effect extends Subscriber {
     private String name;
     private Entity owner;
