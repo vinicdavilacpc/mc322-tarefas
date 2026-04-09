@@ -1,3 +1,8 @@
+/**
+ * Representa o adversário controlado pelo sistema.
+ * Contém a lógica de tomada de decisão do inimigo durante o combate,
+ * alternando entre atacar, defender e se fortalecer.
+ */
 public class Enemy extends Entity {
     private int damage;
     private int defense; 
@@ -26,6 +31,15 @@ public class Enemy extends Entity {
         hero.takeDamage(damage);
     }
 
+    /**
+     * Executa a ação do inimigo no turno atual com base em um padrão fixo de comportamento.
+     * O padrão alterna ciclicamente entre: (1) Atacar, (2) Defender e (3) Aumentar a Força.
+     *
+     * @param hero O herói que é o alvo dos ataques do inimigo.
+     * @param turn O indicador numérico de qual ação o inimigo deve tomar neste turno.
+     * @param manager O gerenciador da partida para registrar novos efeitos.
+     * @return O valor do próximo turno (1, 2 ou 3) para dar continuidade ao padrão de ataque.
+     */
     public int enemyTurn(Hero hero, int turn, Manager manager) {
         System.out.println("\n===========================================");
         System.out.printf("It's the opponent's turn! %s is choosing their move.\n", this.getColoredName());
@@ -55,6 +69,12 @@ public class Enemy extends Entity {
         return turn;
     }
 
+    /**
+     * Anuncia a intenção (próximo movimento) do inimigo para que o jogador
+     * possa planejar sua estratégia.
+     *
+     * @param turn O indicador numérico da ação que o inimigo realizará.
+     */
     public void intent(int turn) {
         if (turn == 1) {
             System.out.printf("%s is powering up! (Damage: %s)\n", this.getColoredName(), this.getDamage());

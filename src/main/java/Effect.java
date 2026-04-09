@@ -1,3 +1,8 @@
+/**
+ * Classe base para todos os efeitos de status do jogo (como Veneno, Força, Destreza).
+ * Atua como um Subscriber, escutando os eventos do turno para aplicar seus efeitos 
+ * no momento correto (início ou fim da rodada).
+ */
 abstract public class Effect extends Subscriber {
     private String name;
     private Entity owner;
