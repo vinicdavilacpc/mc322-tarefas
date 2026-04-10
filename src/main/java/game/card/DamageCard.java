@@ -1,3 +1,5 @@
+package game.card;
+
 import game.core.Manager;
 import game.effect.Effect;
 import game.model.Entity;
@@ -15,18 +17,18 @@ public class DamageCard extends Card {
         this.damage = damage;
     }
 
-    public int getDamage() {
-        return damage;
-    }
+    public int getDamage() { return damage; }
 
+    @Override
     public void use(Hero hero, Entity target, Manager manager) {
         int totalDamage = this.damage;
 
         for (Effect effect : hero.getEffects()) {
-            if (effect.getName() == "Strength") {
+            if (effect.getName().equals("Strength")) {
                 totalDamage += effect.getAmount();
             }
         }
+        
         target.takeDamage(totalDamage);
         hero.drainEnergy(this.getEnergyCost());
     }
