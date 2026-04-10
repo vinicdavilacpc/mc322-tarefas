@@ -1,3 +1,7 @@
+package game.effect;
+import game.core.Manager;
+import game.model.Entity;
+
 /**
  * Representa um efeito que aumenta o dano causado por cartas com foco ofensivo.
  */

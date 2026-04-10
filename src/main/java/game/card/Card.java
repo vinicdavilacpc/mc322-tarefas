@@ -1,3 +1,9 @@
+package game.card;
+import game.core.Manager;
+import game.model.Entity;
+import game.model.Hero;
+import game.view.Colors;
+
 /**
  * Classe base abstrata para todas as cartas do jogo (Dano, Escudo, Efeito, etc).
  * Define a estrutura básica de custo de energia e o comportamento polimórfico de uso.

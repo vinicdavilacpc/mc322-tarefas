@@ -1,3 +1,4 @@
+package game.view;
 /**
  * Classe que armazena as cores utilizadas no jogo para exibição no terminal.
  */

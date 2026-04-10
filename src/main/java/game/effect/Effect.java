@@ -1,3 +1,7 @@
+package game.effect;
+import game.event.Subscriber;
+import game.model.Entity;
+
 /**
  * Classe base para todos os efeitos de status do jogo (como Veneno, Força, Destreza).
  * Atua como um Subscriber, escutando os eventos do turno para aplicar seus efeitos 

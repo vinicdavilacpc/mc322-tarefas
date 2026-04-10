@@ -1,3 +1,6 @@
+package game.event;
+import game.core.Manager;
+
 /**
  * Interface/Classe base para o padrão de projeto Observer.
  * Define o contrato para objetos que precisam ser notificados sobre eventos

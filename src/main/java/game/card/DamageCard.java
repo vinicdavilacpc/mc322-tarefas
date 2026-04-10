@@ -1,3 +1,8 @@
+import game.core.Manager;
+import game.effect.Effect;
+import game.model.Entity;
+import game.model.Hero;
+
 /**
  * Representa uma carta com foco ofensivo. 
  * Ao ser usada, consome a energia do herói e aplica dano direto à saúde do alvo.

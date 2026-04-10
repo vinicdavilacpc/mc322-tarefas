@@ -1,3 +1,4 @@
+package game.model;
 /**
  * Representa o personagem principal controlado pelo jogador.
  * Gerencia a energia disponível para usar as cartas a cada turno.

@@ -1,3 +1,7 @@
+package game.effect;
+import game.core.Manager;
+import game.model.Entity;
+
 /**
  * Representa um efeito que causa dano no alvo progressivamente ao longo das rodadas, finalizando após o acúmulo zerar.
  */

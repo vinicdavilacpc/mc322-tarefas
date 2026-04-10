@@ -1,3 +1,7 @@
+package game.model;
+import game.core.Manager;
+import game.effect.StrengthEffect;
+
 /**
  * Representa o adversário controlado pelo sistema.
  * Contém a lógica de tomada de decisão do inimigo durante o combate,

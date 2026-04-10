@@ -1,3 +1,9 @@
+package game.effect;
+import game.card.Card;
+import game.core.Manager;
+import game.model.Entity;
+import game.model.Hero;
+
 /**
  * Representa uma carta com foco em efeitos.
  */
