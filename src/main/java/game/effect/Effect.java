@@ -1,13 +1,14 @@
 package game.effect;
+
 import game.event.Subscriber;
 import game.model.Entity;
 
 /**
  * Classe base para todos os efeitos de status do jogo (como Veneno, Força, Destreza).
  * Atua como um Subscriber, escutando os eventos do turno para aplicar seus efeitos 
- * no momento correto (início ou fim da rodada).
+ * no momento correto.
  */
-abstract public class Effect extends Subscriber {
+public abstract class Effect implements Subscriber {
     private String name;
     private Entity owner;
     private int amount;
@@ -18,23 +19,15 @@ abstract public class Effect extends Subscriber {
         this.amount = amount;
     }
 
-    public String getName() {
-        return name;
+    public String getName() { return name; }
+    public Entity getOwner() { return owner; }
+    public int getAmount() { return amount; }
+    
+    public void addAmount(int extra) { 
+        this.amount += extra; 
     }
 
-    public Entity getOwner() {
-        return owner;
-    } 
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void addAmount(int extra) {
-        this.amount += extra;
-    }
-
-    public String getString() {
-        return this.name + " (" + this.amount + ")";
+    public String getString() { 
+        return this.name + " (" + this.amount + ")"; 
     }
 }

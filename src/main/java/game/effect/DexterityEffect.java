@@ -1,5 +1,7 @@
 package game.effect;
+
 import game.core.Manager;
+import game.event.GameEvent;
 import game.model.Entity;
 
 /**
@@ -10,9 +12,12 @@ public class DexterityEffect extends Effect {
         super(name, owner, amount);
     }
 
-    public void receivesNotification(String event, Manager manager) {
-        if (event.equals("beginningOfRound")) {
-            System.out.printf("\n\n>> %s raised their defense and will block %d more damage!\n", this.getOwner().getColoredName(), this.getAmount());
+    @Override
+    public void receivesNotification(GameEvent event, Manager manager) {
+        if (event == GameEvent.BEGINNING_OF_ROUND) {
+            manager.getView().displayEffectMessage(
+                String.format("\n\n>> %s raised their defense and will block %d more damage!", this.getOwner().getColoredName(), this.getAmount())
+            );
         }
     }
 }
