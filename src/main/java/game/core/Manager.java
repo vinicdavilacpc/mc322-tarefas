@@ -31,6 +31,10 @@ public class Manager {
         initializeGameEntities();
     }
 
+    public GameConsoleView getView() {
+        return this.view;
+    }
+
     private void initializeGameEntities() {
         // Entidades (Jogador e Inimigo)
         this.hero = new Hero("Charmander", 20, 5, 0, Colors.ORANGE_BOLD);
@@ -55,9 +59,26 @@ public class Manager {
         ShieldCard bulkUp = new ShieldCard("Bulk Up", "Grants 9 points of shield", 5, 9, Colors.LILAC_BOLD);
 
         // Cartas de efeito
-        EffectCard poisonJab = new EffectCard("Poison Jab", "Triggers poison and causes 3 points of damage", 3, "Poison", 3, Colors.GRAY_BOLD);
-        EffectCard lightBall = new EffectCard("Light Ball", "Increases 2 points of damage", 5, "Strength", 2, Colors.YELLOW3_BOLD);
-        EffectCard obstruct = new EffectCard("Obstruct", "Increases 2 points of shield", 5, "Dexterity", 2, Colors.CORAL_BOLD);
+        EffectCard poisonJab = new EffectCard("Poison Jab", "Triggers poison and causes 3 points of damage", 3, 
+            (heroAction, targetAction, mgr) -> {
+                Effect poison = new PoisonEffect("Poison", targetAction, 3);
+                targetAction.applyEffect(poison);
+                mgr.subscribe(poison);
+            }, Colors.GRAY_BOLD);
+
+        EffectCard lightBall = new EffectCard("Light Ball", "Increases 2 points of damage", 5, 
+            (heroAction, targetAction, mgr) -> {
+                Effect strength = new StrengthEffect("Strength", heroAction, 2);
+                heroAction.applyEffect(strength);
+                mgr.subscribe(strength);
+            }, Colors.YELLOW3_BOLD);
+
+        EffectCard obstruct = new EffectCard("Obstruct", "Increases 2 points of shield", 5, 
+            (heroAction, targetAction, mgr) -> {
+                Effect dexterity = new DexterityEffect("Dexterity", heroAction, 2);
+                heroAction.applyEffect(dexterity);
+                mgr.subscribe(dexterity);
+            }, Colors.CORAL_BOLD);
 
         // Pilhas de Cartas
         Stack<Card> cards = new Stack<>();
