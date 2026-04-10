@@ -31,9 +31,6 @@ public class Manager {
         initializeGameEntities();
     }
 
-    /**
-     * Extraímos a inicialização para um método privado para manter o construtor limpo.
-     */
     private void initializeGameEntities() {
         // Entidades (Jogador e Inimigo)
         this.hero = new Hero("Charmander", 20, 5, 0, Colors.ORANGE_BOLD);
@@ -95,9 +92,6 @@ public class Manager {
         subscribers.remove(sub);
     }
 
-    /**
-     * Dispara uma notificação tipada usando o Enum GameEvent em vez de Strings soltas.
-     */
     public void launchesNotification(GameEvent event) {
         ArrayList<Subscriber> copy = new ArrayList<>(subscribers);
         for (Subscriber sub : copy) {
