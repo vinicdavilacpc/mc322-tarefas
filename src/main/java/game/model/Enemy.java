@@ -1,11 +1,12 @@
 package game.model;
+
 import game.core.Manager;
 import game.effect.StrengthEffect;
+import game.view.GameConsoleView;
 
 /**
  * Representa o adversário controlado pelo sistema.
- * Contém a lógica de tomada de decisão do inimigo durante o combate,
- * alternando entre atacar, defender e se fortalecer.
+ * Contém a lógica de tomada de decisão do inimigo durante o combate.
  */
 public class Enemy extends Entity {
     private int damage;
@@ -19,73 +20,40 @@ public class Enemy extends Entity {
         this.strength = strength;
     }
 
-    public int getDamage() {
-        return damage;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public int getStrength() {
-        return strength;
-    }
+    public int getDamage() { return damage; }
+    public int getDefense() { return defense; }
+    public int getStrength() { return strength; }
 
     public void attack(Hero hero, int damage) {
         hero.takeDamage(damage);
     }
 
-    /**
-     * Executa a ação do inimigo no turno atual com base em um padrão fixo de comportamento.
-     * O padrão alterna ciclicamente entre: (1) Atacar, (2) Defender e (3) Aumentar a Força.
-     *
-     * @param hero O herói que é o alvo dos ataques do inimigo.
-     * @param turn O indicador numérico de qual ação o inimigo deve tomar neste turno.
-     * @param manager O gerenciador da partida para registrar novos efeitos.
-     * @return O valor do próximo turno (1, 2 ou 3) para dar continuidade ao padrão de ataque.
-     */
-    public int enemyTurn(Hero hero, int turn, Manager manager) {
-        System.out.println("\n===========================================");
-        System.out.printf("It's the opponent's turn! %s is choosing their move.\n", this.getColoredName());
+    public int enemyTurn(Hero hero, int turn, Manager manager, GameConsoleView view) {
+        view.displayEnemyAction("\n===========================================");
+        view.displayEnemyAction(String.format("It's the opponent's turn! %s is choosing their move.", this.getColoredName()));
 
         if (turn == 1) {
-            System.out.printf("%s attacks for %d damage!\n", this.getColoredName(), this.getDamage());
+            view.displayEnemyAction(String.format("%s attacks for %d damage!", this.getColoredName(), this.getDamage()));
             this.attack(hero, this.getDamage());
-            System.out.printf("%s's health is now %d.\n", hero.getColoredName(), hero.getHealth());
-            System.out.println("===========================================\n");
+            view.displayEnemyAction(String.format("%s's health is now %d.", hero.getColoredName(), hero.getHealth()));
             turn = 2;
+            
         } else if (turn == 2) {
-            System.out.printf("%s used the shield!\n", this.getColoredName());
-            gainShield(this.getDefense());
-            System.out.printf("%s's shield is now %d.\n", this.getColoredName(), this.getDefense());
-            System.out.println("===========================================\n");
+            view.displayEnemyAction(String.format("%s used the shield!", this.getColoredName()));
+            this.gainShield(this.getDefense());
+            view.displayEnemyAction(String.format("%s's shield is now %d.", this.getColoredName(), this.getDefense()));
             turn = 3;
+            
         } else if (turn == 3) {
-            System.out.printf("%s raised their damage!\n", this.getColoredName());
+            view.displayEnemyAction(String.format("%s raised their damage!", this.getColoredName()));
             StrengthEffect appliedEffect = new StrengthEffect("Strength", hero, this.getStrength());
             this.applyEffect(appliedEffect);
             manager.subscribe(appliedEffect);
-            System.out.printf("%s's attack is now %d.\n", this.getColoredName(), this.getStrength());
-            System.out.println("===========================================\n");
+            view.displayEnemyAction(String.format("%s's attack is now %d.", this.getColoredName(), this.getStrength()));
             turn = 1;
         }
 
+        view.displayEnemyAction("===========================================\n");
         return turn;
-    }
-
-    /**
-     * Anuncia a intenção (próximo movimento) do inimigo para que o jogador
-     * possa planejar sua estratégia.
-     *
-     * @param turn O indicador numérico da ação que o inimigo realizará.
-     */
-    public void intent(int turn) {
-        if (turn == 1) {
-            System.out.printf("%s is powering up! (Damage: %s)\n", this.getColoredName(), this.getDamage());
-        } else if (turn == 2) {
-            System.out.printf("%s is raising their defense! (Shield: %s)\n", this.getColoredName(), this.getDefense());
-        } else if (turn == 3) {
-            System.out.printf("%s is getting stronger (Damage increase: %s)\n", this.getColoredName(), this.getStrength());
-        }
     }
 }

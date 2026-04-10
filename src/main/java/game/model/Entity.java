@@ -1,18 +1,23 @@
 package game.model;
+
+import game.effect.Effect;
+import game.view.Colors;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representa uma entidade genérica no jogo, servindo de classe base para o Herói e para os Inimigos.
  * Gerencia os atributos vitais, escudos e os efeitos de status ativos.
  */
-abstract public class Entity {
+public abstract class Entity {
     private String name;
     private int health;
     private int shield;
     private int maxHealth;
 
-    /** Lista de efeitos de status (como Veneno, Força, Destreza) atualmente aplicados à entidade. */
-    private ArrayList<Effect> effects;
+    /** Lista de efeitos de status atualmente aplicados à entidade. */
+    private List<Effect> effects;
     private String color;
 
     public Entity(String name, int health, int shield, String color) {
@@ -24,36 +29,13 @@ abstract public class Entity {
         this.color = color;
     }
 
-    public String getName() {
-        return name;
-    }
-    
-    public int getHealth() {
-        return health;
-    }
+    public String getName() { return name; }
+    public int getHealth() { return health; }
+    public int getShield() { return shield; }
+    public int getMaxHealth() { return maxHealth; }
+    public List<Effect> getEffects() { return effects; }
+    public String getColoredName() { return this.color + this.name + Colors.RESET; }
 
-    public int getShield() {
-        return shield;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
-    }
-
-    public ArrayList<Effect> getEffects() {
-        return effects;
-    }
-
-    public String getColoredName() {
-        return this.color + this.name + Colors.RESET;
-    }
-
-    /**
-     * Aplica dano à entidade, priorizando a redução do escudo antes de afetar a saúde.
-     * Se o dano for maior que o escudo atual, a diferença é subtraída da saúde.
-     *
-     * @param damage A quantidade de dano a ser recebida.
-     */
     public void takeDamage(int damage) {
         if (this.shield >= damage) {
             this.shield -= damage;
@@ -78,21 +60,20 @@ abstract public class Entity {
 
     /**
      * Adiciona um novo efeito à entidade. 
-     * Se o efeito já estiver ativo na entidade, em vez de duplicá-lo, a quantidade (amount) 
-     * do efeito existente é incrementada.
-     *
-     * @param newEffect O novo efeito de status a ser aplicado.
+     * Se o efeito já estiver ativo (baseado no nome), apenas incrementa a quantidade existente.
      */
     public void applyEffect(Effect newEffect) {
-        int repeats = 0;
+        boolean isRepeated = false;
         for (Effect effect : effects) {
-            if (effect == newEffect) {
+            // CORREÇÃO: Comparando o conteúdo (nome) em vez da referência de memória (==)
+            if (effect.getName().equals(newEffect.getName())) {
                 effect.addAmount(newEffect.getAmount());
-                repeats = 1;
+                isRepeated = true;
                 break;
             }
         }
-        if (repeats == 0) {
+        
+        if (!isRepeated) {
             effects.add(newEffect);
         }
     }
