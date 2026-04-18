@@ -7,9 +7,9 @@ repositories {
 }
 
 application {
-    mainClass = 'App'
+    mainClass = 'game.core.App'
 }
 
-tasks.named('run') {
+run {
     standardInput = System.in
 }

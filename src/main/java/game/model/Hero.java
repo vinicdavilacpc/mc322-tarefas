@@ -1,3 +1,5 @@
+package game.model;
+
 /**
  * Representa o personagem principal controlado pelo jogador.
  * Gerencia a energia disponível para usar as cartas a cada turno.
@@ -21,5 +23,4 @@ public class Hero extends Entity {
     public void restoreEnergy(int fullEnergy) {
         this.energy = fullEnergy;
     }
-
 }

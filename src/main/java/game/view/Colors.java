@@ -1,3 +1,5 @@
+package game.view;
+
 /**
  * Classe que armazena as cores utilizadas no jogo para exibição no terminal.
  */
@@ -25,5 +27,4 @@ public class Colors {
 
     public static final String BOLD = "\u001B[1m";
     public static final String UNDERLINED = "\u001B[4m";
-
 }
