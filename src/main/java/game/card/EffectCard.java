@@ -1,6 +1,6 @@
 package game.card;
 
-import game.core.Manager;
+import game.core.Battle;
 import game.model.Entity;
 import game.model.Hero;
 
@@ -10,7 +10,7 @@ import game.model.Hero;
  */
 public class EffectCard extends Card {
     public interface EffectAction {
-        void apply(Hero hero, Entity target, Manager manager);
+        void apply(Hero hero, Entity target, Battle battle);
     }
 
     private EffectAction action;
@@ -21,8 +21,8 @@ public class EffectCard extends Card {
     }
 
     @Override
-    public void use(Hero hero, Entity target, Manager manager) {
-        this.action.apply(hero, target, manager);
+    public void use(Hero hero, Entity target, Battle battle) {
+        this.action.apply(hero, target, battle);
         hero.drainEnergy(this.getEnergyCost());
     }
 }

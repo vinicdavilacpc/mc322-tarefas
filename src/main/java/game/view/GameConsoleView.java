@@ -1,12 +1,14 @@
 package game.view;
 
-import game.model.Hero;
-import game.model.Enemy;
+import java.util.List;
+import java.util.Scanner;
+
 import game.card.Card;
 import game.card.CardStack;
 import game.effect.Effect;
-
-import java.util.Scanner;
+import game.map.MapNode;
+import game.model.Enemy;
+import game.model.Hero;
 
 /**
  * Classe responsável por gerenciar toda a entrada e saída via console.
@@ -136,5 +138,37 @@ public class GameConsoleView {
 
     public void displayEffectMessage(String message) {
         System.out.println(message);
+    }
+
+    /**
+     * Exibe os caminhos disponíveis no mapa.
+     */
+    public void displayMapChoices(List<MapNode> choices) {
+        System.out.println("\n===========================================");
+        System.out.println(Colors.BLUE_BOLD + "   MAPA   " + Colors.RESET);
+        System.out.println("===========================================");
+        System.out.println("Escolha sua próxima batalha:");
+        
+        for (int i = 0; i < choices.size(); i++) {
+            MapNode node = choices.get(i);
+            System.out.printf("%d: Ir para %s (Enemy: %s)\n", 
+                i + 1, node.getLocationName(), node.getEnemy().getColoredName());
+        }
+    }
+
+    /**
+     * Lê a escolha do caminho feita pelo jogador.
+     */
+    public int getMapChoice(int maxOption) {
+        int choice = -1;
+        while (choice < 1 || choice > maxOption) {
+            System.out.print(Colors.BOLD + "Your path choice: " + Colors.RESET);
+            choice = scanner.nextInt();
+            System.out.flush();
+            if (choice < 1 || choice > maxOption) {
+                System.out.println("\n>>> Invalid path! Try again.\n");
+            }
+        }
+        return choice;
     }
 }

@@ -6,14 +6,20 @@ package game.model;
  */
 public class Hero extends Entity {
     private int energy;
+    private int maxEnergy;
 
     public Hero(String name, int health, int energy, int shield, String color) {
         super(name, health, shield, color);
         this.energy = energy;
+        this.maxEnergy = energy;
     }
 
     public int getEnergy() {
         return energy;
+    }
+
+    public int getMaxEnergy() {
+        return maxEnergy;
     }
 
     public void drainEnergy(int drainedEnergy) {

@@ -1,6 +1,6 @@
 package game.model;
 
-import game.core.Manager;
+import game.core.Battle;
 import game.effect.StrengthEffect;
 import game.view.GameConsoleView;
 
@@ -28,7 +28,7 @@ public class Enemy extends Entity {
         hero.takeDamage(damage);
     }
 
-    public int enemyTurn(Hero hero, int turn, Manager manager, GameConsoleView view) {
+    public int enemyTurn(Hero hero, int turn, Battle battle, GameConsoleView view) {
         view.displayEnemyAction("\n===========================================");
         view.displayEnemyAction(String.format("It's the opponent's turn! %s is choosing their move.", this.getColoredName()));
 
@@ -48,7 +48,7 @@ public class Enemy extends Entity {
             view.displayEnemyAction(String.format("%s raised their damage!", this.getColoredName()));
             StrengthEffect appliedEffect = new StrengthEffect("Strength", hero, this.getStrength());
             this.applyEffect(appliedEffect);
-            manager.subscribe(appliedEffect);
+            battle.subscribe(appliedEffect);
             view.displayEnemyAction(String.format("%s's attack is now %d.", this.getColoredName(), this.getStrength()));
             turn = 1;
         }

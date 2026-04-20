@@ -1,6 +1,6 @@
 package game.card;
 
-import game.core.Manager;
+import game.core.Battle;
 import game.model.Entity;
 import game.model.Hero;
 
@@ -19,7 +19,7 @@ public class ShieldCard extends Card {
     public int getDefense() { return defense; }
 
     @Override
-    public void use(Hero hero, Entity target, Manager manager) {
+    public void use(Hero hero, Entity target, Battle battle) {
         hero.gainShield(this.defense);
         hero.drainEnergy(this.getEnergyCost());
     }

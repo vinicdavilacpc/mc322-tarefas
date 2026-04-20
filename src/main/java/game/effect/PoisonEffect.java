@@ -1,6 +1,6 @@
 package game.effect;
 
-import game.core.Manager;
+import game.core.Battle;
 import game.event.GameEvent;
 import game.model.Entity;
 
@@ -14,9 +14,9 @@ public class PoisonEffect extends Effect {
     }
 
     @Override
-    public void receivesNotification(GameEvent event, Manager manager) {
+    public void receivesNotification(GameEvent event, Battle battle) {
         if (event == GameEvent.END_OF_ROUND) {
-            manager.getView().displayEffectMessage(
+            battle.getView().displayEffectMessage(
                 String.format(">> %s was poisoned and lost %d health points!", this.getOwner().getColoredName(), getAmount())
             );
             
@@ -25,12 +25,12 @@ public class PoisonEffect extends Effect {
 
             if (this.getAmount() <= 0) {
                 this.getOwner().getEffects().remove(this);
-                manager.unsubscribe(this);
-                manager.getView().displayEffectMessage(
+                battle.unsubscribe(this);
+                battle.getView().displayEffectMessage(
                     String.format("%s is cured from the poison!", this.getOwner().getColoredName())
                 );
             } else {
-                manager.getView().displayEffectMessage(
+                battle.getView().displayEffectMessage(
                     String.format("Poison was reduced to %d.", getAmount())
                 );
             }

@@ -1,6 +1,6 @@
 package game.effect;
 
-import game.core.Manager;
+import game.core.Battle;
 import game.event.GameEvent;
 import game.model.Entity;
 
@@ -13,9 +13,9 @@ public class StrengthEffect extends Effect {
     }
 
     @Override
-    public void receivesNotification(GameEvent event, Manager manager) {
+    public void receivesNotification(GameEvent event, Battle battle) {
         if (event == GameEvent.BEGINNING_OF_ROUND) {
-            manager.getView().displayEffectMessage(
+            battle.getView().displayEffectMessage(
                 String.format("\n\n>> %s raised their attack and will deal %d more damage!", this.getOwner().getColoredName(), this.getAmount())
             );
         }

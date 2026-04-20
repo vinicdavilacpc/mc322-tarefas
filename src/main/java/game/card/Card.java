@@ -1,6 +1,6 @@
 package game.card;
 
-import game.core.Manager;
+import game.core.Battle;
 import game.model.Entity;
 import game.model.Hero;
 import game.view.Colors;
@@ -27,5 +27,5 @@ public abstract class Card {
     public int getEnergyCost() { return energyCost; }
     public String getColoredName() { return this.color + this.name + Colors.RESET; }
     
-    public abstract void use(Hero hero, Entity target, Manager manager);
+    public abstract void use(Hero hero, Entity target, Battle battle);
 }

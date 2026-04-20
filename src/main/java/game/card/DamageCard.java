@@ -1,6 +1,6 @@
 package game.card;
 
-import game.core.Manager;
+import game.core.Battle;
 import game.effect.Effect;
 import game.model.Entity;
 import game.model.Hero;
@@ -20,7 +20,7 @@ public class DamageCard extends Card {
     public int getDamage() { return damage; }
 
     @Override
-    public void use(Hero hero, Entity target, Manager manager) {
+    public void use(Hero hero, Entity target, Battle battle) {
         int totalDamage = this.damage;
 
         for (Effect effect : hero.getEffects()) {
