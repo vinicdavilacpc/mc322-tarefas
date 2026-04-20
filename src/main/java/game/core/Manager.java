@@ -120,7 +120,7 @@ public class Manager {
 
             if (victory) {
                 if (currentNode.isFinalNode()) {
-                    System.out.println(Colors.GREEN_BOLD + "\n*** VICTORY! You defeated the final boss! ***\n" + Colors.RESET);
+                    System.out.println(Colors.GREEN_BOLD + "\nVICTORY! You defeated the final boss!\n" + Colors.RESET);
                     gameRunning = false;
                 } else {
                     view.displayMapChoices(currentNode.getNextNodes());
@@ -128,7 +128,7 @@ public class Manager {
                     currentNode = currentNode.getNextNodes().get(choice - 1);
                 }
             } else {
-                System.out.println(Colors.RED_BOLD + "\n*** DEFEAT! Your journey ends here. ***\n" + Colors.RESET);
+                System.out.println(Colors.RED_BOLD + "\nDEFEAT! Your journey ends here.\n" + Colors.RESET);
                 gameRunning = false;
             }
         }

@@ -145,13 +145,13 @@ public class GameConsoleView {
      */
     public void displayMapChoices(List<MapNode> choices) {
         System.out.println("\n===========================================");
-        System.out.println(Colors.BLUE_BOLD + "   MAPA   " + Colors.RESET);
+        System.out.println(Colors.BLUE_BOLD + "   MAP   " + Colors.RESET);
         System.out.println("===========================================");
-        System.out.println("Escolha sua próxima batalha:");
+        System.out.println("Choose your next opponent:");
         
         for (int i = 0; i < choices.size(); i++) {
             MapNode node = choices.get(i);
-            System.out.printf("%d: Ir para %s (Enemy: %s)\n", 
+            System.out.printf("%d: Go to %s (Enemy: %s)\n", 
                 i + 1, node.getLocationName(), node.getEnemy().getColoredName());
         }
     }
