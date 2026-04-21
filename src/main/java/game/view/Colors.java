@@ -24,6 +24,8 @@ public class Colors {
     public static final String GRAY_BOLD = "\u001B[1;38;5;234m";
     public static final String YELLOW3_BOLD = "\u001B[1;38;5;229m";
     public static final String CORAL_BOLD = "\u001B[1;38;5;203m";
+    public static final String RED3_BOLD = "\u001B[1;38;5;9m";
+    public static final String BROWN2_BOLD = "\u001B[1;38;5;130m";
 
     public static final String BOLD = "\u001B[1m";
     public static final String UNDERLINED = "\u001B[4m";

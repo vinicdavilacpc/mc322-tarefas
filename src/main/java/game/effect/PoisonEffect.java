@@ -20,7 +20,7 @@ public class PoisonEffect extends Effect {
                 String.format(">> %s was poisoned and lost %d health points!", this.getOwner().getColoredName(), getAmount())
             );
             
-            this.getOwner().takeDamage(this.getAmount());
+            this.getOwner().takeDirectDamage(this.getAmount());
             this.addAmount(-1);
 
             if (this.getAmount() <= 0) {

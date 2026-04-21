@@ -1,6 +1,7 @@
 package game.card;
 
 import game.core.Battle;
+import game.effect.Effect;
 import game.model.Entity;
 import game.model.Hero;
 
@@ -20,7 +21,15 @@ public class ShieldCard extends Card {
 
     @Override
     public void use(Hero hero, Entity target, Battle battle) {
-        hero.gainShield(this.defense);
+        int totalDefense = this.defense;
+        
+        for (Effect effect : hero.getEffects()) {
+            if (effect.getName().equals("Dexterity")) {
+                totalDefense += effect.getAmount();
+            }
+        }
+
+        hero.gainShield(totalDefense);
         hero.drainEnergy(this.getEnergyCost());
     }
 }

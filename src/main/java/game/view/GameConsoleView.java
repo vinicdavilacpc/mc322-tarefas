@@ -78,7 +78,7 @@ public class GameConsoleView {
 
     public void showIntent(Enemy enemy, int turn) {
         if (turn == 1) {
-            System.out.printf("%s is powering up! (Damage: %s)\n", enemy.getColoredName(), enemy.getDamage());
+            System.out.printf("%s is powering up! (Damage: %s)\n", enemy.getColoredName(), enemy.getTotalDamage());
         } else if (turn == 2) {
             System.out.printf("%s is raising their defense! (Shield: %s)\n", enemy.getColoredName(), enemy.getDefense());
         } else if (turn == 3) {
@@ -152,7 +152,7 @@ public class GameConsoleView {
         for (int i = 0; i < choices.size(); i++) {
             MapNode node = choices.get(i);
             System.out.printf("%d: Go to %s (Enemy: %s)\n", 
-                i + 1, node.getLocationName(), node.getEnemy().getColoredName());
+                i + 1, node.getColoredLocationName(), node.getEnemy().getColoredName());
         }
     }
 
@@ -170,5 +170,14 @@ public class GameConsoleView {
             }
         }
         return choice;
+    }
+
+    public int getHeroChoice() {
+        System.out.printf(Colors.BOLD + "\nChoose your pokemon! \n\n" + Colors.RESET);
+        System.out.println("1: Charmander");
+        System.out.println("2: Squirtle");
+        System.out.println("3: Bulbasaur");
+        
+        return getPlayerMove(); // Reutiliza a lógica de leitura de inteiros
     }
 }

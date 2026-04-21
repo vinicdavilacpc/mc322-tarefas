@@ -1,6 +1,7 @@
 package game.model;
 
 import game.core.Battle;
+import game.effect.Effect;
 import game.effect.StrengthEffect;
 import game.view.GameConsoleView;
 
@@ -24,6 +25,16 @@ public class Enemy extends Entity {
     public int getDefense() { return defense; }
     public int getStrength() { return strength; }
 
+    public int getTotalDamage() {
+        int total = this.damage;
+        for (Effect effect : this.getEffects()) {
+            if (effect.getName().equals("Strength")) {
+                total += effect.getAmount();
+            }
+        }
+        return total;
+    }
+
     public void attack(Hero hero, int damage) {
         hero.takeDamage(damage);
     }
@@ -33,23 +44,26 @@ public class Enemy extends Entity {
         view.displayEnemyAction(String.format("It's the opponent's turn! %s is choosing their move.", this.getColoredName()));
 
         if (turn == 1) {
-            view.displayEnemyAction(String.format("%s attacks for %d damage!", this.getColoredName(), this.getDamage()));
-            this.attack(hero, this.getDamage());
+            int realDamage = this.getTotalDamage();
+            view.displayEnemyAction(String.format("%s attacks for %d damage!", this.getColoredName(), realDamage));
+            this.attack(hero, realDamage);
             view.displayEnemyAction(String.format("%s's health is now %d.", hero.getColoredName(), hero.getHealth()));
             turn = 2;
             
         } else if (turn == 2) {
             view.displayEnemyAction(String.format("%s used the shield!", this.getColoredName()));
             this.gainShield(this.getDefense());
-            view.displayEnemyAction(String.format("%s's shield is now %d.", this.getColoredName(), this.getDefense()));
+            view.displayEnemyAction(String.format("%s's shield is now %d.", this.getColoredName(), this.getShield()));
             turn = 3;
             
         } else if (turn == 3) {
             view.displayEnemyAction(String.format("%s raised their damage!", this.getColoredName()));
-            StrengthEffect appliedEffect = new StrengthEffect("Strength", hero, this.getStrength());
-            this.applyEffect(appliedEffect);
-            battle.subscribe(appliedEffect);
-            view.displayEnemyAction(String.format("%s's attack is now %d.", this.getColoredName(), this.getStrength()));
+            StrengthEffect appliedEffect = new StrengthEffect("Strength", this, this.getStrength());
+            boolean isNew = this.applyEffect(appliedEffect);
+            if (isNew) {
+                battle.subscribe(appliedEffect);
+            }
+            view.displayEnemyAction(String.format("%s's attack is now %d.", this.getColoredName(), this.getTotalDamage()));
             turn = 1;
         }
 

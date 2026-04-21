@@ -46,6 +46,10 @@ public abstract class Entity {
         }
     }
 
+    public void takeDirectDamage(int damage) {
+        this.health -= damage;
+    }
+
     public void gainShield(int shieldValue) {
         this.shield += shieldValue;
     }
@@ -62,19 +66,17 @@ public abstract class Entity {
      * Adiciona um novo efeito à entidade. 
      * Se o efeito já estiver ativo (baseado no nome), apenas incrementa a quantidade existente.
      */
-    public void applyEffect(Effect newEffect) {
-        boolean isRepeated = false;
+    public boolean applyEffect(Effect newEffect) { // Agora retorna boolean!
         for (Effect effect : effects) {
-            // CORREÇÃO: Comparando o conteúdo (nome) em vez da referência de memória (==)
+            // Se o efeito já existe, apenas soma a quantidade
             if (effect.getName().equals(newEffect.getName())) {
                 effect.addAmount(newEffect.getAmount());
-                isRepeated = true;
-                break;
+                return false; // Retorna falso: o efeito apenas acumulou, não é novo.
             }
         }
         
-        if (!isRepeated) {
-            effects.add(newEffect);
-        }
+        // Se o loop terminou e não encontrou nenhum efeito com esse nome:
+        effects.add(newEffect);
+        return true; // Retorna verdadeiro: é um efeito totalmente novo!
     }
 }

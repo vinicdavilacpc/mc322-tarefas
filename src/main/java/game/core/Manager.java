@@ -8,7 +8,6 @@ import game.map.MapNode;
 import game.view.GameConsoleView;
 import game.view.Colors;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 
@@ -32,8 +31,6 @@ public class Manager {
     }
 
     private void initializeHeroAndDeck() {
-        // Heroi
-        this.hero = new Hero("Charmander", 20, 5, 0, Colors.ORANGE_BOLD);
         
         // Cartas de dano
         DamageCard scratch = new DamageCard("Scratch", "Deals 3 points of damage", 1, 3, Colors.BLUE_BOLD);
@@ -57,22 +54,28 @@ public class Manager {
         EffectCard poisonJab = new EffectCard("Poison Jab", "Triggers poison and causes 3 points of damage", 3, 
             (h, t, b) -> {
                 Effect poison = new PoisonEffect("Poison", t, 3);
-                t.applyEffect(poison);
-                b.subscribe(poison);
+                boolean isNew = t.applyEffect(poison);
+                if (isNew) {
+                    b.subscribe(poison);
+                }
             }, Colors.GRAY_BOLD);
 
         EffectCard lightBall = new EffectCard("Light Ball", "Increases 2 points of damage", 5, 
             (h, t, b) -> {
                 Effect strength = new StrengthEffect("Strength", h, 2);
-                h.applyEffect(strength);
-                b.subscribe(strength);
+                boolean isNew = h.applyEffect(strength);
+                if (isNew) {
+                    b.subscribe(strength);
+                }
             }, Colors.YELLOW3_BOLD);
 
         EffectCard obstruct = new EffectCard("Obstruct", "Increases 2 points of shield", 5, 
             (h, t, b) -> {
                 Effect dexterity = new DexterityEffect("Dexterity", h, 2);
-                h.applyEffect(dexterity);
-                b.subscribe(dexterity);
+                boolean isNew = h.applyEffect(dexterity);
+                if (isNew) {
+                    b.subscribe(dexterity);
+                }
             }, Colors.CORAL_BOLD);
 
         // Pilha de Cartas
@@ -91,28 +94,53 @@ public class Manager {
     private void initializeMap() {
         // Inimigos para cada nó
         Enemy pikachu = new Enemy("Pikachu", 20, 0, 5, 3, 2, Colors.YELLOW_BOLD);
-        Enemy squirtle = new Enemy("Squirtle", 25, 0, 4, 5, 1, Colors.BLUE_BOLD);
-        Enemy bulbasaur = new Enemy("Bulbasaur", 25, 0, 3, 4, 3, Colors.GREEN_BOLD);
-        Enemy mewtwo = new Enemy("Mewtwo", 50, 0, 8, 5, 5, Colors.PURPLE_BOLD);
+        Enemy geodude = new Enemy("Geodude", 25, 0, 4, 5, 1, Colors.GRAY_BOLD);
+        Enemy snorlax = new Enemy("Snorlax", 25, 0, 3, 4, 3, Colors.BLUE_BOLD);
+        Enemy clefable = new Enemy("Clefable", 30, 0, 4, 1, 2, Colors.PINK_BOLD);
+        Enemy psyduck = new Enemy("Psyduck", 30, 0, 3, 3, 3, Colors.YELLOW2_BOLD);
+        Enemy lapras = new Enemy("Lapras", 35, 0, 4, 2, 1, Colors.BLUE2_BOLD);
+        Enemy flareon = new Enemy("Flareon", 35, 0, 3, 4, 2, Colors.RED3_BOLD);
+        Enemy mewtwo = new Enemy("Mewtwo", 50, 0, 8, 5, 5, Colors.LILAC_BOLD);
 
         // Nós do Mapa
-        MapNode startNode = new MapNode("Forest Entrance", pikachu);
-        MapNode riverNode = new MapNode("Cerulean River", squirtle);
-        MapNode woodsNode = new MapNode("Deep Woods", bulbasaur);
-        MapNode caveNode = new MapNode("Final Cave (Boss)", mewtwo);
+        MapNode startNode = new MapNode("Forest Entrance", pikachu, Colors.GREEN2_BOLD);
+        MapNode rockNode = new MapNode("Rock Tunnel", geodude, Colors.BROWN_BOLD);
+        MapNode woodsNode = new MapNode("Timeless Woods", snorlax, Colors.CYAN_BOLD);
+        MapNode mountNode = new MapNode("Mount Moon", clefable, Colors.LILAC_BOLD);
+        MapNode safariNode = new MapNode("Safari Zone", psyduck, Colors.ORANGE_BOLD);
+        MapNode iceNode = new MapNode("Icefall Cave", lapras, Colors.CYAN_BOLD);
+        MapNode volcanicNode = new MapNode("Volcanic Cave", flareon, Colors.BROWN2_BOLD);
+        MapNode finalNode = new MapNode("Final Cave (Boss)", mewtwo, Colors.PURPLE_BOLD);
 
         // Configuração da Árvore
-        startNode.addNextNode(riverNode);
+        startNode.addNextNode(rockNode);
         startNode.addNextNode(woodsNode);
-        riverNode.addNextNode(caveNode);
-        woodsNode.addNextNode(caveNode);
+        rockNode.addNextNode(mountNode);
+        rockNode.addNextNode(volcanicNode);
+        woodsNode.addNextNode(safariNode);
+        woodsNode.addNextNode(iceNode);
+        mountNode.addNextNode(finalNode);
+        safariNode.addNextNode(finalNode);
+        iceNode.addNextNode(finalNode);
+        volcanicNode.addNextNode(finalNode);
 
         this.rootNode = startNode;
     }
 
+
     public void startGame() throws InterruptedException {
         MapNode currentNode = rootNode;
         boolean gameRunning = true;
+
+        int choice = view.getHeroChoice();
+
+        if (choice == 1) {
+            this.hero = new Hero("Charmander", 20, 5, 0, Colors.ORANGE_BOLD);
+        } else if (choice == 2) {
+            this.hero = new Hero("Squirtle", 20, 5, 0, Colors.BLUE_BOLD);
+        } else if (choice == 3) {
+            this.hero = new Hero("Bulbasaur", 20, 5, 0, Colors.GREEN_BOLD);
+        }
 
         while (gameRunning && hero.isAlive()) {
             Battle battle = new Battle(hero, currentNode.getEnemy(), deck, view);
@@ -124,8 +152,8 @@ public class Manager {
                     gameRunning = false;
                 } else {
                     view.displayMapChoices(currentNode.getNextNodes());
-                    int choice = view.getMapChoice(currentNode.getNextNodes().size());
-                    currentNode = currentNode.getNextNodes().get(choice - 1);
+                    int choice_1 = view.getMapChoice(currentNode.getNextNodes().size());
+                    currentNode = currentNode.getNextNodes().get(choice_1 - 1);
                 }
             } else {
                 System.out.println(Colors.RED_BOLD + "\nDEFEAT! Your journey ends here.\n" + Colors.RESET);

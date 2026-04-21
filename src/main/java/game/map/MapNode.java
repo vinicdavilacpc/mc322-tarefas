@@ -1,5 +1,7 @@
 package game.map;
 
+import game.view.Colors;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +14,13 @@ import game.model.Enemy;
 public class MapNode {
     private String locationName;
     private Enemy enemy;
+    private String color;
     private List<MapNode> nextNodes;
 
-    public MapNode(String locationName, Enemy enemy) {
+    public MapNode(String locationName, Enemy enemy, String color) {
         this.locationName = locationName;
         this.enemy = enemy;
+        this.color = color;
         this.nextNodes = new ArrayList<>();
     }
 
@@ -30,6 +34,10 @@ public class MapNode {
 
     public Enemy getEnemy() { 
         return enemy; 
+    }
+
+    public String getColoredLocationName() {
+        return this.color + this.locationName + Colors.RESET;
     }
 
     public List<MapNode> getNextNodes() { 
