@@ -46,6 +46,7 @@ public class Battle {
         int fullEnergy = hero.getMaxEnergy();
 
         hero.getEffects().clear();
+        deck.resetBattleDeck();
         
         view.displayWildEncounter(enemy);
 

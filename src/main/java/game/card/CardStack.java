@@ -45,4 +45,14 @@ public class CardStack {
         this.discardStack.addAll(this.playerHand);
         this.playerHand.clear();
     }
+
+    public void resetBattleDeck() {
+        this.buyStack.addAll(this.discardStack);
+        this.buyStack.addAll(this.playerHand);
+        
+        this.discardStack.clear();
+        this.playerHand.clear();
+        
+        Collections.shuffle(this.buyStack);
+    }
 }

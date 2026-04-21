@@ -44,10 +44,18 @@ public abstract class Entity {
             this.shield = 0;
             this.health -= remainingDamage;
         }
+
+        if (this.health < 0) {
+            this.health = 0; 
+        }
     }
 
     public void takeDirectDamage(int damage) {
         this.health -= damage;
+
+        if (this.health < 0) {
+            this.health = 0; 
+        }
     }
 
     public void gainShield(int shieldValue) {
