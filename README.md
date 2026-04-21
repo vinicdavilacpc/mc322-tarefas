@@ -44,7 +44,18 @@ Isso iniciará o programa e o sistema de combate será executado no terminal.
 
 # Como Jogar
 
-Após compilar, o jogo se inicia mostrando uma tela com uma mensagem de aparição do adversário e as informações do jogador e do adversário, como vida, energia e escudo (Obs.: o Inimigo não possui energia e seus ataques são premeditados a cada rodada):
+Após compilar, o jogo se inicia mostrando uma tela com três opções de escolha para o personagem que te acompanhará em cada batalha.
+
+```
+Choose your pokemon! 
+
+1: Charmander
+2: Squirtle
+3: Bulbasaur
+Your choice:
+```
+
+Depois de escolher, uma tela com uma mensagem de aparição do adversário e as informações do jogador e do adversário, como vida, energia e escudo são mostradas (Obs.: o Inimigo não possui energia e seus ataques são premeditados a cada rodada):
 
 ```
 A wild Pikachu has appeared!
@@ -185,6 +196,45 @@ Active effects:
 Strength (2) Poison (3) 
 ```
 Obs.: Ao lado de cada buff fica o quanto ele melhora o dano, Força é permanente até o fim da batalha. Ao lado de cada debuff fica o quanto de dano ele está dando, Veneno dá x pontos de dano e a cada rodada ele dá x - 1 pontos de dano, até que x - n seja igual a 0 (onde n é o número de rodadas).
+
+# Progressão do mapa
+
+Ao vencer uma batalha, o personagem escolherá entre duas batalhas com dois inimigos diferentes, até ele chegar na batalha final e poder vencer o jogo. Se ele perder durante qualquer uma das batalhas, ele é derrotado e não avança mais no mapa.
+
+No fim de uma batalha vencida, o personagem pode ver o mapa e fazer sua escolha: 
+
+```
+===========================================
+   MAP   
+===========================================
+Choose your next opponent:
+1: Go to Rock Tunnel (Enemy: Geodude)
+2: Go to Timeless Woods (Enemy: Snorlax)
+Your path choice:
+```
+
+Todos os jogos tem um mapa definido nesse formato:
+
+```
+                            [Pikachu]
+                             (Início)
+                            /        \
+                           /          \
+                          /            \
+                 [Geodude]              [Snorlax]
+                 /       \              /       \
+                /         \            /         \
+               /           \          /           \
+         [Clefable]    [Flareon]  [Psyduck]     [Lapras]
+               \           /          \           /
+                \         /            \         /
+                 \       /              \       /
+                  +-----+----------------+-----+
+                                 |
+                                 V
+                              [Mewtwo]
+                            (Chefe Final)
+```
 
 # Tecnologias Utilizadas
 
