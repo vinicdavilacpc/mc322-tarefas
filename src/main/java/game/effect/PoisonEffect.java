@@ -9,10 +9,24 @@ import game.model.Entity;
  * finalizando após o acúmulo zerar.
  */
 public class PoisonEffect extends Effect {
+    /**
+     * Construtor do Efeito de Veneno.
+     *
+     * @param name   Nome do efeito.
+     * @param owner  A entidade envenenada.
+     * @param amount Dano de veneno acumulado e turnos restantes de duração (se 1 dano / turno).
+     */
     public PoisonEffect(String name, Entity owner, int amount) {
         super(name, owner, amount);
     }
 
+    /**
+     * Reage ao encerramento de rodada. Aplica dano direto pelo valor contido no efeito,
+     * diminui a quantidade em 1. Se a quantidade chegar a zero, remove e cancela a inscrição do efeito.
+     *
+     * @param event  O evento recebido.
+     * @param battle A instância de batalha que fornece contexto e exibe mensagens na view.
+     */
     @Override
     public void receivesNotification(GameEvent event, Battle battle) {
         if (event == GameEvent.END_OF_ROUND) {

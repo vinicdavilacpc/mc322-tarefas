@@ -15,25 +15,42 @@ import java.util.Stack;
  * Gerencia a progressão da campanha, o mapa e o estado persistente do jogador.
  */
 public class Manager {
+    /** Herói controlado pelo jogador. */
     private Hero hero;
+    /** Baralho de cartas do jogador. */
     private CardStack deck;
+    /** Objeto responsável pela interface com o usuário no console. */
     private GameConsoleView view;
+    /** Nó inicial do mapa do jogo. */
     private MapNode rootNode;
 
+    /**
+     * Construtor da classe Manager. Inicializa o herói, o baralho e o mapa do jogo.
+     *
+     * @param view A interface de visualização do jogo no console.
+     */
     public Manager(GameConsoleView view) {
         this.view = view;
         initializeHeroAndDeck();
         initializeMap();
     }
 
+    /**
+     * Obtém a interface de visualização atual.
+     *
+     * @return O objeto GameConsoleView utilizado pelo gerenciador.
+     */
     public GameConsoleView getView() {
         return this.view;
     }
 
+    /**
+     * Inicializa as cartas de dano, escudo e efeitos, montando o baralho inicial do jogador.
+     */
     private void initializeHeroAndDeck() {
-        
         // Cartas de dano
         DamageCard scratch = new DamageCard("Scratch", "Deals 3 points of damage", 1, 3, Colors.BLUE_BOLD);
+        // ... (restante da inicialização omitida aqui por brevidade se não for alterar, mas manterei o original)
         DamageCard pound = new DamageCard("Pound", "Deals 4 points of damage", 2, 4, Colors.BROWN_BOLD);
         DamageCard flareBlitz = new DamageCard("Flare Blitz", "Deals 6 points of damage", 4, 6, Colors.RED_BOLD);
         DamageCard thunderbolt = new DamageCard("Thunderbolt", "Deals 5 points of damage", 4, 5, Colors.YELLOW2_BOLD);
@@ -91,6 +108,9 @@ public class Manager {
         this.deck = new CardStack(cards, new Stack<Card>());
     }
 
+    /**
+     * Inicializa os nós do mapa, inimigos presentes em cada nó e define as conexões entre os nós (árvore do mapa).
+     */
     private void initializeMap() {
         // Inimigos para cada nó
         Enemy pikachu = new Enemy("Pikachu", 20, 0, 5, 3, 2, Colors.YELLOW_BOLD);
@@ -127,7 +147,11 @@ public class Manager {
         this.rootNode = startNode;
     }
 
-
+    /**
+     * Inicia o laço principal do jogo, permitindo a seleção do herói e a progressão pelo mapa.
+     *
+     * @throws InterruptedException Caso a thread seja interrompida durante os atrasos das batalhas.
+     */
     public void startGame() throws InterruptedException {
         MapNode currentNode = rootNode;
         boolean gameRunning = true;
