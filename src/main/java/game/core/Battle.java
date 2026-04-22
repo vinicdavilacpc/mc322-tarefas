@@ -11,13 +11,30 @@ import game.model.Enemy;
 import game.model.Hero;
 import game.view.GameConsoleView;
 
+/**
+ * Representa e gerencia uma batalha entre um Herói e um Inimigo.
+ * Implementa um sistema de notificações baseado no padrão Observer para tratar eventos da rodada.
+ */
 public class Battle {
+    /** O herói participando da batalha. */
     private Hero hero;
+    /** O inimigo participando da batalha. */
     private Enemy enemy;
+    /** Baralho de cartas utilizado pelo herói durante o combate. */
     private CardStack deck;
+    /** Objeto responsável pela visualização da batalha no console. */
     private GameConsoleView view;
+    /** Lista de inscritos (Subscribers) para os eventos da batalha (ex: efeitos de status). */
     private List<Subscriber> subscribers;
 
+    /**
+     * Construtor da classe Battle.
+     *
+     * @param hero  Herói do jogador.
+     * @param enemy Inimigo a ser enfrentado.
+     * @param deck  Baralho do herói.
+     * @param view  Visualizador do console.
+     */
     public Battle(Hero hero, Enemy enemy, CardStack deck, GameConsoleView view) {
         this.hero = hero;
         this.enemy = enemy;
@@ -26,10 +43,32 @@ public class Battle {
         this.subscribers = new ArrayList<>();
     }
 
+    /**
+     * Obtém a view responsável por exibir a batalha.
+     *
+     * @return O objeto GameConsoleView.
+     */
     public GameConsoleView getView() { return this.view; }
+
+    /**
+     * Inscreve um novo Subscriber para receber notificações de eventos da batalha.
+     *
+     * @param sub Objeto que implementa a interface Subscriber.
+     */
     public void subscribe(Subscriber sub) { subscribers.add(sub); }
+
+    /**
+     * Remove um Subscriber da lista de notificações.
+     *
+     * @param sub Objeto que implementa a interface Subscriber a ser removido.
+     */
     public void unsubscribe(Subscriber sub) { subscribers.remove(sub); }
 
+    /**
+     * Notifica todos os Subscribers inscritos sobre um evento específico da batalha.
+     *
+     * @param event O evento do jogo que acabou de ocorrer (ex: BEGINNING_OF_ROUND, END_OF_ROUND).
+     */
     public void launchesNotification(GameEvent event) {
         List<Subscriber> copy = new ArrayList<>(subscribers);
         for (Subscriber sub : copy) {
@@ -38,8 +77,9 @@ public class Battle {
     }
 
     /**
-     * Executa o combate até o fim.
-     * @return true se o herói vencer, false se for derrotado.
+     * Executa o combate até o fim, alternando entre turnos do jogador e do inimigo.
+     * * @return true se o herói vencer, false se for derrotado.
+     * @throws InterruptedException Caso a thread seja interrompida durante os atrasos (Thread.sleep).
      */
     public boolean start() throws InterruptedException {
         int turn = 1;

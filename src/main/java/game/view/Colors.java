@@ -1,9 +1,11 @@
 package game.view;
 
 /**
- * Classe que armazena as cores utilizadas no jogo para exibição no terminal.
+ * Classe utilitária que armazena os códigos ANSI de cores utilizadas no jogo 
+ * para formatação e exibição aprimorada no terminal.
  */
 public class Colors {
+    /** Restaura a cor do terminal para o valor padrão. */
     public static final String RESET = "\u001B[0m";
     public static final String ORANGE_BOLD = "\u001B[1;38;5;208m";
     public static final String YELLOW_BOLD = "\u001B[1;33m";
@@ -27,6 +29,8 @@ public class Colors {
     public static final String RED3_BOLD = "\u001B[1;38;5;9m";
     public static final String BROWN2_BOLD = "\u001B[1;38;5;130m";
 
+    /** Configura a fonte para texto em negrito (Bold). */
     public static final String BOLD = "\u001B[1m";
+    /** Configura a fonte para texto Sublinhado (Underline). */
     public static final String UNDERLINED = "\u001B[4m";
 }
