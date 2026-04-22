@@ -242,6 +242,7 @@ Todos os jogos tem um mapa definido nesse formato:
 - Gradle
 - Visual Studio Code
 - Git e GitHub
+- JUnit
 
 # Autores
 
