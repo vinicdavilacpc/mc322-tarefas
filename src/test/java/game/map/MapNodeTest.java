@@ -10,8 +10,8 @@ public class MapNodeTest {
     public void testNavegacaoEPropriedadesDoMapa() {
         Enemy enemy = new Enemy("Pikachu", 20, 0, 5, 3, 2, "");
         
-        MapNode nodeA = new MapNode("Room A", enemy, "");
-        MapNode nodeB = new MapNode("Room B", enemy, "");
+        MapNode nodeA = new MapNode("Room A", enemy, "", 0, "", 0);
+        MapNode nodeB = new MapNode("Room B", enemy, "", 0, "", 0);
         
         nodeA.addNextNode(nodeB);
         

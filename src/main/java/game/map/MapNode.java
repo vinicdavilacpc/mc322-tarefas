@@ -20,6 +20,10 @@ public class MapNode {
     /** Lista de nós subsequentes aos quais o jogador pode acessar a partir deste. */
     private List<MapNode> nextNodes;
 
+    private int pokeCoinReward;
+    private String rewardType;
+    private int rewardAmount;
+
     /**
      * Construtor para o nó do mapa.
      *
@@ -27,11 +31,14 @@ public class MapNode {
      * @param enemy        O monstro locado nessa região.
      * @param color        A cor base do nó.
      */
-    public MapNode(String locationName, Enemy enemy, String color) {
+    public MapNode(String locationName, Enemy enemy, String color, int pokeCoinReward, String rewardType, int rewardAmount) {
         this.locationName = locationName;
         this.enemy = enemy;
         this.color = color;
         this.nextNodes = new ArrayList<>();
+        this.pokeCoinReward = pokeCoinReward;
+        this.rewardType = rewardType;
+        this.rewardAmount = rewardAmount;
     }
 
     /**
@@ -61,6 +68,18 @@ public class MapNode {
     /** @return Lista de todos os próximos caminhos a partir deste ponto. */
     public List<MapNode> getNextNodes() { 
         return nextNodes; 
+    }
+
+    public int getPokeCoinReward() {
+        return pokeCoinReward;
+    }
+
+    public String getRewardType() {
+        return rewardType;
+    }
+
+    public int getRewardAmount() {
+        return rewardAmount;
     }
 
     /**

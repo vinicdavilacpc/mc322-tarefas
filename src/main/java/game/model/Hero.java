@@ -9,6 +9,7 @@ public class Hero extends Entity {
     private int energy;
     /** Quantidade máxima de energia da entidade. */
     private int maxEnergy;
+    private int pokeCoin;
 
     /**
      * Construtor da classe Hero.
@@ -19,10 +20,11 @@ public class Hero extends Entity {
      * @param shield O escudo inicial.
      * @param color  A cor utilizada no terminal.
      */
-    public Hero(String name, int health, int energy, int shield, String color) {
+    public Hero(String name, int health, int energy, int shield, String color, int pokeCoin) {
         super(name, health, shield, color);
         this.energy = energy;
         this.maxEnergy = energy;
+        this.pokeCoin = pokeCoin;
     }
 
     /** @return A quantidade de energia atual. */
@@ -35,6 +37,18 @@ public class Hero extends Entity {
         return maxEnergy;
     }
 
+    public int getPokeCoin() {
+        return pokeCoin;
+    }
+
+    public void addPokeCoin(int amount) {
+        this.pokeCoin += pokeCoin;
+    } 
+
+    public void subtractPokeCoin(int amount) {
+        this.pokeCoin -= pokeCoin;
+    }
+
     /**
      * Drena uma quantidade de energia do herói após o uso de uma carta.
      *
@@ -42,6 +56,10 @@ public class Hero extends Entity {
      */
     public void drainEnergy(int drainedEnergy) {
         this.energy -= drainedEnergy;
+    }
+
+    public void increaseMaxEnergy(int amount) {
+        this.maxEnergy += amount;
     }
 
     /**

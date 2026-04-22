@@ -113,6 +113,11 @@ public abstract class Entity {
         return this.health > 0;
     }
 
+    public void increaseMaxHealth(int amount) {
+        this.maxHealth += amount;
+        this.health += amount;
+    }
+
     /**
      * Adiciona um novo efeito à entidade. 
      * Se o efeito já estiver ativo (baseado no nome), apenas incrementa a quantidade existente.

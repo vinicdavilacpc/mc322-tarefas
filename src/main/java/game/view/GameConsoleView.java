@@ -222,9 +222,24 @@ public class GameConsoleView {
         
         for (int i = 0; i < choices.size(); i++) {
             MapNode node = choices.get(i);
-            System.out.printf("%d: Go to %s (Enemy: %s)\n", 
-                i + 1, node.getColoredLocationName(), node.getEnemy().getColoredName());
+            Enemy e = node.getEnemy();
+
+            String buffText = node.getRewardType().equals("HEALTH") ? 
+                "+" + node.getRewardAmount() + " Max Health" : 
+                "+" + node.getRewardAmount() + " Max Energy";
+            
+            System.out.printf(Colors.BOLD + "%d: [%s]" + Colors.RESET + " -> " + Colors.BOLD + "Enemy: " + Colors.RESET + 
+                    "%s (HP: %d) | " + Colors.BOLD + "Reward: " + Colors.RESET + "%d Poke Coins & %s%n",
+                    (i + 1), node.getColoredLocationName(), e.getColoredName(), e.getHealth(), node.getPokeCoinReward(), buffText);
+            
         }
+    }
+
+    public void displayRewardReceived(int gold, String buffReward, int buffAmount) {
+        String buffText = buffReward.equals("HEALTH") ? 
+            "+" + buffAmount + " Max Health" : 
+            "+" + buffAmount + " Max Energy";
+        System.out.println(Colors.GREEN_BOLD + "\n>>> Rewards claimed: " + gold + " Poke Coins and " + buffText + "!" + Colors.RESET);
     }
 
     /**
@@ -253,9 +268,9 @@ public class GameConsoleView {
      */
     public int getHeroChoice() {
         System.out.printf(Colors.BOLD + "\nChoose your pokemon! \n\n" + Colors.RESET);
-        System.out.println("1: Charmander");
-        System.out.println("2: Squirtle");
-        System.out.println("3: Bulbasaur");
+        System.out.println("1: " + Colors.ORANGE_BOLD + "Charmander" + Colors.RESET);
+        System.out.println("2: " + Colors.BLUE_BOLD + "Squirtle" + Colors.RESET);
+        System.out.println("3: " + Colors.GREEN_BOLD + "Bulbasaur" + Colors.RESET);
         
         return getPlayerMove();
     }

@@ -25,7 +25,7 @@ public class EnemyTest {
     @Test
     public void testAttackOnHero() {
         Enemy enemy = new Enemy("Pikachu", 20, 0, 5, 3, 2, "");
-        Hero hero = new Hero("Charmander", 20, 5, 0, "");
+        Hero hero = new Hero("Charmander", 20, 5, 0, "", 0);
         
         enemy.attack(hero, 7); // Simulando o dano que o enemyTurn passa
         
@@ -41,7 +41,7 @@ public class EnemyTest {
     @Test
     public void testTurn1Attack() {
         Enemy enemy = new Enemy("Pikachu", 20, 0, 5, 3, 2, "");
-        Hero hero = new Hero("Charmander", 20, 5, 0, "");
+        Hero hero = new Hero("Charmander", 20, 5, 0, "", 0);
         Battle battle = createBattle(hero, enemy);
 
         int nextTurn = enemy.enemyTurn(hero, 1, battle, battle.getView());
@@ -53,7 +53,7 @@ public class EnemyTest {
     @Test
     public void testTurn2Defense() {
         Enemy enemy = new Enemy("Pikachu", 20, 0, 5, 3, 2, "");
-        Hero hero = new Hero("Charmander", 20, 5, 0, "");
+        Hero hero = new Hero("Charmander", 20, 5, 0, "", 0);
         Battle battle = createBattle(hero, enemy);
 
         int nextTurn = enemy.enemyTurn(hero, 2, battle, battle.getView());
@@ -65,7 +65,7 @@ public class EnemyTest {
     @Test
     public void testTurn3Strength() {
         Enemy enemy = new Enemy("Pikachu", 20, 0, 5, 3, 2, "");
-        Hero hero = new Hero("Charmander", 20, 5, 0, "");
+        Hero hero = new Hero("Charmander", 20, 5, 0, "", 0);
         Battle battle = createBattle(hero, enemy);
 
         int nextTurn = enemy.enemyTurn(hero, 3, battle, battle.getView());

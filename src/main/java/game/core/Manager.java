@@ -115,7 +115,7 @@ public class Manager {
         // Inimigos para cada nó
         Enemy pikachu = new Enemy("Pikachu", 20, 0, 5, 3, 2, Colors.YELLOW_BOLD);
         Enemy geodude = new Enemy("Geodude", 25, 0, 4, 5, 1, Colors.GRAY_BOLD);
-        Enemy snorlax = new Enemy("Snorlax", 25, 0, 3, 4, 3, Colors.BLUE_BOLD);
+        Enemy snorlax = new Enemy("Snorlax", 30, 0, 3, 4, 3, Colors.BLUE_BOLD);
         Enemy clefable = new Enemy("Clefable", 30, 0, 4, 1, 2, Colors.PINK_BOLD);
         Enemy psyduck = new Enemy("Psyduck", 30, 0, 3, 3, 3, Colors.YELLOW2_BOLD);
         Enemy lapras = new Enemy("Lapras", 35, 0, 4, 2, 1, Colors.BLUE2_BOLD);
@@ -123,14 +123,14 @@ public class Manager {
         Enemy mewtwo = new Enemy("Mewtwo", 50, 0, 8, 5, 5, Colors.LILAC_BOLD);
 
         // Nós do Mapa
-        MapNode startNode = new MapNode("Forest Entrance", pikachu, Colors.GREEN2_BOLD);
-        MapNode rockNode = new MapNode("Rock Tunnel", geodude, Colors.BROWN_BOLD);
-        MapNode woodsNode = new MapNode("Timeless Woods", snorlax, Colors.CYAN_BOLD);
-        MapNode mountNode = new MapNode("Mount Moon", clefable, Colors.LILAC_BOLD);
-        MapNode safariNode = new MapNode("Safari Zone", psyduck, Colors.ORANGE_BOLD);
-        MapNode iceNode = new MapNode("Icefall Cave", lapras, Colors.CYAN_BOLD);
-        MapNode volcanicNode = new MapNode("Volcanic Cave", flareon, Colors.BROWN2_BOLD);
-        MapNode finalNode = new MapNode("Final Cave (Boss)", mewtwo, Colors.PURPLE_BOLD);
+        MapNode startNode = new MapNode("Forest Entrance", pikachu, Colors.GREEN2_BOLD, 10, "ENERGY", 1);
+        MapNode rockNode = new MapNode("Rock Tunnel", geodude, Colors.BROWN_BOLD, 15, "HEALTH", 3);
+        MapNode woodsNode = new MapNode("Timeless Woods", snorlax, Colors.CYAN_BOLD, 20, "HEALTH", 3);
+        MapNode mountNode = new MapNode("Mount Moon", clefable, Colors.LILAC_BOLD, 25, "ENERGY", 1);
+        MapNode safariNode = new MapNode("Safari Zone", psyduck, Colors.ORANGE_BOLD, 25, "ENERGY", 1);
+        MapNode iceNode = new MapNode("Icefall Cave", lapras, Colors.CYAN_BOLD, 30, "HEALTH", 2);
+        MapNode volcanicNode = new MapNode("Volcanic Cave", flareon, Colors.BROWN2_BOLD, 30, "HEALTH", 2);
+        MapNode finalNode = new MapNode("Final Cave (Boss)", mewtwo, Colors.PURPLE_BOLD, 40, "HEALTH", 20);
 
         // Configuração da Árvore
         startNode.addNextNode(rockNode);
@@ -159,11 +159,11 @@ public class Manager {
         int choice = view.getHeroChoice();
 
         if (choice == 1) {
-            this.hero = new Hero("Charmander", 20, 5, 0, Colors.ORANGE_BOLD);
+            this.hero = new Hero("Charmander", 20, 5, 0, Colors.ORANGE_BOLD, 0);
         } else if (choice == 2) {
-            this.hero = new Hero("Squirtle", 20, 5, 0, Colors.BLUE_BOLD);
+            this.hero = new Hero("Squirtle", 20, 5, 0, Colors.BLUE_BOLD, 0);
         } else if (choice == 3) {
-            this.hero = new Hero("Bulbasaur", 20, 5, 0, Colors.GREEN_BOLD);
+            this.hero = new Hero("Bulbasaur", 20, 5, 0, Colors.GREEN_BOLD, 0);
         }
 
         while (gameRunning && hero.isAlive()) {
@@ -175,9 +175,22 @@ public class Manager {
                     System.out.println(Colors.GREEN_BOLD + "\nVICTORY! You defeated the final boss!\n" + Colors.RESET);
                     gameRunning = false;
                 } else {
+                    int goldGained = currentNode.getPokeCoinReward();
+                    String buffGained = currentNode.getRewardType();
+                    int amountGained = currentNode.getRewardAmount(); // Puxa o valor do nó!
+                    
+                    hero.addPokeCoin(goldGained);
+                    if (buffGained.equals("HEALTH")) {
+                        hero.increaseMaxHealth(amountGained); // Usa o valor variável
+                    } else if (buffGained.equals("ENERGY")) {
+                        hero.increaseMaxEnergy(amountGained); // Usa o valor variável
+                    }
+                    
+                    view.displayRewardReceived(goldGained, buffGained, amountGained);
+
                     view.displayMapChoices(currentNode.getNextNodes());
-                    int choice_1 = view.getMapChoice(currentNode.getNextNodes().size());
-                    currentNode = currentNode.getNextNodes().get(choice_1 - 1);
+                    int nextPath = view.getMapChoice(currentNode.getNextNodes().size());
+                    currentNode = currentNode.getNextNodes().get(nextPath - 1);
                 }
             } else {
                 System.out.println(Colors.RED_BOLD + "\nDEFEAT! Your journey ends here.\n" + Colors.RESET);

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class HeroTest {
     @Test
     public void testTotalDamageAbsorvedShield() {
-        Hero hero = new Hero("Charmander", 20, 5, 10, "");
+        Hero hero = new Hero("Charmander", 20, 5, 10, "", 0);
         hero.takeDamage(4);
         
         assertEquals(20, hero.getHealth());
@@ -18,7 +18,7 @@ public class HeroTest {
 
     @Test
     public void testParcialDamageAbsorvedShield() {
-        Hero hero = new Hero("Charmander", 20, 5, 5, "");
+        Hero hero = new Hero("Charmander", 20, 5, 5, "", 0);
         hero.takeDamage(8);
 
         assertEquals(17, hero.getHealth());
@@ -27,7 +27,7 @@ public class HeroTest {
 
     @Test
     public void testDamageIgnoreShield() { 
-        Hero hero = new Hero("Charmander", 20, 5, 10, ""); 
+        Hero hero = new Hero("Charmander", 20, 5, 10, "", 0); 
         hero.takeDirectDamage(3); // poison ativado
 
         assertEquals(17, hero.getHealth());
@@ -36,7 +36,7 @@ public class HeroTest {
 
     @Test
     public void testNegativeHealth() {
-        Hero hero = new Hero("Charmander", 8, 5, 0, ""); 
+        Hero hero = new Hero("Charmander", 8, 5, 0, "", 0); 
         hero.takeDamage(10);
 
         assertEquals(0, hero.getHealth());
@@ -44,7 +44,7 @@ public class HeroTest {
 
     @Test
     public void testAccumulatingEffects() {
-        Hero hero = new Hero("Charmander", 20, 5, 0, "");
+        Hero hero = new Hero("Charmander", 20, 5, 0, "", 0);
         Effect poison1 = new PoisonEffect("Poison", hero, 3);
         Effect poison2 = new PoisonEffect("Poison", hero, 2);
 
@@ -60,7 +60,7 @@ public class HeroTest {
 
     @Test
     public void testDrainEnergy() {
-        Hero hero = new Hero("Charmander", 20, 5, 0, ""); // max energy = 5
+        Hero hero = new Hero("Charmander", 20, 5, 0, "", 0); // max energy = 5
         hero.drainEnergy(3);
 
         assertEquals(2, hero.getEnergy());
@@ -68,7 +68,7 @@ public class HeroTest {
 
     @Test
     public void testResetShield() {
-        Hero hero = new Hero("Charmander", 20, 3, 0, "");
+        Hero hero = new Hero("Charmander", 20, 3, 0, "", 0);
         hero.gainShield(15);
 
         assertEquals(15, hero.getShield());
@@ -80,7 +80,7 @@ public class HeroTest {
 
     @Test
     public void testIsAlive() {
-        Hero hero = new Hero("Charmander", 8, 5, 0, ""); 
+        Hero hero = new Hero("Charmander", 8, 5, 0, "", 0); 
 
         assertTrue(hero.isAlive());
 
