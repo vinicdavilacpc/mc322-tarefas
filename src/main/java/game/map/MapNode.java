@@ -3,8 +3,8 @@ package game.map;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.model.Enemy;
 import game.view.Colors;
+import game.map_event.MapEvent;
 
 /**
  * Representa um nó no mapa do jogo (uma sala/batalha).
@@ -14,7 +14,7 @@ public class MapNode {
     /** O nome ou título da localização no mapa. */
     private String locationName;
     /** O inimigo que o herói deverá enfrentar se escolher este nó. */
-    private Enemy enemy;
+    private MapEvent mapEvent;
     /** A cor ANSI usada para desenhar o nome da localização no terminal. */
     private String color;
     /** Lista de nós subsequentes aos quais o jogador pode acessar a partir deste. */
@@ -31,9 +31,9 @@ public class MapNode {
      * @param enemy        O monstro locado nessa região.
      * @param color        A cor base do nó.
      */
-    public MapNode(String locationName, Enemy enemy, String color, int pokeCoinReward, String rewardType, int rewardAmount) {
+    public MapNode(String locationName, MapEvent mapEvent, String color, int pokeCoinReward, String rewardType, int rewardAmount) {
         this.locationName = locationName;
-        this.enemy = enemy;
+        this.mapEvent = mapEvent;
         this.color = color;
         this.nextNodes = new ArrayList<>();
         this.pokeCoinReward = pokeCoinReward;
@@ -56,8 +56,8 @@ public class MapNode {
     }
 
     /** @return O inimigo associado a essa parada no mapa. */
-    public Enemy getEnemy() { 
-        return enemy; 
+    public MapEvent getEvent() { 
+        return mapEvent; 
     }
 
     /** @return O nome formatado em cor para ser impresso no console. */

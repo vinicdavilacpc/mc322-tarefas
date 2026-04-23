@@ -1,7 +1,7 @@
 package game.effect;
 
-import game.core.Battle;
 import game.event.GameEvent;
+import game.map_event.Battle;
 import game.model.Entity;
 
 /**

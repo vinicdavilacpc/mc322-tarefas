@@ -1,9 +1,9 @@
 package game.model;
 
 import game.card.CardStack;
-import game.core.Battle;
 import game.effect.Effect;
 import game.effect.StrengthEffect;
+import game.map_event.Battle;
 import game.view.GameConsoleView;
 import java.util.Stack;
 

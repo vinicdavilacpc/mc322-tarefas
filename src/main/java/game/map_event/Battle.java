@@ -1,4 +1,4 @@
-package game.core;
+package game.map_event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,19 +9,16 @@ import game.event.GameEvent;
 import game.event.Subscriber;
 import game.model.Enemy;
 import game.model.Hero;
+import game.view.Colors;
 import game.view.GameConsoleView;
 
 /**
  * Representa e gerencia uma batalha entre um Herói e um Inimigo.
  * Implementa um sistema de notificações baseado no padrão Observer para tratar eventos da rodada.
  */
-public class Battle {
-    /** O herói participando da batalha. */
-    private Hero hero;
+public class Battle extends MapEvent {
     /** O inimigo participando da batalha. */
     private Enemy enemy;
-    /** Baralho de cartas utilizado pelo herói durante o combate. */
-    private CardStack deck;
     /** Objeto responsável pela visualização da batalha no console. */
     private GameConsoleView view;
     /** Lista de inscritos (Subscribers) para os eventos da batalha (ex: efeitos de status). */
@@ -35,10 +32,8 @@ public class Battle {
      * @param deck  Baralho do herói.
      * @param view  Visualizador do console.
      */
-    public Battle(Hero hero, Enemy enemy, CardStack deck, GameConsoleView view) {
-        this.hero = hero;
+    public Battle(Enemy enemy, GameConsoleView view) {
         this.enemy = enemy;
-        this.deck = deck;
         this.view = view;
         this.subscribers = new ArrayList<>();
     }
@@ -76,12 +71,17 @@ public class Battle {
         }
     }
 
+    public String getDescription() {
+        return Colors.BOLD + "Enemy: " + enemy.getColoredName() + Colors.RESET + " (HP: " + enemy.getHealth() + ")";
+    }
+
     /**
      * Executa o combate até o fim, alternando entre turnos do jogador e do inimigo.
      * * @return true se o herói vencer, false se for derrotado.
      * @throws InterruptedException Caso a thread seja interrompida durante os atrasos (Thread.sleep).
      */
-    public boolean start() throws InterruptedException {
+    public boolean start(Hero hero, CardStack deck, GameConsoleView view) throws InterruptedException {
+
         int turn = 1;
         int fullEnergy = hero.getMaxEnergy();
 

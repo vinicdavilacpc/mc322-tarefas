@@ -1,6 +1,6 @@
 package game.card;
 
-import game.core.Battle;
+import game.map_event.Battle;
 import game.model.Entity;
 import game.model.Hero;
 import game.view.Colors;

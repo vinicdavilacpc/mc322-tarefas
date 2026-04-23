@@ -222,15 +222,15 @@ public class GameConsoleView {
         
         for (int i = 0; i < choices.size(); i++) {
             MapNode node = choices.get(i);
-            Enemy e = node.getEnemy();
 
             String buffText = node.getRewardType().equals("HEALTH") ? 
                 "+" + node.getRewardAmount() + " Max Health" : 
                 "+" + node.getRewardAmount() + " Max Energy";
+
+            String eventInfo = node.getEvent().getDescription();
             
-            System.out.printf(Colors.BOLD + "%d: [%s]" + Colors.RESET + " -> " + Colors.BOLD + "Enemy: " + Colors.RESET + 
-                    "%s (HP: %d) | " + Colors.BOLD + "Reward: " + Colors.RESET + "%d Poke Coins & %s%n",
-                    (i + 1), node.getColoredLocationName(), e.getColoredName(), e.getHealth(), node.getPokeCoinReward(), buffText);
+            System.out.printf(Colors.BOLD + "%d: [%s]" + Colors.RESET + " -> " + eventInfo + "| Reward: " + Colors.RESET + "%d Poke Coins & %s%n",
+                    (i + 1), node.getColoredLocationName(), node.getPokeCoinReward(), buffText);
             
         }
     }

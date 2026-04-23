@@ -1,7 +1,7 @@
 package game.card;
 
-import game.core.Battle;
 import game.effect.Effect;
+import game.map_event.Battle;
 import game.model.Entity;
 import game.model.Hero;
 

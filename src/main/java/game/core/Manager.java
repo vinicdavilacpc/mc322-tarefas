@@ -5,6 +5,8 @@ import game.model.Enemy;
 import game.card.*;
 import game.effect.*;
 import game.map.MapNode;
+import game.map_event.Battle;
+import game.map_event.MapEvent;
 import game.view.GameConsoleView;
 import game.view.Colors;
 
@@ -123,14 +125,14 @@ public class Manager {
         Enemy mewtwo = new Enemy("Mewtwo", 50, 0, 8, 5, 5, Colors.LILAC_BOLD);
 
         // Nós do Mapa
-        MapNode startNode = new MapNode("Forest Entrance", pikachu, Colors.GREEN2_BOLD, 10, "ENERGY", 1);
-        MapNode rockNode = new MapNode("Rock Tunnel", geodude, Colors.BROWN_BOLD, 15, "HEALTH", 3);
-        MapNode woodsNode = new MapNode("Timeless Woods", snorlax, Colors.CYAN_BOLD, 20, "HEALTH", 3);
-        MapNode mountNode = new MapNode("Mount Moon", clefable, Colors.LILAC_BOLD, 25, "ENERGY", 1);
-        MapNode safariNode = new MapNode("Safari Zone", psyduck, Colors.ORANGE_BOLD, 25, "ENERGY", 1);
-        MapNode iceNode = new MapNode("Icefall Cave", lapras, Colors.CYAN_BOLD, 30, "HEALTH", 2);
-        MapNode volcanicNode = new MapNode("Volcanic Cave", flareon, Colors.BROWN2_BOLD, 30, "HEALTH", 2);
-        MapNode finalNode = new MapNode("Final Cave (Boss)", mewtwo, Colors.PURPLE_BOLD, 40, "HEALTH", 20);
+        MapNode startNode = new MapNode("Forest Entrance", new Battle(pikachu, this.view), Colors.GREEN2_BOLD, 10, "ENERGY", 1);
+        MapNode rockNode = new MapNode("Rock Tunnel", new Battle(geodude, this.view), Colors.BROWN_BOLD, 15, "HEALTH", 3);
+        MapNode woodsNode = new MapNode("Timeless Woods", new Battle(snorlax, this.view), Colors.CYAN_BOLD, 20, "HEALTH", 3);
+        MapNode mountNode = new MapNode("Mount Moon", new Battle(clefable, this.view), Colors.LILAC_BOLD, 25, "ENERGY", 1);
+        MapNode safariNode = new MapNode("Safari Zone", new Battle(psyduck, this.view), Colors.ORANGE_BOLD, 25, "ENERGY", 1);
+        MapNode iceNode = new MapNode("Icefall Cave", new Battle(lapras, this.view), Colors.CYAN_BOLD, 30, "HEALTH", 2);
+        MapNode volcanicNode = new MapNode("Volcanic Cave", new Battle(flareon, this.view), Colors.BROWN2_BOLD, 30, "HEALTH", 2);
+        MapNode finalNode = new MapNode("Final Cave (Boss)", new Battle(mewtwo, this.view), Colors.PURPLE_BOLD, 40, "HEALTH", 20);
 
         // Configuração da Árvore
         startNode.addNextNode(rockNode);
@@ -167,8 +169,8 @@ public class Manager {
         }
 
         while (gameRunning && hero.isAlive()) {
-            Battle battle = new Battle(hero, currentNode.getEnemy(), deck, view);
-            boolean victory = battle.start();
+            MapEvent currentEvent = currentNode.getEvent();
+            boolean victory = currentEvent.start(hero, deck, view);
 
             if (victory) {
                 if (currentNode.isFinalNode()) {

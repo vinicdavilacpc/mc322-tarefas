@@ -1,6 +1,6 @@
 package game.event;
 
-import game.core.Battle;
+import game.map_event.Battle;
 
 /**
  * Interface base para o padrão de projeto Observer.
