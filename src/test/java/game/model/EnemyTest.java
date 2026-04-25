@@ -1,11 +1,9 @@
 package game.model;
 
-import game.card.CardStack;
 import game.effect.Effect;
 import game.effect.StrengthEffect;
 import game.map_event.Battle;
 import game.view.GameConsoleView;
-import java.util.Stack;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,8 +32,7 @@ public class EnemyTest {
 
     private Battle createBattle(Hero hero, Enemy enemy) {
         GameConsoleView view = new GameConsoleView();
-        CardStack deck = new CardStack(new Stack<>(), new Stack<>());
-        return new Battle(hero, enemy, deck, view);
+        return new Battle(enemy, view);
     }
 
     @Test
