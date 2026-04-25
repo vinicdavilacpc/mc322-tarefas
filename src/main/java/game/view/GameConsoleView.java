@@ -223,23 +223,29 @@ public class GameConsoleView {
         for (int i = 0; i < choices.size(); i++) {
             MapNode node = choices.get(i);
 
-            String buffText = node.getRewardType().equals("HEALTH") ? 
-                "+" + node.getRewardAmount() + " Max Health" : 
-                "+" + node.getRewardAmount() + " Max Energy";
+            String buffText = "No Buffs";
+            if ("HEALTH".equals(node.getRewardType())) {
+                buffText = "+" + node.getRewardAmount() + " Max Health";
+            } else if ("ENERGY".equals(node.getRewardType())) {
+                buffText = "+" + node.getRewardAmount() + " Max Energy";
+}
 
             String eventInfo = node.getEvent().getDescription();
             
-            System.out.printf(Colors.BOLD + "%d: [%s]" + Colors.RESET + " -> " + eventInfo + "| Reward: " + Colors.RESET + "%d Poke Coins & %s%n",
+            System.out.printf(Colors.BOLD + "%d: [%s]" + Colors.RESET + " -> " + eventInfo + " | Reward: " + Colors.RESET + "%d Poke Coins & %s%n",
                     (i + 1), node.getColoredLocationName(), node.getPokeCoinReward(), buffText);
             
         }
     }
 
     public void displayRewardReceived(int gold, String buffReward, int buffAmount) {
-        String buffText = buffReward.equals("HEALTH") ? 
-            "+" + buffAmount + " Max Health" : 
-            "+" + buffAmount + " Max Energy";
-        System.out.println(Colors.GREEN_BOLD + "\n>>> Rewards claimed: " + gold + " Poke Coins and " + buffText + "!" + Colors.RESET);
+        String buffText = "";
+        if ("HEALTH".equals(buffReward)) {
+            buffText = " and +" + buffAmount + " Max Health";
+        } else if ("ENERGY".equals(buffReward)) {
+            buffText = " and +" + buffAmount + " Max Energy";
+        }
+        System.out.println(Colors.GREEN_BOLD + "\n>>> Rewards claimed: " + gold + " Poke Coins" + buffText + "!" + Colors.RESET);
     }
 
     /**

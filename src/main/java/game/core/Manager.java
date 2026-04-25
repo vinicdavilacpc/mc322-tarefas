@@ -6,11 +6,14 @@ import game.card.*;
 import game.effect.*;
 import game.map.MapNode;
 import game.map_event.Battle;
+import game.map_event.Choice;
+import game.map_event.ChoiceOption;
 import game.map_event.MapEvent;
 import game.view.GameConsoleView;
 import game.view.Colors;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -124,6 +127,38 @@ public class Manager {
         Enemy flareon = new Enemy("Flareon", 35, 0, 3, 4, 2, Colors.RED3_BOLD);
         Enemy mewtwo = new Enemy("Mewtwo", 50, 0, 8, 5, 5, Colors.LILAC_BOLD);
 
+        // Escolhas para o nó de escolha
+        Choice rocketEvent = new Choice(
+            "Team Rocket Ambush", 
+            "Jessie and James block your path! They demand your coins.",
+            List.of( 
+                new ChoiceOption("Pay them " + Colors.YELLOW_BOLD + "(Lose 15 Coins)" + Colors.RESET, (h) -> {
+                    h.subtractPokeCoin(15); 
+                    System.out.println("They take your coins and run away laughing.");
+                }),
+                new ChoiceOption("Try to escape " + Colors.RED_BOLD + "(Take 10 damage)" + Colors.RESET, (h) -> {
+                    h.takeDirectDamage(10);
+                    System.out.println("You barely escaped, but took some hits!");
+                })
+                )
+            );
+
+        Choice pokerusEvent = new Choice(
+            "Savage pokemon encounter", 
+            "You find a savage pokemon in the wild and he wants to figth!",
+            List.of( 
+                new ChoiceOption("Figth him " + Colors.YELLOW_BOLD + "(Take 10 damage but gain +2 Max energy)" + Colors.RESET, (h) -> {
+                    h.takeDirectDamage(10);
+                    h.increaseMaxEnergy(2);
+                    System.out.println("You got infected by the virus Pokerus! Strange things happened.");
+                }),
+                new ChoiceOption("Try to escape " + Colors.RED_BOLD + "(Lose 20 Coins)" + Colors.RESET, (h) -> {
+                    h.subtractPokeCoin(20); 
+                    System.out.println("You managed to escape, but lost some PokeCoins in the process!");
+                })
+                )
+            );
+
         // Nós do Mapa
         MapNode startNode = new MapNode("Forest Entrance", new Battle(pikachu, this.view), Colors.GREEN2_BOLD, 10, "ENERGY", 1);
         MapNode rockNode = new MapNode("Rock Tunnel", new Battle(geodude, this.view), Colors.BROWN_BOLD, 15, "HEALTH", 3);
@@ -134,13 +169,18 @@ public class Manager {
         MapNode volcanicNode = new MapNode("Volcanic Cave", new Battle(flareon, this.view), Colors.BROWN2_BOLD, 30, "HEALTH", 2);
         MapNode finalNode = new MapNode("Final Cave (Boss)", new Battle(mewtwo, this.view), Colors.PURPLE_BOLD, 40, "HEALTH", 20);
 
+        MapNode rocketNode = new MapNode("Celadon City", rocketEvent, Colors.RED3_BOLD, 0, "NONE", 0);
+        MapNode pokerusNode = new MapNode("Eterna Forest", pokerusEvent, Colors.GREEN_BOLD, 0, "NONE", 0);
+
         // Configuração da Árvore
         startNode.addNextNode(rockNode);
         startNode.addNextNode(woodsNode);
-        rockNode.addNextNode(mountNode);
-        rockNode.addNextNode(volcanicNode);
-        woodsNode.addNextNode(safariNode);
-        woodsNode.addNextNode(iceNode);
+        rockNode.addNextNode(rocketNode);
+        woodsNode.addNextNode(pokerusNode);
+        rocketNode.addNextNode(mountNode);
+        rocketNode.addNextNode(iceNode);
+        pokerusNode.addNextNode(safariNode);
+        pokerusNode.addNextNode(volcanicNode);
         mountNode.addNextNode(finalNode);
         safariNode.addNextNode(finalNode);
         iceNode.addNextNode(finalNode);
@@ -182,10 +222,10 @@ public class Manager {
                     int amountGained = currentNode.getRewardAmount(); // Puxa o valor do nó!
                     
                     hero.addPokeCoin(goldGained);
-                    if (buffGained.equals("HEALTH")) {
-                        hero.increaseMaxHealth(amountGained); // Usa o valor variável
-                    } else if (buffGained.equals("ENERGY")) {
-                        hero.increaseMaxEnergy(amountGained); // Usa o valor variável
+                    if ("HEALTH".equals(buffGained)) {
+                        hero.increaseMaxHealth(amountGained); 
+                    } else if ("ENERGY".equals(buffGained)) {
+                        hero.increaseMaxEnergy(amountGained); 
                     }
                     
                     view.displayRewardReceived(goldGained, buffGained, amountGained);
