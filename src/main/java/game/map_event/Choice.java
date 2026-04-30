@@ -37,7 +37,7 @@ public class Choice extends MapEvent {
     public boolean start(Hero hero, CardStack deck, GameConsoleView view) throws InterruptedException {
         view.clearScreen();
         
-        System.out.println(Colors.PURPLE_BOLD + "\n=== " + eventName + " ===" + Colors.RESET);
+        System.out.println(Colors.BOLD + "\n=== " + eventName + " ===" + Colors.RESET);
         System.out.println(description);
         System.out.println("What will you do?");
 
