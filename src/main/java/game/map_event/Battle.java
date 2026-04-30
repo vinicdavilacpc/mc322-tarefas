@@ -115,7 +115,7 @@ public class Battle extends MapEvent {
                     
                     if (hero.getEnergy() >= selectedCard.getEnergyCost()) {
                         deck.getPlayerHand().remove(index); 
-                        selectedCard.use(hero, enemy, this); // Agora passamos a 'Battle'
+                        selectedCard.use(hero, enemy, this);
                         deck.discard(selectedCard);
                         view.displayCardUsage(hero, selectedCard);
                     } else {
