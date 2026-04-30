@@ -129,14 +129,18 @@ public class GameConsoleView {
     public void showPlayerOptions(Hero hero, CardStack deck, int fullEnergy) {
         System.out.printf("\n%s, you're up! Choose your next move.\n", hero.getColoredName());
         System.out.printf("Energy remaining: %d/%d\n", hero.getEnergy(), fullEnergy);
-
-        for (int i = 0; i < deck.getPlayerHand().size(); i++) {
+        
+        int i;
+        for (i = 0; i < deck.getPlayerHand().size(); i++) {
             Card card = deck.getPlayerHand().get(i);
             System.out.printf("%d: Use %s (Cost: %d) - %s\n", 
-                i + 1, card.getColoredName(), card.getEnergyCost(), card.getDescription());
+                 i + 1, card.getColoredName(), card.getEnergyCost(), card.getDescription());
         }
-
-        int endRoundOptionNumber = deck.getPlayerHand().size() + 1;
+        
+        int inventoryOptionNumber = deck.getPlayerHand().size() + 1;
+        int endRoundOptionNumber = deck.getPlayerHand().size() + 2;
+        
+        System.out.printf("%d. Open Inventory\n", inventoryOptionNumber);
         System.out.printf("%d. End Round\n", endRoundOptionNumber);
     }
 
@@ -279,5 +283,22 @@ public class GameConsoleView {
         System.out.println("3: " + Colors.GREEN_BOLD + "Bulbasaur" + Colors.RESET);
         
         return getPlayerMove();
+    }
+
+    /**
+     * Exibe o inventário de itens do herói.
+     * @param hero O herói do jogador.
+     */
+    public void showInventory(Hero hero) {
+        System.out.println(Colors.BLUE_BOLD + "\n=== Inventory ===" + Colors.RESET);
+        if (hero.getInventory().isEmpty()) {
+            System.out.println("Your inventory is empty.");
+        } else {
+            for (int i = 0; i < hero.getInventory().size(); i++) {
+                game.item.Item item = hero.getInventory().get(i);
+                System.out.printf("%d: Use %s - %s\n", (i + 1), item.getColoredName(), item.getDescription());
+            }
+        }
+        System.out.printf("%d. Back\n", hero.getInventory().size() + 1);
     }
 }
