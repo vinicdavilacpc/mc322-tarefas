@@ -301,4 +301,34 @@ public class GameConsoleView {
         }
         System.out.printf("%d. Back\n", hero.getInventory().size() + 1);
     }
+
+    /**
+     * Exibe a tela de recompensa de cartas após uma batalha e coleta a escolha.
+     * 
+     * @param options A lista de cartas geradas aleatoriamente.
+     * @return A opção escolhida pelo jogador (1 a 3 para cartas, ou 4 para pular).
+     */
+    public int getCardRewardChoice(List<Card> options) {
+        System.out.println(Colors.MAGENTA_BOLD + "\n=== BATTLE LOOT ===" + Colors.RESET);
+        System.out.println("Choose a new card to add to your deck:");
+        
+        for (int i = 0; i < options.size(); i++) {
+            Card c = options.get(i);
+            System.out.printf("%d: %s (Cost: %d) - %s\n", (i + 1), c.getColoredName(), c.getEnergyCost(), c.getDescription());
+        }
+        
+        int skipOption = options.size() + 1;
+        System.out.printf("%d: Skip reward\n", skipOption);
+
+        int choice = -1;
+        while (choice < 1 || choice > skipOption) {
+            System.out.print(Colors.BOLD + "Your choice: " + Colors.RESET);
+            choice = scanner.nextInt();
+            System.out.flush();
+            if (choice < 1 || choice > skipOption) {
+                System.out.println("\n>>> Invalid choice! Try again.\n");
+            }
+        }
+        return choice;
+    }
 }

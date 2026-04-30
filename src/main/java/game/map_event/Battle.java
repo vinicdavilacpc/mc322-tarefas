@@ -105,11 +105,12 @@ public class Battle extends MapEvent {
                 view.showBattle(hero, enemy);
                 view.showIntent(enemy, turn);
                 view.showPlayerOptions(hero, deck, fullEnergy);
-
+                
                 int move = view.getPlayerMove();
-                int endRoundOptionNumber = deck.getPlayerHand().size() + 1;
+                int inventoryOptionNumber = deck.getPlayerHand().size() + 1;
+                int endRoundOptionNumber = deck.getPlayerHand().size() + 2;
 
-                if (move > 0 && move < endRoundOptionNumber) {
+                if (move > 0 && move < inventoryOptionNumber) {
                     int index = move - 1;
                     Card selectedCard = deck.getPlayerHand().get(index);
                     
@@ -121,6 +122,19 @@ public class Battle extends MapEvent {
                     } else {
                         view.displayNotEnoughEnergy();
                     }
+                } else if (move == inventoryOptionNumber) {
+                    view.showInventory(hero);
+                    int itemChoice = view.getPlayerMove();
+                    
+                    if (itemChoice > 0 && itemChoice <= hero.getInventory().size()) {
+                        game.item.Item selectedItem = hero.getInventory().get(itemChoice - 1);
+                        selectedItem.consume(hero, this);
+                        hero.getInventory().remove(itemChoice - 1);
+                    } else if (itemChoice == hero.getInventory().size() + 1) {
+                        System.out.println("\n>>> Returning to battle...");
+                    } else {
+                        view.displayInvalidChoice();
+                    }
                 } else if (move == endRoundOptionNumber) {
                     view.displayTurnEnding();
                     break;
@@ -128,7 +142,9 @@ public class Battle extends MapEvent {
                     view.displayInvalidChoice();
                 }
 
-                if (!enemy.isAlive()) break;
+                if (!enemy.isAlive()) {
+                    break;
+                }
 
                 Thread.sleep(3000);
                 view.clearScreen();

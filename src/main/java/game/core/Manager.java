@@ -4,14 +4,19 @@ import game.model.Hero;
 import game.model.Enemy;
 import game.card.*;
 import game.effect.*;
+import game.item.EnergyItem;
+import game.item.HealingItem;
+import game.item.Item;
 import game.map.MapNode;
 import game.map_event.Battle;
 import game.map_event.Choice;
 import game.map_event.ChoiceOption;
 import game.map_event.MapEvent;
+import game.map_event.Shop;
 import game.view.GameConsoleView;
 import game.view.Colors;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -55,7 +60,6 @@ public class Manager {
     private void initializeHeroAndDeck() {
         // Cartas de dano
         DamageCard scratch = new DamageCard("Scratch", "Deals 3 points of damage", 1, 3, Colors.BLUE_BOLD);
-        // ... (restante da inicialização omitida aqui por brevidade se não for alterar, mas manterei o original)
         DamageCard pound = new DamageCard("Pound", "Deals 4 points of damage", 2, 4, Colors.BROWN_BOLD);
         DamageCard flareBlitz = new DamageCard("Flare Blitz", "Deals 6 points of damage", 4, 6, Colors.RED_BOLD);
         DamageCard thunderbolt = new DamageCard("Thunderbolt", "Deals 5 points of damage", 4, 5, Colors.YELLOW2_BOLD);
@@ -114,9 +118,37 @@ public class Manager {
     }
 
     /**
+     * Gera uma lista de cartas aleatórias para oferecer como recompensa.
+     */
+    private List<Card> generateRandomCards(int amount) {
+        List<Card> pool = new ArrayList<>();
+        // Adicionando algumas cartas básicas à pool de recompensas
+        pool.add(new DamageCard("Water Gun", "Deals 4 points of damage", 2, 4, Colors.BLUE_BOLD));
+        pool.add(new DamageCard("Vine Whip", "Deals 5 points of damage", 3, 5, Colors.GREEN_BOLD));
+        pool.add(new DamageCard("Ember", "Deals 5 points of damage", 3, 5, Colors.ORANGE_BOLD));
+        pool.add(new ShieldCard("Withdraw", "Grants 4 points of shield", 2, 4, Colors.BLUE2_BOLD));
+        pool.add(new ShieldCard("Protect", "Grants 6 points of shield", 3, 6, Colors.GRAY_BOLD));
+        pool.add(new EffectCard("Growl", "Increases 1 point of damage", 2, 
+            (h, t, b) -> {
+                Effect strength = new StrengthEffect("Strength", h, 1);
+                boolean isNew = h.applyEffect(strength);
+                if (isNew && b != null) { b.subscribe(strength); }
+            }, Colors.GRAY_BOLD));
+        
+        // Embaralha e pega as primeiras cartas da lista
+        Collections.shuffle(pool);
+        return pool.subList(0, Math.min(amount, pool.size()));
+    }
+
+    /**
      * Inicializa os nós do mapa, inimigos presentes em cada nó e define as conexões entre os nós (árvore do mapa).
      */
     private void initializeMap() {
+        List<Item> shopItems = new ArrayList<>();
+        shopItems.add(new HealingItem("Potion", "Restores 5 HP", 30, 5, Colors.PINK_BOLD));
+        shopItems.add(new HealingItem("Super Potion", "Restores 10 HP", 60, 10, Colors.PINK_BOLD));
+        shopItems.add(new EnergyItem("Ether", "Restores 3 Energy", 40, 3, Colors.BLUE2_BOLD));
+
         // Inimigos para cada nó
         Enemy pikachu = new Enemy("Pikachu", 20, 0, 5, 3, 2, Colors.YELLOW_BOLD);
         Enemy geodude = new Enemy("Geodude", 25, 0, 4, 5, 1, Colors.GRAY_BOLD);
@@ -158,6 +190,8 @@ public class Manager {
                 })
                 )
             );
+        
+        Shop shopEvent = new Shop(shopItems);
 
         // Nós do Mapa
         MapNode startNode = new MapNode("Forest Entrance", new Battle(pikachu, this.view), Colors.GREEN2_BOLD, 10, "ENERGY", 1);
@@ -171,16 +205,19 @@ public class Manager {
 
         MapNode rocketNode = new MapNode("Celadon City", rocketEvent, Colors.RED3_BOLD, 0, "NONE", 0);
         MapNode pokerusNode = new MapNode("Eterna Forest", pokerusEvent, Colors.GREEN_BOLD, 0, "NONE", 0);
+        MapNode shopNode = new MapNode("Pokémon Mart", shopEvent, Colors.YELLOW_BOLD, 0, "NONE", 0);
 
-        // Configuração da Árvore
+        // Configuração da árvore
         startNode.addNextNode(rockNode);
         startNode.addNextNode(woodsNode);
         rockNode.addNextNode(rocketNode);
         woodsNode.addNextNode(pokerusNode);
         rocketNode.addNextNode(mountNode);
-        rocketNode.addNextNode(iceNode);
+        rocketNode.addNextNode(shopNode);
         pokerusNode.addNextNode(safariNode);
-        pokerusNode.addNextNode(volcanicNode);
+        pokerusNode.addNextNode(shopNode);
+        shopNode.addNextNode(iceNode);
+        shopNode.addNextNode(volcanicNode);
         mountNode.addNextNode(finalNode);
         safariNode.addNextNode(finalNode);
         iceNode.addNextNode(finalNode);
@@ -219,7 +256,7 @@ public class Manager {
                 } else {
                     int goldGained = currentNode.getPokeCoinReward();
                     String buffGained = currentNode.getRewardType();
-                    int amountGained = currentNode.getRewardAmount(); // Puxa o valor do nó!
+                    int amountGained = currentNode.getRewardAmount();
                     
                     hero.addPokeCoin(goldGained);
                     if ("HEALTH".equals(buffGained)) {
@@ -230,13 +267,23 @@ public class Manager {
                     
                     view.displayRewardReceived(goldGained, buffGained, amountGained);
 
+                    if (currentEvent instanceof Battle) {
+                        List<Card> rewardCards = generateRandomCards(3);
+                        int cardChoice = view.getCardRewardChoice(rewardCards);
+                        
+                        if (cardChoice <= rewardCards.size()) {
+                            Card chosenCard = rewardCards.get(cardChoice - 1);
+                            deck.getBuyStack().push(chosenCard); 
+                            System.out.println(Colors.GREEN_BOLD + "\n>>> " + chosenCard.getName() + " was added to your deck!" + Colors.RESET);
+                        } else {
+                            System.out.println("\n>>> You skipped the card reward.");
+                        }
+                    }
+
                     view.displayMapChoices(currentNode.getNextNodes());
                     int nextPath = view.getMapChoice(currentNode.getNextNodes().size());
                     currentNode = currentNode.getNextNodes().get(nextPath - 1);
                 }
-            } else {
-                System.out.println(Colors.RED_BOLD + "\nDEFEAT! Your journey ends here.\n" + Colors.RESET);
-                gameRunning = false;
             }
         }
     }
