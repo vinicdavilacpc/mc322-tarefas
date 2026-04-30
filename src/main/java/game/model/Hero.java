@@ -1,5 +1,10 @@
 package game.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import game.item.Item;
+
 /**
  * Representa o personagem principal controlado pelo jogador.
  * Gerencia a energia disponível para usar as cartas a cada turno.
@@ -10,6 +15,7 @@ public class Hero extends Entity {
     /** Quantidade máxima de energia da entidade. */
     private int maxEnergy;
     private int pokeCoin;
+    private List<Item> inventory;
 
     /**
      * Construtor da classe Hero.
@@ -25,6 +31,7 @@ public class Hero extends Entity {
         this.energy = energy;
         this.maxEnergy = energy;
         this.pokeCoin = pokeCoin;
+        this.inventory = new ArrayList<>();
     }
 
     /** @return A quantidade de energia atual. */
@@ -47,6 +54,18 @@ public class Hero extends Entity {
 
     public void subtractPokeCoin(int amount) {
         this.pokeCoin -= pokeCoin;
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
+    }
+
+    public void addItem(Item item) {
+        this.inventory.add(item);
+    }
+
+    public void removeItem(Item item) {
+        this.inventory.remove(item);
     }
 
     /**

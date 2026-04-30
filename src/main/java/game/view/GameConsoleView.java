@@ -129,14 +129,18 @@ public class GameConsoleView {
     public void showPlayerOptions(Hero hero, CardStack deck, int fullEnergy) {
         System.out.printf("\n%s, you're up! Choose your next move.\n", hero.getColoredName());
         System.out.printf("Energy remaining: %d/%d\n", hero.getEnergy(), fullEnergy);
-
-        for (int i = 0; i < deck.getPlayerHand().size(); i++) {
+        
+        int i;
+        for (i = 0; i < deck.getPlayerHand().size(); i++) {
             Card card = deck.getPlayerHand().get(i);
             System.out.printf("%d: Use %s (Cost: %d) - %s\n", 
-                i + 1, card.getColoredName(), card.getEnergyCost(), card.getDescription());
+                 i + 1, card.getColoredName(), card.getEnergyCost(), card.getDescription());
         }
-
-        int endRoundOptionNumber = deck.getPlayerHand().size() + 1;
+        
+        int inventoryOptionNumber = deck.getPlayerHand().size() + 1;
+        int endRoundOptionNumber = deck.getPlayerHand().size() + 2;
+        
+        System.out.printf("%d. Open Inventory\n", inventoryOptionNumber);
         System.out.printf("%d. End Round\n", endRoundOptionNumber);
     }
 
@@ -279,5 +283,52 @@ public class GameConsoleView {
         System.out.println("3: " + Colors.GREEN_BOLD + "Bulbasaur" + Colors.RESET);
         
         return getPlayerMove();
+    }
+
+    /**
+     * Exibe o inventário de itens do herói.
+     * @param hero O herói do jogador.
+     */
+    public void showInventory(Hero hero) {
+        System.out.println(Colors.BLUE_BOLD + "\n=== Inventory ===" + Colors.RESET);
+        if (hero.getInventory().isEmpty()) {
+            System.out.println("Your inventory is empty.");
+        } else {
+            for (int i = 0; i < hero.getInventory().size(); i++) {
+                game.item.Item item = hero.getInventory().get(i);
+                System.out.printf("%d: Use %s - %s\n", (i + 1), item.getColoredName(), item.getDescription());
+            }
+        }
+        System.out.printf("%d. Back\n", hero.getInventory().size() + 1);
+    }
+
+    /**
+     * Exibe a tela de recompensa de cartas após uma batalha e coleta a escolha.
+     * 
+     * @param options A lista de cartas geradas aleatoriamente.
+     * @return A opção escolhida pelo jogador (1 a 3 para cartas, ou 4 para pular).
+     */
+    public int getCardRewardChoice(List<Card> options) {
+        System.out.println(Colors.MAGENTA_BOLD + "\n=== BATTLE LOOT ===" + Colors.RESET);
+        System.out.println("Choose a new card to add to your deck:");
+        
+        for (int i = 0; i < options.size(); i++) {
+            Card c = options.get(i);
+            System.out.printf("%d: %s (Cost: %d) - %s\n", (i + 1), c.getColoredName(), c.getEnergyCost(), c.getDescription());
+        }
+        
+        int skipOption = options.size() + 1;
+        System.out.printf("%d: Skip reward\n", skipOption);
+
+        int choice = -1;
+        while (choice < 1 || choice > skipOption) {
+            System.out.print(Colors.BOLD + "Your choice: " + Colors.RESET);
+            choice = scanner.nextInt();
+            System.out.flush();
+            if (choice < 1 || choice > skipOption) {
+                System.out.println("\n>>> Invalid choice! Try again.\n");
+            }
+        }
+        return choice;
     }
 }

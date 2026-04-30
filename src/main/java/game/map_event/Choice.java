@@ -37,7 +37,7 @@ public class Choice extends MapEvent {
     public boolean start(Hero hero, CardStack deck, GameConsoleView view) throws InterruptedException {
         view.clearScreen();
         
-        System.out.println(Colors.PURPLE_BOLD + "\n=== " + eventName + " ===" + Colors.RESET);
+        System.out.println(Colors.BOLD + "\n=== " + eventName + " ===" + Colors.RESET);
         System.out.println(description);
         System.out.println("What will you do?");
 
@@ -48,7 +48,7 @@ public class Choice extends MapEvent {
         boolean validChoice = false;
 
         while (!validChoice) {
-            int choiceIndex = view.getPlayerMove() - 1; // Subtrai 1 para virar índice de lista (0, 1, 2...)
+            int choiceIndex = view.getPlayerMove() - 1;
             
             if (choiceIndex >= 0 && choiceIndex < options.size()) {
                 ChoiceOption selectedOption = options.get(choiceIndex);
