@@ -9,11 +9,23 @@ import game.model.Hero;
 import game.view.Colors;
 import game.view.GameConsoleView;
 
+/**
+ * Representa um evento de Loja no mapa, onde o jogador pode gastar suas PokeCoins
+ * para comprar itens (poções) ou remover cartas do baralho.
+ */
 public class Shop extends MapEvent {
+    /** O nome da loja exibido no console. */
     private String shopName = "Pokémon Mart";
+    /** Lista de itens disponíveis para compra nesta loja. */
     private List<Item> itemsForSale;
+    /** Custo inicial para remover uma carta do baralho, aumenta progressivamente. */
     private int cardRemovalCost = 50;
 
+    /**
+     * Construtor do evento de Loja.
+     * 
+     * @param itemsForSale A lista inicial de itens que a loja oferecerá.
+     */
     public Shop(List<Item> itemsForSale) {
         this.itemsForSale = new ArrayList<>(itemsForSale);
     }
