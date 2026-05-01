@@ -49,11 +49,11 @@ public class Hero extends Entity {
     }
 
     public void addPokeCoin(int amount) {
-        this.pokeCoin += pokeCoin;
+        this.pokeCoin += amount;
     } 
 
     public void subtractPokeCoin(int amount) {
-        this.pokeCoin -= pokeCoin;
+        this.pokeCoin -= amount;
     }
 
     public List<Item> getInventory() {

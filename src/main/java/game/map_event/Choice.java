@@ -32,6 +32,23 @@ public class Choice extends MapEvent {
         this.options = options;
     }
 
+    public String getEventDescription() {
+        return description;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+    
+    @Override
+    public String getDescription() {
+        return Colors.BOLD + "Surprise Event: " + Colors.RESET + eventName;
+    }
+
+    public List<ChoiceOption> getOptions() {
+        return options;
+    }
+
     public boolean start(Hero hero, CardStack deck, GameConsoleView view) throws InterruptedException {
         view.clearScreen();
         
