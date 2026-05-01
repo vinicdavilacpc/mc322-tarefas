@@ -220,20 +220,21 @@ Todos os jogos tem um mapa definido nesse formato:
                              (Início)
                             /        \
                            /          \
-                          /            \
-                 [Geodude]              [Snorlax]
-                 /       \              /       \
-                /         \            /         \
-               /           \          /           \
-         [Clefable]    [Flareon]  [Psyduck]     [Lapras]
-               \           /          \           /
-                \         /            \         /
-                 \       /              \       /
-                  +-----+----------------+-----+
-                                 |
-                                 V
-                              [Mewtwo]
-                            (Chefe Final)
+                  [Geodude]            [Snorlax]
+                      |                    |
+                [Team Rocket]          [Pokerus]
+                   /     \              /     \
+                  /       \            /       \
+                 /         +--[Shop]--+         \
+                /             /    \             \
+          [Clefable]   [Lapras]    [Flareon]   [Psyduck]
+                \             \    /             /
+                 \             \  /             /
+                  +-------------++-------------+
+                                |
+                                V
+                             [Mewtwo]
+                           (Chefe Final)
 ```
 
 # Recompensas e Loot (Pós-Batalha)
@@ -318,6 +319,7 @@ classDiagram
 - Visual Studio Code
 - Git e GitHub
 - JUnit
+- Mermaid
 
 # Autores
 
