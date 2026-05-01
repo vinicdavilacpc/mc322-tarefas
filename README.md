@@ -216,25 +216,31 @@ Your path choice:
 Todos os jogos tem um mapa definido nesse formato:
 
 ```
-                            [Pikachu]
-                             (Início)
-                            /        \
-                           /          \
-                  [Geodude]            [Snorlax]
-                      |                    |
-                [Team Rocket]          [Pokerus]
-                   /     \              /     \
-                  /       \            /       \
-                 /         +--[Shop]--+         \
-                /             /    \             \
-          [Clefable]   [Lapras]    [Flareon]   [Psyduck]
-                \             \    /             /
-                 \             \  /             /
-                  +-------------++-------------+
-                                |
-                                V
-                             [Mewtwo]
-                           (Chefe Final)
+                                [Forest Entrance]
+                                     (Início)
+                                    /        \
+                                   /          \
+                                  /            \
+                        [Rock Tunnel]        [Timeless Woods]
+                              |                    |
+                              |                    |
+                        [Celadon City]       [Eterna Forest]
+                           /      \              /      \
+                          /        \            /        \
+                         /          \          /          \
+               [Mount Moon]        [Pokémon Mart]        [Safari Zone]
+                     \                 /    \                  /
+                      \               /      \                /
+                       \             /        \              /
+                     [Icefall Cave]              [Volcanic Cave]
+                             \                        /
+                              \                      /
+                               \                    /
+                                  [Pokémon Mart]
+                                        |
+                                        V
+                               [Final Cave (Boss)]
+                                  (Chefe Final)
 ```
 
 # Recompensas e Loot (Pós-Batalha)

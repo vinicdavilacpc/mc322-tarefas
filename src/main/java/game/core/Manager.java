@@ -191,21 +191,23 @@ public class Manager {
                 )
             );
         
-        Shop shopEvent = new Shop(shopItems);
+        Shop shopEvent1 = new Shop(shopItems);
+        Shop shopEvent2 = new Shop(shopItems);
 
         // Nós do Mapa
-        MapNode startNode = new MapNode("Forest Entrance", new Battle(pikachu, this.view), Colors.GREEN2_BOLD, 10, "ENERGY", 1);
-        MapNode rockNode = new MapNode("Rock Tunnel", new Battle(geodude, this.view), Colors.BROWN_BOLD, 15, "HEALTH", 3);
-        MapNode woodsNode = new MapNode("Timeless Woods", new Battle(snorlax, this.view), Colors.CYAN_BOLD, 20, "HEALTH", 3);
-        MapNode mountNode = new MapNode("Mount Moon", new Battle(clefable, this.view), Colors.LILAC_BOLD, 25, "ENERGY", 1);
-        MapNode safariNode = new MapNode("Safari Zone", new Battle(psyduck, this.view), Colors.ORANGE_BOLD, 25, "ENERGY", 1);
-        MapNode iceNode = new MapNode("Icefall Cave", new Battle(lapras, this.view), Colors.CYAN_BOLD, 30, "HEALTH", 2);
-        MapNode volcanicNode = new MapNode("Volcanic Cave", new Battle(flareon, this.view), Colors.BROWN2_BOLD, 30, "HEALTH", 2);
-        MapNode finalNode = new MapNode("Final Cave (Boss)", new Battle(mewtwo, this.view), Colors.PURPLE_BOLD, 40, "HEALTH", 20);
+        MapNode startNode = new MapNode("Forest Entrance", new Battle(pikachu, this.view), Colors.GREEN2_BOLD, 15, "ENERGY", 1);
+        MapNode rockNode = new MapNode("Rock Tunnel", new Battle(geodude, this.view), Colors.BROWN_BOLD, 20, "HEALTH", 3);
+        MapNode woodsNode = new MapNode("Timeless Woods", new Battle(snorlax, this.view), Colors.CYAN_BOLD, 25, "HEALTH", 3);
+        MapNode mountNode = new MapNode("Mount Moon", new Battle(clefable, this.view), Colors.LILAC_BOLD, 30, "ENERGY", 1);
+        MapNode safariNode = new MapNode("Safari Zone", new Battle(psyduck, this.view), Colors.ORANGE_BOLD, 30, "ENERGY", 1);
+        MapNode iceNode = new MapNode("Icefall Cave", new Battle(lapras, this.view), Colors.CYAN_BOLD, 45, "HEALTH", 2);
+        MapNode volcanicNode = new MapNode("Volcanic Cave", new Battle(flareon, this.view), Colors.BROWN2_BOLD, 40, "HEALTH", 2);
+        MapNode finalNode = new MapNode("Final Cave (Boss)", new Battle(mewtwo, this.view), Colors.PURPLE_BOLD, 50, "HEALTH", 20);
 
         MapNode rocketNode = new MapNode("Celadon City", rocketEvent, Colors.RED3_BOLD, 0, "NONE", 0);
         MapNode pokerusNode = new MapNode("Eterna Forest", pokerusEvent, Colors.GREEN_BOLD, 0, "NONE", 0);
-        MapNode shopNode = new MapNode("Pokémon Mart", shopEvent, Colors.YELLOW_BOLD, 0, "NONE", 0);
+        MapNode shop1Node = new MapNode("Pokémon Mart", shopEvent1, Colors.YELLOW_BOLD, 0, "NONE", 0);
+        MapNode shop2Node = new MapNode("Pokémon Mart", shopEvent2, Colors.YELLOW_BOLD, 0, "NONE",0);
 
         // Configuração da árvore
         startNode.addNextNode(rockNode);
@@ -213,15 +215,16 @@ public class Manager {
         rockNode.addNextNode(rocketNode);
         woodsNode.addNextNode(pokerusNode);
         rocketNode.addNextNode(mountNode);
-        rocketNode.addNextNode(shopNode);
+        rocketNode.addNextNode(shop1Node);
         pokerusNode.addNextNode(safariNode);
-        pokerusNode.addNextNode(shopNode);
-        shopNode.addNextNode(iceNode);
-        shopNode.addNextNode(volcanicNode);
-        mountNode.addNextNode(finalNode);
-        safariNode.addNextNode(finalNode);
-        iceNode.addNextNode(finalNode);
-        volcanicNode.addNextNode(finalNode);
+        pokerusNode.addNextNode(shop1Node);
+        shop1Node.addNextNode(iceNode);
+        shop1Node.addNextNode(volcanicNode);
+        mountNode.addNextNode(iceNode);
+        safariNode.addNextNode(volcanicNode);
+        iceNode.addNextNode(shop2Node);
+        volcanicNode.addNextNode(shop2Node);
+        shop2Node.addNextNode(finalNode);
 
         this.rootNode = startNode;
     }
