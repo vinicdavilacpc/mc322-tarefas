@@ -240,6 +240,18 @@ Todos os jogos tem um mapa definido nesse formato:
 # Recompensas e Loot (Pós-Batalha)
 Ao vencer uma batalha, o jogador recebe **PokeCoins** e pode ter seus atributos máximos (Vida ou Energia) aumentados. Além disso, o jogador tem a oportunidade de melhorar seu baralho escolhendo uma entre 3 **cartas aleatórias** para adicionar à sua pilha de compras. Caso nenhuma carta seja do interesse do jogador, é possível pular (Skip) a recompensa.
 
+```
+>>> Rewards claimed: 30 Poke Coins and +2 Max Health!
+
+=== BATTLE LOOT ===
+Choose a new card to add to your deck:
+1: Ember (Cost: 3) - Deals 5 points of damage
+2: Protect (Cost: 3) - Grants 6 points of shield
+3: Growl (Cost: 2) - Increases 1 point of damage
+4: Skip reward
+Your choice: 
+```
+
 # Sistemas de Progressão
 Para tornar cada partida única e permitir que o jogador se fortaleça entre os combates, foram implementados dois sistemas de progressão integrados ao mapa:
 
@@ -248,11 +260,31 @@ Um evento especial no mapa representado pelo comerciante. Na Loja, o jogador pod
 - **Comprar Itens (Poções):** O jogador pode adquirir itens consumíveis que vão para o seu inventário.
 - **Remover Cartas:** O jogador pode pagar para remover uma carta do seu baralho, otimizando suas jogadas. O custo dessa remoção aumenta a cada uso, adicionando um fator estratégico na gestão do dinheiro.
 
+```
+=== Pokémon Mart ===
+Welcome! Buy some potions to help your journey.
+Your PokeCoins: 30
+
+1: Buy Potion - 30 PokeCoins - Restores 5 HP
+2: Buy Super Potion - 60 PokeCoins - Restores 10 HP
+3: Buy Ether - 40 PokeCoins - Restores 3 Energy
+4: Remove a random card from your deck - 50 PokeCoins
+5: Leave Shop
+Your choice: 
+```
+
 ### 2. Poções (Itens Consumíveis e Inventário)
 Durante a jornada e ao visitar a Loja, o herói pode adquirir Itens (como *Potion* ou *Ether*). Esses itens são armazenados em um **Inventário** próprio. 
 Durante qualquer turno de uma batalha, o jogador tem a opção de abrir o inventário e consumir esses itens **sem gastar energia**. Eles oferecem efeitos instantâneos, como:
 - **HealingItem:** Recupera pontos de vida (HP) do herói.
 - **EnergyItem:** Restaura pontos de energia no turno atual, permitindo combos maiores de cartas.
+
+```
+=== Inventory ===
+1: Use Potion - Restores 5 HP <-- Item de restauração
+2. Back
+Your choice: 
+```
 
 # Padrões de Projeto (Design Patterns)
 Para manter o código escalável, organizado e focado na Orientação a Objetos, os seguintes Padrões de Projeto estruturais e comportamentais foram aplicados na implementação dos sistemas:
