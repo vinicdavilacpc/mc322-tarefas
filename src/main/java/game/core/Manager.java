@@ -122,7 +122,6 @@ public class Manager {
      */
     private List<Card> generateRandomCards(int amount) {
         List<Card> pool = new ArrayList<>();
-        // Adicionando algumas cartas básicas à pool de recompensas
         pool.add(new DamageCard("Water Gun", "Deals 4 points of damage", 2, 4, Colors.BLUE_BOLD));
         pool.add(new DamageCard("Vine Whip", "Deals 5 points of damage", 3, 5, Colors.GREEN_BOLD));
         pool.add(new DamageCard("Ember", "Deals 5 points of damage", 3, 5, Colors.ORANGE_BOLD));
@@ -134,8 +133,6 @@ public class Manager {
                 boolean isNew = h.applyEffect(strength);
                 if (isNew && b != null) { b.subscribe(strength); }
             }, Colors.GRAY_BOLD));
-        
-        // Embaralha e pega as primeiras cartas da lista
         Collections.shuffle(pool);
         return pool.subList(0, Math.min(amount, pool.size()));
     }
