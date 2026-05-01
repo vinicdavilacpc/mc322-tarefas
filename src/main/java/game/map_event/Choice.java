@@ -7,31 +7,29 @@ import game.model.Hero;
 import game.view.Colors;
 import game.view.GameConsoleView;
 
+/**
+ * Representa um evento narrativo no mapa que exige uma escolha do jogador,
+ * resultando em diferentes consequências (boas ou ruins).
+ */
 public class Choice extends MapEvent {
+    /** O título ou nome do evento surpresa. */
     private String eventName;
+    /** A descrição narrativa do que está acontecendo. */
     private String description;
+    /** A lista de opções disponíveis para o jogador escolher. */
     private List<ChoiceOption> options;
 
+    /**
+     * Construtor para o evento de Escolha.
+     * 
+     * @param eventName O nome do evento.
+     * @param description A narrativa exibida ao jogador.
+     * @param options As alternativas de ação oferecidas.
+     */
     public Choice(String eventName, String description, List<ChoiceOption> options) {
         this.eventName = eventName;
         this.description = description;
         this.options = options;
-    }
-
-    public String getEventDescription() {
-        return description;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-    
-    public String getDescription() {
-        return Colors.BOLD + "Surprise Event: " + Colors.RESET + eventName;
-    }
-
-    public List<ChoiceOption> getOptions() {
-        return options;
     }
 
     public boolean start(Hero hero, CardStack deck, GameConsoleView view) throws InterruptedException {
