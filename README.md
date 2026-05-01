@@ -236,6 +236,81 @@ Todos os jogos tem um mapa definido nesse formato:
                             (Chefe Final)
 ```
 
+# Recompensas e Loot (Pós-Batalha)
+Ao vencer uma batalha, o jogador recebe **PokeCoins** e pode ter seus atributos máximos (Vida ou Energia) aumentados. Além disso, o jogador tem a oportunidade de melhorar seu baralho escolhendo uma entre 3 **cartas aleatórias** para adicionar à sua pilha de compras. Caso nenhuma carta seja do interesse do jogador, é possível pular (Skip) a recompensa.
+
+# Sistemas de Progressão
+Para tornar cada partida única e permitir que o jogador se fortaleça entre os combates, foram implementados dois sistemas de progressão integrados ao mapa:
+
+### 1. Loja (Pokémon Mart)
+Um evento especial no mapa representado pelo comerciante. Na Loja, o jogador pode gastar as **PokeCoins** obtidas em batalhas e eventos surpresa. As opções da loja incluem:
+- **Comprar Itens (Poções):** O jogador pode adquirir itens consumíveis que vão para o seu inventário.
+- **Remover Cartas:** O jogador pode pagar para remover uma carta do seu baralho, otimizando suas jogadas. O custo dessa remoção aumenta a cada uso, adicionando um fator estratégico na gestão do dinheiro.
+
+### 2. Poções (Itens Consumíveis e Inventário)
+Durante a jornada e ao visitar a Loja, o herói pode adquirir Itens (como *Potion* ou *Ether*). Esses itens são armazenados em um **Inventário** próprio. 
+Durante qualquer turno de uma batalha, o jogador tem a opção de abrir o inventário e consumir esses itens **sem gastar energia**. Eles oferecem efeitos instantâneos, como:
+- **HealingItem:** Recupera pontos de vida (HP) do herói.
+- **EnergyItem:** Restaura pontos de energia no turno atual, permitindo combos maiores de cartas.
+
+# Padrões de Projeto (Design Patterns)
+Para manter o código escalável, organizado e focado na Orientação a Objetos, os seguintes Padrões de Projeto estruturais e comportamentais foram aplicados na implementação dos sistemas:
+
+- **Observer (Observador):**
+  - **Onde:** Utilizado no sistema de efeitos de status (classes que herdam de `Effect`, como `PoisonEffect`, `StrengthEffect` e `DexterityEffect`) e no gerenciamento do ciclo de vida das rodadas na classe `Battle`.
+  - **Como:** A classe `Battle` atua como o Publicador (*Subject*), gerenciando uma lista de objetos que implementam a interface `Subscriber`. Quando uma fase específica do turno ocorre (como `BEGINNING_OF_ROUND` ou `END_OF_ROUND`, definidos pelo *enum* `GameEvent`), a Batalha dispara o método `launchesNotification()`. Os efeitos ativos, que atuam como Observadores (*Observers*), escutam essa notificação e executam sua lógica automaticamente no momento certo (por exemplo, o `PoisonEffect` causa dano no fim da rodada e até cancela sua própria inscrição usando `unsubscribe()` quando a duração zera).
+  - **Fonte Consultada:** [Refactoring Guru - Observer](https://refactoring.guru/pt-br/design-patterns/observer)
+
+- **Strategy (Estratégia):** 
+  - **Onde:** Utilizado na navegação do mapa através da classe abstrata `MapEvent`.
+  - **Como:** O contexto (`MapNode`) não precisa saber qual evento ele guarda. As classes `Battle`, `Shop` e `Choice` são Estratégias Concretas que sobrescrevem o método `start()`. O `Manager` simplesmente chama `currentEvent.start()`, e o polimorfismo garante a execução da lógica correta daquele nó.
+  - **Fonte Consultada:** [Refactoring Guru - Strategy](https://refactoring.guru/pt-br/design-patterns/strategy)
+
+- **Command (Comando):**
+  - **Onde:** Utilizado no sistema de eventos de escolha (`Choice`) e nas cartas de efeito (`EffectCard`).
+  - **Como:** As consequências de uma escolha narrativa (como perder moedas ou tomar dano) são encapsuladas na interface funcional `ChoiceAction`. A classe `ChoiceOption` armazena o comando e o aciona via `.apply()`. Isso permite criar infinitos eventos customizados sem precisar de subclasses extensas.
+  - **Fonte Consultada:** [Refactoring Guru - Command](https://refactoring.guru/pt-br/design-patterns/command)
+
+# Diagrama de Classes UML (Arquitetura do Mapa e Eventos)
+O diagrama abaixo ilustra a aplicação do padrão **Strategy**, mostrando como as batalhas, as lojas e as escolhas se integram ao fluxo de nós do mapa de forma polimórfica.
+```mermaid
+classDiagram
+    class MapNode {
+        -String locationName
+        -MapEvent mapEvent
+        -List~MapNode~ nextNodes
+        +getEvent() MapEvent
+        +addNextNode(MapNode) void
+    }
+
+    class MapEvent {
+        <<abstract>>
+        +start(Hero, CardStack, GameConsoleView) boolean
+        +getDescription() String
+    }
+
+    class Battle {
+        -Enemy enemy
+        +start(Hero, CardStack, GameConsoleView) boolean
+    }
+
+    class Shop {
+        -List~Item~ itemsForSale
+        -int cardRemovalCost
+        +start(Hero, CardStack, GameConsoleView) boolean
+    }
+
+    class Choice {
+        -List~ChoiceOption~ options
+        +start(Hero, CardStack, GameConsoleView) boolean
+    }
+
+    MapNode "1" *-- "1" MapEvent : contains
+    MapEvent <|-- Battle
+    MapEvent <|-- Shop
+    MapEvent <|-- Choice
+```
+
 # Tecnologias Utilizadas
 
 - Java 25
